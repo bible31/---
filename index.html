@@ -893,7 +893,7 @@ function openAdmin(){
   if(!fbOn()) return toast('اظبط إعدادات Firebase الأول',true);
   document.getElementById('adm')?.remove(); const info=dayInfo(); let day=info.state==='live'?info.idx:0, tab='scan'; const U=[];
   const A=document.createElement('div'); A.id='adm'; A.style.cssText='position:fixed;inset:0;z-index:300;overflow:auto;background:var(--bg);padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px))'; document.body.appendChild(A);
-  const close=()=>{ stopScan(); U.forEach(f=>f()); A.remove(); try{ AUTH&&AUTH.signOut(); }catch(e){} };
+  const close=(out)=>{ stopScan(); U.forEach(f=>f()); A.remove(); if(out===true){ try{ AUTH&&AUTH.signOut(); }catch(e){} } };
   const soft=()=>{ const e=document.activeElement; if(e&&A.contains(e)&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.tagName)) return; draw(); };
   U.push(DB.collection('teams').onSnapshot(q=>{ RT=q.docs.map(d=>d.data()); if(tab==='rank'||tab==='teams') soft(); }));
   U.push(DB.collection('awards').onSnapshot(q=>{ AW=q.docs.map(d=>d.data()); if(tab==='rank'||tab==='teams') soft(); }));
@@ -1098,10 +1098,10 @@ function openAdmin(){
     else if(tab==='content'){ if(!D) edInit(); body=edHtml(); }
     else if(tab==='ann') body=`<div class="card"><div class="step-t">📢 إعلان لكل الفرق</div><textarea class="field" id="aAnn" placeholder="اكتب الإعلان..." maxlength="200" style="margin-top:10px"></textarea><button class="btn btn-primary" id="aSend" style="margin-top:10px">إرسال</button></div><div class="card"><div class="step-t">الإعلانات السابقة</div>${ANN.length?ANN.map(a=>`<div class="lg"><span>${esc(a.text)} <small style="color:var(--muted)">· ${timeAgo(a.ts||0)}</small></span><button class="rm" data-ad="${a.id}" aria-label="حذف">✕</button></div>`).join(''):'<div class="hint">مفيش إعلانات</div>'}</div>`;
     else body=`<div class="card"><div class="step-t">النقط (الأدمن بيتحكم)</div>${[['sloganPts','نقط الشعار (افتراضي)'],['bonusPts','نقط البونص'],['gamePts','نقط كل لعبة']].map(([k,l])=>`<div class="hint" style="margin-top:10px">${l}</div><input class="field" type="number" id="c-${k}" value="${CFG[k]}" dir="ltr">`).join('')}<button class="btn btn-primary" id="cSave" style="margin-top:12px">حفظ</button></div>`;
-    A.innerHTML=`<div style="max-width:520px;margin:0 auto"><div style="display:flex;justify-content:space-between;align-items:center"><div class="step-t">🛠️ لوحة الأدمن</div><button id="aX" class="sheet-x">✕</button></div>
+    A.innerHTML=`<div style="max-width:520px;margin:0 auto"><div style="display:flex;justify-content:space-between;align-items:center"><div class="step-t">🛠️ لوحة الأدمن</div><div style="display:flex;gap:8px;align-items:center"><button id="aOut" class="btn btn-ghost" style="width:auto;padding:6px 12px;font-size:12px;margin:0">🚪 خروج</button><button id="aX" class="sheet-x">✕</button></div></div>
       <select id="aD" class="field" style="margin:10px 0">${CONF.days.map((x,i)=>`<option value="${i}" ${i===day?'selected':''}>${x.label}</option>`).join('')}</select>
       <div class="tabs" style="display:grid;grid-template-columns:repeat(3,1fr)">${[['scan','📷 مسح'],['att','🙋 الحضور'],['muna','📻 منى'],['teams','👥 الفرق'],['content','📝 المحتوى'],['ann','📢 إعلان'],['slg','🎬 الشعارات'],['rank','📊 النقط'],['cfg','⚙️ نقط']].map(([k,l])=>`<button class="tab ${k===tab?'active':''}" data-t="${k}">${l}</button>`).join('')}</div>${body}</div>`;
-    A.querySelector('#aX').onclick=close; A.querySelector('#aD').onchange=e=>{ day=+e.target.value; draw(); };
+    A.querySelector('#aX').onclick=()=>close(); A.querySelector('#aOut').onclick=()=>close(true); A.querySelector('#aD').onchange=e=>{ day=+e.target.value; draw(); };
     A.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{ tab=b.dataset.t; draw(); });
     const sc=A.querySelector('#aScan'); if(sc){
       const go=v=>{ const tm=lookup(v); if(tm){ showTeam(tm); stopScan(); A.querySelector('#scBox').classList.add('hidden'); return true; } return false; };
@@ -1133,6 +1133,9 @@ function adminLogin(){
   if(!/^https?:$/.test(location.protocol)) return toast('دخول الأدمن مش بيشتغل والملف مفتوح من الموبايل — لازم تفتحه من رابط موقع (https)',true);
   if(!fbOn()||!AUTH) return toast('اظبط إعدادات Firebase الأول',true);
   if(AUTH.currentUser) return openAdmin();
+  if(!window.AUTH_READY){ const un=AUTH.onAuthStateChanged(u=>{ un(); window.AUTH_READY=1; if(u) openAdmin(); else adminForm(); }); return; }
+  adminForm(); }
+function adminForm(){
   document.querySelectorAll('.ov').forEach(o=>o.remove());
   const ov=document.createElement('div'); ov.className='ov';
   ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><div class="sheet-head"><div class="sheet-title">🔐 دخول الأدمن</div><button class="sheet-x" aria-label="إغلاق">✕</button></div>

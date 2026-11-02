@@ -442,6 +442,25 @@ textarea.field{resize:vertical;min-height:70px;font-size:14px}
 .pt-n{font-family:'Cairo',sans-serif;font-weight:800;font-size:18px;color:var(--text)}
 .pt-s{font-size:12px;padding:4px 11px;border-radius:99px;background:rgba(255,255,255,.1);color:var(--gold2);font-weight:700}
 .pt.wide{grid-column:1/-1;width:calc(50% - 7px);justify-self:center}
+/* ===== شكل جديد لاختيار الشرح 1 / 2 ===== */
+.pt.xp{aspect-ratio:auto;min-height:224px;position:relative;overflow:hidden;gap:12px;padding:18px 12px 16px;border-radius:30px;isolation:isolate;
+  background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb,var(--c) 30%,transparent),transparent 62%),linear-gradient(165deg,var(--surface2),var(--surface));
+  border:1px solid color-mix(in srgb,var(--c) 45%,transparent);
+  box-shadow:0 14px 30px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.04) inset,0 1px 0 rgba(255,255,255,.18) inset}
+.pt.xp::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 1px,transparent 1px 14px)}
+.pt.xp::after{content:"";position:absolute;left:18%;right:18%;bottom:0;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,var(--c),transparent);opacity:.9}
+.xp-bg{position:absolute;z-index:-1;inset-inline-end:-6px;bottom:-34px;font-family:'Playfair Display',serif;font-weight:900;font-size:150px;line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px color-mix(in srgb,var(--c) 28%,transparent);pointer-events:none}
+.xp-ring{position:relative;width:92px;height:92px;border-radius:50%;display:grid;place-items:center;padding:4px;
+  background:conic-gradient(from 210deg,var(--c),color-mix(in srgb,var(--c) 15%,transparent) 40%,var(--c) 75%,color-mix(in srgb,var(--c) 60%,#fff));
+  box-shadow:0 0 28px color-mix(in srgb,var(--c) 45%,transparent),0 8px 16px rgba(0,0,0,.35)}
+.xp-ring b{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:900;font-size:52px;line-height:1;
+  background:radial-gradient(circle at 35% 25%,color-mix(in srgb,var(--c) 38%,var(--surface2)),var(--bg) 85%);
+  color:#fff;text-shadow:0 0 18px color-mix(in srgb,var(--c) 80%,transparent),0 3px 6px rgba(0,0,0,.4);padding-bottom:4px}
+.pt.xp .pt-n{font-size:19px;letter-spacing:.2px}
+.pt.xp .pt-s{display:inline-flex;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--c) 40%,transparent);background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--text)}
+.pt.xp .pt-s::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c)}
 @property --a{syntax:'<angle>';inherits:false;initial-value:0deg}
 @keyframes spin{to{--a:360deg}}
 #g-home{position:relative;min-height:calc(100vh - 230px);display:flex;flex-direction:column;justify-content:center;padding-bottom:6vh}
@@ -647,6 +666,7 @@ button.ex-att{cursor:pointer;transition:transform .2s}button.ex-att:active{trans
 .ex-scanwrap{margin-top:14px;text-align:start}
 .ex-sec{margin-top:18px;animation:exRise .7s .35s cubic-bezier(.2,.9,.3,1.15) both}
 @media (prefers-reduced-motion:reduce){.ex-frame i,.ex-frame b,.ex-frame span{animation:none}}
+.dc-badge:empty,.ag-st:empty,.sd-desc:empty{display:none}
 </style>
 </head>
 <body>
@@ -741,45 +761,45 @@ const CONF = {
   /* أيام المؤتمر (10 أيام) — عدّل التواريخ والفقرات */
   days: [
     {label:'اليوم الأول', date:'2026-11-05', sessions:[
-      {time:'10:00 ص', name:'حفل الافتتاح', ico:'🎊'},
-      {time:'12:00 م', name:'الجلسة الأولى — دراسة الكتاب', ico:'📖'},
-      {time:'04:00 م', name:'ألعاب كسر الجليد', ico:'🎮'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'12:00 م', name:'الشعار', ico:'🎬'},
+      {time:'04:00 م', name:'الألعاب', ico:'🎮'}]},
     {label:'اليوم الثاني', date:'2026-11-06', sessions:[
-      {time:'10:00 ص', name:'الجلسة الصباحية', ico:'📖'},
-      {time:'01:00 م', name:'ورشة عمل الفرق', ico:'🛠️'},
-      {time:'05:00 م', name:'مسابقة الفرق', ico:'🏆'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'01:00 م', name:'الشعار', ico:'🎬'},
+      {time:'05:00 م', name:'الألعاب', ico:'🎮'}]},
     {label:'اليوم الثالث', date:'2026-11-07', sessions:[
-      {time:'10:00 ص', name:'الجلسة الصباحية', ico:'📖'},
-      {time:'02:00 م', name:'نشاط جماعي', ico:'🤝'},
-      {time:'06:00 م', name:'أمسية روحية', ico:'🙏'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'02:00 م', name:'الشعار', ico:'🎬'},
+      {time:'06:00 م', name:'الألعاب', ico:'🎮'}]},
     {label:'اليوم الرابع', date:'2026-11-08', sessions:[
-      {time:'10:00 ص', name:'الجلسة الصباحية', ico:'📖'},
-      {time:'01:00 م', name:'نشاط الفرق', ico:'🤝'},
-      {time:'05:00 م', name:'فقرة المساء', ico:'🎉'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'01:00 م', name:'الشعار', ico:'🎬'},
+      {time:'05:00 م', name:'الألعاب', ico:'🎮'}]},
     {label:'اليوم الخامس', date:'2026-11-09', sessions:[
-      {time:'10:00 ص', name:'الجلسة الصباحية', ico:'📖'},
-      {time:'01:00 م', name:'نشاط الفرق', ico:'🤝'},
-      {time:'05:00 م', name:'فقرة المساء', ico:'🎉'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'01:00 م', name:'الشعار', ico:'🎬'},
+      {time:'05:00 م', name:'الألعاب', ico:'🎮'}]},
     {label:'اليوم السادس', date:'2026-11-10', sessions:[
-      {time:'10:00 ص', name:'الجلسة الصباحية', ico:'📖'},
-      {time:'01:00 م', name:'نشاط الفرق', ico:'🤝'},
-      {time:'05:00 م', name:'فقرة المساء', ico:'🎉'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'01:00 م', name:'الشعار', ico:'🎬'},
+      {time:'05:00 م', name:'الألعاب', ico:'🎮'}]},
     {label:'اليوم السابع', date:'2026-11-11', sessions:[
-      {time:'10:00 ص', name:'الجلسة الصباحية', ico:'📖'},
-      {time:'01:00 م', name:'نشاط الفرق', ico:'🤝'},
-      {time:'05:00 م', name:'فقرة المساء', ico:'🎉'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'01:00 م', name:'الشعار', ico:'🎬'},
+      {time:'05:00 م', name:'الألعاب', ico:'🎮'}]},
     {label:'اليوم الثامن', date:'2026-11-12', sessions:[
-      {time:'10:00 ص', name:'الجلسة الصباحية', ico:'📖'},
-      {time:'01:00 م', name:'نشاط الفرق', ico:'🤝'},
-      {time:'05:00 م', name:'فقرة المساء', ico:'🎉'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'01:00 م', name:'الشعار', ico:'🎬'},
+      {time:'05:00 م', name:'الألعاب', ico:'🎮'}]},
     {label:'اليوم التاسع', date:'2026-11-13', sessions:[
-      {time:'10:00 ص', name:'الجلسة الصباحية', ico:'📖'},
-      {time:'01:00 م', name:'نشاط الفرق', ico:'🤝'},
-      {time:'05:00 م', name:'فقرة المساء', ico:'🎉'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'01:00 م', name:'الشعار', ico:'🎬'},
+      {time:'05:00 م', name:'الألعاب', ico:'🎮'}]},
     {label:'اليوم العاشر', date:'2026-11-14', sessions:[
-      {time:'10:00 ص', name:'الجلسة الختامية', ico:'📖'},
-      {time:'02:00 م', name:'نشاط جماعي', ico:'🤝'},
-      {time:'07:00 م', name:'حفل الختام وتوزيع الجوائز', ico:'🎉'}]},
+      {time:'10:00 ص', name:'الشرح', ico:'🧠'},
+      {time:'02:00 م', name:'الشعار', ico:'🎬'},
+      {time:'07:00 م', name:'الألعاب', ico:'🎮'}]},
   ],
   slogan: 'شعار المؤتمر العاشر يُكتب هنا',
   sloganRef: 'المؤتمر العاشر من دراسة الكتاب',
@@ -789,9 +809,9 @@ const CONF = {
     teamNote: 'كل فريق له ليدر مسؤول عنه، والليدر هو اللي معاه الموبايل ويتابع فريقه طول المؤتمر.'
   },
   games: [
-    {icon:'🧩', name:'اللعبة الأولى',  desc:'وصف اللعبة هيتكتب هنا', tag:'قريبًا', color:'#F4B740'},
-    {icon:'🎯', name:'اللعبة الثانية', desc:'وصف اللعبة هيتكتب هنا', tag:'قريبًا', color:'#3FDCC9'},
-    {icon:'🏆', name:'اللعبة الثالثة', desc:'وصف اللعبة هيتكتب هنا', tag:'قريبًا', color:'#FF7A59'},
+    {icon:'🧩', name:'اللعبة الأولى',  desc:'وصف اللعبة هيتكتب هنا', tag:'', color:'#F4B740'},
+    {icon:'🎯', name:'اللعبة الثانية', desc:'وصف اللعبة هيتكتب هنا', tag:'', color:'#3FDCC9'},
+    {icon:'🏆', name:'اللعبة الثالثة', desc:'وصف اللعبة هيتكتب هنا', tag:'', color:'#FF7A59'},
   ],
   checkinPoints: 10,
   quizPoints: 5,
@@ -928,12 +948,19 @@ function exRun(t,info){
 CONF.fb={apiKey:'AIzaSyBAaF-ZJbI-wZSVtvaiwVUoq-1tLNQ8pfU',authDomain:'bible-study-g.firebaseapp.com',projectId:'bible-study-g',storageBucket:'bible-study-g.firebasestorage.app',messagingSenderId:'204559497405',appId:'1:204559497405:web:b5b7bb234045051dde9fd4'}; /* الصق إعدادات مشروع Firebase هنا */
 /* الأدمن بيدخل بإيميل وباسورد من Firebase Authentication — مفيش كلمة سر في الكود */
 CONF.gameNames=['اللعبة الأولى','اللعبة الثانية','اللعبة الثالثة','اللعبة الرابعة'];
+CONF.qrs=[];
+CONF.ui={exHint:'اختار الشرح اللي عايز تدخله',names:['الشرح 1','الشرح 2'],colors:['#3FDCC9','#F4B740'],train:'تدريب',go:'ابدأ',numStyle:'ring'};
 let DB=null,ST=null,AUTH=null,CODES={},GONE={},ANN=[],contentOn=false,RT=[],MYAW={},MYSUB={},CFG={sloganPts:10,bonusPts:5,gamePts:10},SUBS=[],AW=[],unsub=[];
 function fbOn(){ if(DB) return true; if(!CONF.fb.apiKey||!window.firebase) return false;
   try{ firebase.initializeApp(CONF.fb); DB=firebase.firestore(); try{ AUTH=firebase.auth(); }catch(e){} try{ ST=firebase.storage(); }catch(e){} }catch(e){ return false; } try{ watchContent(); }catch(e){} return !!DB; }
 function applyContent(c){ if(!c) return;
   ['days','challenges','bank','gameNames'].forEach(k=>{ if(Array.isArray(c[k])&&c[k].length) CONF[k]=c[k]; });
   if(c.sessionPoints!=null) CONF.sessionPoints=+c.sessionPoints||0; if(c.allowAnyDay!=null) CONF.allowAnyDay=!!c.allowAnyDay;
+  if(Array.isArray(c.qrs)) CONF.qrs=c.qrs;
+  if(c.ui&&typeof c.ui==='object') CONF.ui={...CONF.ui,...c.ui};
+  if(c.start) CONF.start=c.start; if(c.end) CONF.end=c.end;
+  if(c.checkinPoints!=null) CONF.checkinPoints=+c.checkinPoints||0; if(c.quizPoints!=null) CONF.quizPoints=+c.quizPoints||0;
+  if(Array.isArray(c.quiz)&&c.quiz.length) CONF.quiz=c.quiz;
   if(c.exsec) EXSEC=+c.exsec; if(c.expts!=null) EXPTS=+c.expts||0; if(c.exq) EXQ=Math.max(1,Math.min(+c.exq,CONF.bank.length)); }
 function watchContent(){ if(contentOn||!DB) return; contentOn=true;
   DB.collection('config').doc('content').onSnapshot(s=>{ if(!s.exists) return; try{ applyContent(JSON.parse(s.data().json)); }catch(e){ return; }
@@ -1154,7 +1181,7 @@ function openAdmin(){
     b.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>award(tm,x.dataset.k,x.dataset.p,x.dataset.k==='bonus'?'بونص':'لعبة: '+x.dataset.w)); };
     /* ===== محرر المحتوى (تحكم كامل) ===== */
   let sec='gen', D=null;
-  const edInit=()=>{ D=JSON.parse(JSON.stringify({days:CONF.days,challenges:CONF.challenges,bank:CONF.bank,gameNames:CONF.gameNames,sessionPoints:CONF.sessionPoints,allowAnyDay:!!CONF.allowAnyDay,exq:EXQ,exsec:EXSEC,expts:EXPTS})); };
+  const edInit=()=>{ D=JSON.parse(JSON.stringify({days:CONF.days,challenges:CONF.challenges,bank:CONF.bank,gameNames:CONF.gameNames,sessionPoints:CONF.sessionPoints,allowAnyDay:!!CONF.allowAnyDay,qrs:(CONF.qrs||[]).map(q=>({...q})),exq:EXQ,exsec:EXSEC,expts:EXPTS,start:CONF.start,end:CONF.end,checkinPoints:CONF.checkinPoints,quizPoints:CONF.quizPoints,ui:CONF.ui,quiz:CONF.quiz.map(q=>({q:q.q,opts:q.opts.slice(),a:(+q.a||0)+1}))})); };
   const getP=(o,p)=>p?p.split('.').reduce((a,x)=>a[x],o):o;
   const setP=(o,p,v)=>{ const k=p.split('.'), l=k.pop(); getP(o,k.join('.'))[l]=v; };
   const cast=(t,el)=>{ const v=el.value; return t==='number'?(v===''?0:+v):t==='bool'?v==='true':t==='lines'?v.split('\n'):v; };
@@ -1163,13 +1190,13 @@ function openAdmin(){
     if(t==='area'||t==='lines') h+=`<textarea class="field" ${at} rows="${o.rows||3}">${esc(t==='lines'?(v||[]).join('\n'):(v==null?'':v))}</textarea>`;
     else if(t==='bool') h+=`<select class="field" ${at}><option value="true" ${v?'selected':''}>${o.y||'نعم'}</option><option value="false" ${v?'':'selected'}>${o.n||'لا'}</option></select>`;
     else if(t==='select') h+=`<select class="field" ${at}>${o.opts.map(([k,n])=>`<option value="${k}" ${String(k)===String(v)?'selected':''}>${esc(n)}</option>`).join('')}</select>`;
-    else h+=`<input class="field" ${at} type="${t==='number'?'number':t==='date'?'date':'text'}" value="${esc(v==null?'':v)}"${t==='number'||t==='date'?' dir="ltr"':''}>`;
+    else h+=`<input class="field" ${at} type="${t==='number'?'number':t==='date'?'date':t==='dt'?'datetime-local':t==='color'?'color':'text'}" value="${esc(v==null?'':v)}"${t==='number'||t==='date'||t==='dt'?' dir="ltr"':''}${t==='color'?' style="height:46px;padding:4px"':''}>`;
     return h; };
   const ebtn=(attr,lab,cls)=>`<button type="button" class="btn ${cls||'btn-ghost'}" ${attr} style="width:auto;padding:8px 14px;font-size:13px;margin:0">${lab}</button>`;
   const mvRow=p=>`<div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">${ebtn(`data-mv="${p}:-1"`,'▲')}${ebtn(`data-mv="${p}:1"`,'▼')}${ebtn(`data-rm="${p}"`,'🗑️ حذف','btn-danger')}</div>`;
   const SUM='style="font-weight:800;cursor:pointer;line-height:1.8"';
-  const SECS=[['gen','⚙️ عام'],['days','🗓️ الأيام والفقرات'],['chal','🏆 التحديات'],['bank','🧠 أسئلة الشرح']];
-  const BL={days:()=>({label:'',date:'',sessions:[]}),sessions:()=>({time:'10:00 ص',name:'',ico:'📌'}),challenges:()=>({id:'c'+Date.now(),day:0,ico:'⭐',title:'',desc:'',pts:10}),bank:()=>({t:'m',q:'',o:['','','',''],a:0})};
+  const SECS=[['gen','⚙️ عام'],['days','🗓️ الأيام والفقرات'],['chal','🏆 التحديات'],['bank','🧠 أسئلة الشرح'],['ui','🎛️ شكل الشرح'],['quiz','❓ سؤال اليوم'],['qr','🔳 أكواد QR']];
+  const BL={days:()=>({label:'',date:'',sessions:[]}),sessions:()=>({time:'10:00 ص',name:'',ico:'📌'}),challenges:()=>({id:'c'+Date.now(),day:0,ico:'⭐',title:'',desc:'',pts:10}),bank:()=>({t:'m',q:'',o:['','','',''],a:0}),quiz:()=>({q:'',opts:['',''],a:1}),qrs:()=>({id:'q'+Date.now().toString(36),name:'',type:'شرح',pts:10,day:'all',code:'C10-Q-'+Math.random().toString(36).slice(2,6).toUpperCase(),on:true})};
   const fixBank=i=>{ const it=D.bank[i]; if(!it) return; if(it.t==='m'){ if(!Array.isArray(it.o)) it.o=['','','','']; it.a=0; } else if(it.t==='t'){ it.a=it.a===true; delete it.o; } else { if(!Array.isArray(it.a)) it.a=[]; delete it.o; } };
   function edHtml(){
     let h=`<div id="edBox"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">${SECS.map(([k,l])=>`<button type="button" class="chip" data-sec="${k}" style="padding:8px 14px;${k===sec?'background:var(--gold);color:#221900;border-color:transparent':''}">${l}</button>`).join('')}</div>`;
@@ -1179,6 +1206,8 @@ function openAdmin(){
       +ef('exq','عدد أسئلة فقرة الشرح','number',D.exq)
       +ef('exsec','ثواني كل سؤال','number',D.exsec)
       +ef('expts','نقط السؤال الصح','number',D.expts)
+      +ef('start','بداية المؤتمر (العد التنازلي)','dt',D.start)+ef('end','نهاية المؤتمر','dt',D.end)
+      +ef('checkinPoints','نقط تسجيل الدخول اليومي','number',D.checkinPoints)+ef('quizPoints','نقط إجابة سؤال اليوم','number',D.quizPoints)
       +ef('allowAnyDay','وضع التجربة: يسمح بالمسح وبفتح كل الأيام','bool',D.allowAnyDay,{y:'شغّال (للتجربة بس)',n:'مقفول (الوضع العادي)'})
       +`<div class="hint" style="text-align:start">نقط الشعار والبونص والألعاب بتتظبط من تبويب ⚙️ نقط.</div></div>`;
     else if(sec==='days') h+=`<div class="hint" style="text-align:start">لو غيّرت ترتيب الفقرات أو حذفت فقرة، أكواد الـ QR الافتراضية (C10-D1-S1...) بتتغير. حط كود ثابت لكل فقرة لو الأكواد اتطبعت.</div>`
@@ -1200,6 +1229,28 @@ function openAdmin(){
         +ef(`challenges.${i}.day`,'بيتفتح من يوم','select',c.day,{num:1,opts:D.days.map((d,k)=>[k,d.label||('يوم '+(k+1))])})
         +ef(`challenges.${i}.pts`,'النقط','number',c.pts)+mvRow(`challenges.${i}`)+`</details>`).join('')
       +`<div style="margin-top:6px">${ebtn('data-add="challenges"','➕ تحدّي جديد')}</div>`;
+    else if(sec==='ui') h+=`<div class="card"><div class="step-t">🎛️ شاشة اختيار الشرح</div>`
+      +ef('ui.exHint','الجملة اللي فوق الكروت','text',D.ui.exHint)
+      +ef('ui.names.0','اسم الكارت الأول','text',D.ui.names[0])+ef('ui.colors.0','لون الكارت الأول','color',D.ui.colors[0])
+      +ef('ui.names.1','اسم الكارت الثاني','text',D.ui.names[1])+ef('ui.colors.1','لون الكارت الثاني','color',D.ui.colors[1])
+      +ef('ui.train','كلمة وضع التدريب','text',D.ui.train)+ef('ui.go','كلمة البدء','text',D.ui.go)
+      +ef('ui.numStyle','شكل الأرقام','select',D.ui.numStyle,{opts:[['ring','دايرة متوهجة (الجديد)'],['emoji','إيموجي (القديم)']]})+`</div>`;
+    else if(sec==='qr') h+=`<div class="hint" style="text-align:start">اعمل كود QR لأي فقرة (شرح / ألعاب / شعار / غيره) وحدد نقطه بنفسك. كل فريق يسجّل الكود مرة واحدة. الكود بيشتغل من زر "امسح كود نقط" عند الفرق، ومن مسح الفقرة والشرح كمان. لازم تدوس 💾 حفظ ونشر عشان الكود يشتغل.</div>`
+      +D.qrs.map((q,i)=>`<details class="card" data-qrd="${i}"><summary ${SUM}>${q.on===false?'⏸️':'🔳'} ${esc(q.name||'كود جديد')} <small style="color:var(--muted)">${q.pts>0?'+':''}${esc(q.pts)} نقطة</small></summary>`
+        +ef(`qrs.${i}.name`,'اسم الكود (بيظهر للفريق)','text',q.name)
+        +ef(`qrs.${i}.type`,'النوع','select',q.type,{opts:QR_TYPES})
+        +ef(`qrs.${i}.pts`,'النقط (أي رقم، والسالب = خصم)','number',q.pts)
+        +ef(`qrs.${i}.day`,'بيشتغل في','select',String(q.day==null?'all':q.day),{opts:[['all','كل الأيام'],...D.days.map((d,k)=>[String(k),d.label||('يوم '+(k+1))])]})
+        +ef(`qrs.${i}.code`,'نص الكود (اتركه زي ما هو أو غيّره)','text',q.code)
+        +ef(`qrs.${i}.on`,'الحالة','bool',q.on!==false,{y:'شغّال',n:'متوقف'})
+        +`<div class="qrprev" data-qrbox="${i}" style="background:#fff;border-radius:16px;padding:14px;margin:14px auto 0;width:fit-content;min-height:60px"></div>`
+        +`<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;justify-content:center">${ebtn(`data-qrdl="${i}"`,'⬇️ تحميل صورة')}${ebtn(`data-qrcp="${i}"`,'📋 نسخ النص')}</div>`
+        +mvRow(`qrs.${i}`)+`</details>`).join('')
+      +`<div style="margin-top:6px">${ebtn('data-add="qrs"','➕ كود جديد')}</div>`;
+    else if(sec==='quiz') h+=D.quiz.map((q,i)=>`<details class="card"><summary ${SUM}>${i+1}. ${esc(String(q.q||'سؤال جديد').slice(0,45))}</summary>`
+        +ef(`quiz.${i}.q`,'السؤال','area',q.q,{rows:2})+ef(`quiz.${i}.opts`,'الاختيارات (سطر لكل اختيار)','lines',q.opts,{rows:3})
+        +ef(`quiz.${i}.a`,'رقم الاختيار الصحيح (1 = أول سطر)','number',q.a)+mvRow(`quiz.${i}`)+`</details>`).join('')
+      +`<div class="hint" style="text-align:start">كل يوم بياخد سؤال بالترتيب، ولو الأسئلة أقل من الأيام بتتكرر.</div><div style="margin-top:6px">${ebtn('data-add="quiz"','➕ سؤال جديد')}</div>`;
     else h+=`<div class="hint" style="text-align:start">${D.bank.length} سؤال — كل فريق بياخد ${D.exq} سؤال. تغيير الأسئلة أثناء المؤتمر ممكن يبدّل سؤال لفريق بدأ الفقرة.</div>`
       +D.bank.map((q,i)=>`<details class="card"><summary ${SUM}>${i+1}. ${esc(String(q.q||'سؤال جديد').slice(0,45))}</summary>`
         +ef(`bank.${i}.t`,'نوع السؤال','select',q.t,{re:1,opts:[['m','اختيار من متعدد'],['t','صح / غلط'],['c','أكمل'],['e','إجابة مكتوبة']]})
@@ -1214,19 +1265,43 @@ function openAdmin(){
     const on=e=>{ const el=e.target.closest('[data-p]'); if(!el) return; if(e.type==='input'&&el.dataset.re) return;
       setP(D,el.dataset.p,cast(el.dataset.t,el)); if(el.dataset.re){ fixBank(+el.dataset.p.split('.')[1]); draw(); } };
     box.addEventListener('input',on); box.addEventListener('change',on);
+    box.addEventListener('toggle',e=>{ const d=e.target; if(!d.open||d.dataset.qrd==null) return; const i=+d.dataset.qrd, el=d.querySelector('[data-qrbox]'), q=D.qrs[i]; if(!el||!q||!window.QRCode) return; el.innerHTML=''; try{ new QRCode(el,{text:String(q.code||''),width:200,height:200}); }catch(err){ el.textContent=q.code; } },true);
     box.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return;
       if(b.dataset.sec){ sec=b.dataset.sec; draw(); }
       else if(b.dataset.add){ const p=b.dataset.add; getP(D,p).push(BL[p.split('.').pop()]()); draw(); }
       else if(b.dataset.rm){ const k=b.dataset.rm.split('.'), i=+k.pop(); if(!confirm('متأكد من الحذف؟')) return; getP(D,k.join('.')).splice(i,1); draw(); }
       else if(b.dataset.mv){ const [p,dir]=b.dataset.mv.split(':'), k=p.split('.'), i=+k.pop(), arr=getP(D,k.join('.')), j=i+(+dir); if(j>=0&&j<arr.length){ [arr[i],arr[j]]=[arr[j],arr[i]]; draw(); } }
+      else if(b.dataset.qrdl) qrDownload(+b.dataset.qrdl);
+      else if(b.dataset.qrcp){ const q=D.qrs[+b.dataset.qrcp]; try{ navigator.clipboard.writeText(q.code); toast('اتنسخ ✅'); }catch(e){ toast(q.code); } }
       else if(b.id==='edSave') edSave();
       else if(b.id==='edReset'){ edInit(); draw(); } });
   }
+  function qrDownload(i){ const q=D.qrs[i]; if(!q||!window.QRCode) return toast('مكتبة الـQR مش محملة',true);
+    const tmp=document.createElement('div'); tmp.style.cssText='position:fixed;left:-9999px;top:0'; document.body.appendChild(tmp);
+    try{ new QRCode(tmp,{text:String(q.code||''),width:512,height:512});
+      const src=tmp.querySelector('canvas'), cv=document.createElement('canvas'); cv.width=640; cv.height=780; const c=cv.getContext('2d');
+      c.fillStyle='#fff'; c.fillRect(0,0,640,780); c.drawImage(src,64,64,512,512);
+      c.fillStyle='#111'; c.textAlign='center'; c.direction='rtl'; c.font='bold 34px Cairo,Tajawal,sans-serif'; c.fillText(q.name||'',320,640);
+      c.font='bold 30px Cairo,Tajawal,sans-serif'; c.fillStyle='#8a5a00'; c.fillText((q.pts>0?'+':'')+q.pts+' نقطة',320,690);
+      c.font='20px monospace'; c.direction='ltr'; c.fillStyle='#666'; c.fillText(q.code||'',320,735);
+      const a=document.createElement('a'); a.download='qr-'+(q.code||i)+'.png'; a.href=cv.toDataURL('image/png'); document.body.appendChild(a); a.click(); a.remove();
+    }catch(err){ toast('تعذر إنشاء الصورة',true); } tmp.remove(); }
   async function edSave(){
     const x=JSON.parse(JSON.stringify(D)), err=[];
     x.gameNames=(x.gameNames||[]).map(s=>String(s).trim()).filter(Boolean);
     if(x.gameNames.length!==4) err.push('لازم 4 ألعاب بالظبط (سطر لكل لعبة)');
     x.sessionPoints=Math.max(0,+x.sessionPoints||0); x.exq=Math.max(1,Math.round(+x.exq||1)); x.exsec=Math.max(5,Math.round(+x.exsec||20)); x.expts=Math.max(0,+x.expts||0); x.allowAnyDay=!!x.allowAnyDay;
+    x.checkinPoints=Math.max(0,+x.checkinPoints||0); x.quizPoints=Math.max(0,+x.quizPoints||0);
+    if(!x.start||!x.end||new Date(x.end)<=new Date(x.start)) err.push('نهاية المؤتمر لازم تكون بعد بدايته');
+    x.ui.names=x.ui.names.map((n,i)=>String(n||'').trim()||('الشرح '+(i+1))); x.ui.exHint=String(x.ui.exHint||'').trim()||'اختار الشرح اللي عايز تدخله'; x.ui.train=String(x.ui.train||'').trim()||'تدريب'; x.ui.go=String(x.ui.go||'').trim()||'ابدأ';
+    x.quiz=x.quiz.map((q,i)=>{ const n='سؤال اليوم '+(i+1), o={q:String(q.q||'').trim(),opts:(q.opts||[]).map(v=>String(v).trim()).filter(Boolean),a:Math.round(+q.a||1)-1};
+      if(!o.q) err.push(n+': السؤال ناقص'); if(o.opts.length<2) err.push(n+': محتاج اختيارين على الأقل'); if(o.a<0||o.a>=o.opts.length) err.push(n+': رقم الإجابة الصحيحة غلط'); return o; });
+    if(!x.quiz.length) err.push('لازم سؤال يوم واحد على الأقل');
+    const seen={};
+    x.qrs=(x.qrs||[]).map((q,i)=>{ const n='كود QR '+(i+1), o={id:q.id||('q'+Date.now().toString(36)+i),name:String(q.name||'').trim(),type:q.type||'أخرى',pts:Math.round(+q.pts||0),day:String(q.day==null?'all':q.day),code:String(q.code||'').trim().replace(/\s+/g,'-'),on:q.on!==false};
+      if(!o.name) err.push(n+': الاسم ناقص'); if(!o.pts) err.push(n+': النقط لازم تكون رقم مش صفر');
+      if(!o.code) o.code='C10-Q-'+Math.random().toString(36).slice(2,6).toUpperCase();
+      if(seen[o.code.toUpperCase()]) err.push(n+': النص ده مكرر'); seen[o.code.toUpperCase()]=1; return o; });
     if(!x.days.length) err.push('لازم يوم واحد على الأقل');
     let prev='';
     x.days.forEach((d,i)=>{ const n='اليوم '+(i+1); d.label=String(d.label||'').trim(); d.date=String(d.date||'');
@@ -1465,6 +1540,7 @@ function breakdownHtml(t){
 function homeExtra(t,info){
   return `${info.state==='after'?finalHtml(t):''}<div class="section-title">مهام النهاردة</div>${tasksHtml(t,info)}
   <div class="section-title">ترتيب الفرق</div>${podiumHtml(t)}
+  <div class="section-title">كود نقط</div><div class="card"><div class="hint" style="text-align:start">لو المنظمين إدّوكم كود QR، امسحوه من هنا وخدوا النقط.</div>${cqBtnHtml()}</div>
   <div class="section-title">لاسلكي</div>${munaCard(t)}
   <div class="section-title">تواصل مع المنظمين</div><div class="card"><button class="btn btn-ghost" id="askBtn">💬 اسأل المنظمين</button>${info.state!=='before'?'<button class="btn btn-ghost" id="rateBtn" style="margin-top:8px">⭐ قيّم المؤتمر</button>':''}</div>
 <div style="height:10px"></div>`;
@@ -1782,13 +1858,13 @@ const AR_SHORT=new Intl.DateTimeFormat('ar-EG',{weekday:'long',day:'numeric',mon
 const dayState=(k,info)=>({live:info.state==='live'&&k===info.idx, past:info.state==='after'||(info.state==='live'&&k<info.idx)});
 function dayZone(info){
   const st=sessState(info);
-  const grid=CONF.days.map((d,k)=>{ const z=dayState(k,info), [y,m,dd]=d.date.split('-').map(Number), ss=d.sessions;
-    const badge=z.live?'النهاردة':z.past?'✓ تمّ':'قريبًا', pct=z.past?100:z.live?Math.round((st.nowIdx+1)/ss.length*100):0;
-    return `<button class="dc ${z.live?'live':''} ${z.past?'past':''}" data-day="${k}" style="animation-delay:${(.2+k*.17).toFixed(2)}s" aria-label="${esc(d.label)}">
+  const grid=CONF.days.slice(0,1).map((d,k)=>{ const z=dayState(k,info), [y,m,dd]=d.date.split('-').map(Number), ss=d.sessions;
+    const badge=z.live?'النهاردة':z.past?'✓ تمّ':'', pct=z.past?100:z.live?Math.round((st.nowIdx+1)/ss.length*100):0;
+    return `<button class="dc ${z.live?'live':''} ${z.past?'past':''}" data-day="${k}" style="animation-delay:${(.2+k*.17).toFixed(2)}s" aria-label="الفقرات">
       <span class="dc-top"><span class="dc-no">${String(k+1).padStart(2,'0')}</span><span class="dc-badge">${badge}</span></span>
-      <span class="dc-bot"><span class="dc-name">${esc(d.label)}</span><span class="dc-date">${AR_SHORT.format(new Date(y,m-1,dd))}</span>
+      <span class="dc-bot"><span class="dc-name">الفقرات</span><span class="dc-date">${AR_SHORT.format(new Date(y,m-1,dd))}</span>
       <span class="dc-bar"><i style="width:${pct}%"></i></span><span class="dc-meta">${z.live?'شغّال دلوقتي':z.past?'خلص':'لسه'}</span></span></button>`; }).join('');
-  return `<div class="dgrid">${grid}</div>`;
+  return `<div class="dgrid" style="grid-template-columns:1fr">${grid}</div>`;
 }
 /* ---- شاشة اليوم + فقرات + مسح QR ---- */
 let scanStream=null, scanTimer=null, dvDay=null;
@@ -1821,6 +1897,7 @@ function exAttHtml(t,d){
     <div class="ex-scanwrap hidden" id="exMan"><div class="sc-or" style="margin-top:12px">أو اكتب الكود يدويًا</div><div class="sc-man"><input class="field" id="scIn" placeholder="${pp===2?'C10-D1-EX2':'C10-D1-EX'}" autocomplete="off" dir="ltr" style="text-align:center"><button class="btn btn-ghost" id="scOk" style="width:auto;padding:0 20px">تأكيد</button></div></div>`;
 }
 function claimExplain(t,d,val){
+  if(claimCustom(t,val)) return true;
   const pp=exPart||1; if(String(val).trim().toUpperCase()!==exCode(d,pp).toUpperCase()){ toast(`الكود ده مش كود الشرح ${pp}`,true); return false; }
   const key=exSc(d,pp), pts=exPts(d); t.scans=t.scans||{}; if(t.scans[key]) return true;
   t.scans[key]=true; addPoints(t,pts,pp===2?'حضور الشرح 2':'حضور الشرح');
@@ -1829,15 +1906,15 @@ function claimExplain(t,d,val){
   confetti(2200); toast(`+${pts} نقاط 🎉`); refreshEx(); return true;
 }
 function exChooseHtml(t,d,fi){
-  const live=fi.state==='live', C=['#3FDCC9','#F4B740'];
-  return `<div style="height:14px"></div><div class="hint" style="text-align:center;margin-bottom:12px">اختار الشرح اللي عايز تدخله</div><div class="ptg">${[1,2].map((p,j)=>{
+  const live=fi.state==='live', C=CONF.ui.colors, U=CONF.ui, nm=p=>esc(U.names[p-1]||('الشرح '+p));
+  return `<div style="height:14px"></div><div class="hint" style="text-align:center;margin-bottom:12px">${esc(CONF.ui.exHint)}</div><div class="ptg">${[1,2].map((p,j)=>{
     const e=(t.ex||{})[exSK(d,p)], at=(t.scans||{})[exSc(d,p)];
-    const st=!live?'تدريب':exFin(e)?`✅ ${e.ok}/${EXQ}`:e?`${e.i}/${EXQ}`:at?'✅ حضور':'ابدأ';
-    return `<button class="pt" data-xp="${p}" style="--c:${C[j]};animation-delay:${j*.08}s"><span class="pt-i">${p===1?'1️⃣':'2️⃣'}</span><span class="pt-n">الشرح ${p}</span><span class="pt-s">${st}</span></button>`; }).join('')}</div>`;
+    const st=!live?esc(U.train):exFin(e)?`✅ ${e.ok}/${EXQ}`:e?`${e.i}/${EXQ}`:at?'✅ حضور':esc(U.go);
+    return `<button class="pt${U.numStyle==='emoji'?'':' xp'}" data-xp="${p}" style="--c:${C[j]||'#F4B740'};animation-delay:${j*.08}s">${U.numStyle==='emoji'?`<span class="pt-i">${p===1?'1️⃣':'2️⃣'}</span>`:`<span class="xp-bg">${p}</span><span class="xp-ring"><b>${p}</b></span>`}<span class="pt-n">${nm(p)}</span><span class="pt-s">${st}</span></button>`; }).join('')}</div>`;
 }
 function refreshEx(){
   const pg=$('.ex-page'), t=currentTeam(); if(!pg||!t) return; const d=exDay, fi=dayFi(d,dayInfo());
-  pg.querySelector('.dv-t').textContent=exPart?`🧠 الشرح ${exPart}`:'🧠 الشرح';
+  pg.querySelector('.dv-t').textContent=exPart?`🧠 ${CONF.ui.names[exPart-1]||('الشرح '+exPart)}`:'🧠 الشرح';
   if(!exPart){
     pg.querySelector('#exAtt').innerHTML=exChooseHtml(t,d,fi); pg.querySelector('#exQz').innerHTML='';
     pg.querySelectorAll('[data-xp]').forEach(b=>b.onclick=()=>{ exPart=+b.dataset.xp; pg.scrollTop=0; refreshEx(); });
@@ -1869,7 +1946,7 @@ function openPart(i,k){
   closeOv(); const t=currentTeam(); if(!t) return; const ov=document.createElement('div'); ov.className='ov part';
   const T={slogan:'🎬 الشعار',explain:'🧠 الشرح',games:'🎮 الألعاب'};
   ov.fill=()=>{ const fi=dayFi(i,dayInfo());
-    ov.innerHTML=`<div class="sheet"><div class="sheet-head"><div class="sheet-title">${T[k]} · ${esc(CONF.days[i].label)}</div><button class="sheet-x" aria-label="إغلاق">✕</button></div>${k==='slogan'?sloganCard(t,fi):k==='explain'?explainHtml(t,fi):gamesCard(t,fi)}</div>`;
+    ov.innerHTML=`<div class="sheet"><div class="sheet-head"><div class="sheet-title">${T[k]} · ${esc(CONF.days[i].label)}</div><button class="sheet-x" aria-label="إغلاق">✕</button></div>${k==='slogan'?sloganCard(t,fi):k==='explain'?explainHtml(t,fi):gamesCard(t,fi)}${k==='explain'?'':cqBtnHtml()}</div>`;
     bindExplain(t,fi); bindExtra(t,fi); };
   ov.onclick=e=>{ if(e.target===ov||e.target.closest('.sheet-x')) closeOv(); };
   document.body.appendChild(ov); ov.fill();
@@ -1894,7 +1971,7 @@ function openSession(d,k){
   const ov=document.createElement('div'); ov.className='ov';
   ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><div class="sheet-head"><div class="sheet-title">${s.ico} ${esc(s.name)}</div><button class="sheet-x" aria-label="إغلاق">✕</button></div>
     <div class="sd-meta"><span>⏰ ${esc(s.time)}</span><span>🗓️ ${esc(day.label)}</span><span>🎁 ${pts} نقطة</span></div>
-    <p class="sd-desc">${esc(s.desc||'تفاصيل الفقرة هتتضاف هنا قريبًا.')}</p><div class="sc-box">${ui}</div></div>`;
+    <p class="sd-desc">${esc(s.desc||'')}</p><div class="sc-box">${ui}</div></div>`;
   ov.onclick=e=>{ if(e.target===ov||e.target.closest('.sheet-x')) closeOv(); };
   document.body.appendChild(ov);
   if(done||!can) return;
@@ -1904,6 +1981,7 @@ function openSession(d,k){
   ov.querySelector('#scBtn').onclick=()=>{ ov.querySelector('#scBox').classList.remove('hidden'); startScan(ov,submit); };
 }
 function claimSession(t,d,k,val){
+  if(claimCustom(t,val)) return true;
   const s=CONF.days[d].sessions[k], key=d+'-'+k, pts=sessPts(s);
   if(String(val).trim().toUpperCase()!==sessCode(d,k).toUpperCase()){ toast('الكود ده مش بتاع الفقرة دي',true); return false; }
   t.scans=t.scans||{}; if(t.scans[key]) return true;
@@ -1913,6 +1991,37 @@ function claimSession(t,d,k,val){
   confetti(2200); toast(`+${pts} نقاط 🎉`); openSession(d,k); refreshDv(); return true;
 }
 const loadJsQR=()=>new Promise((res,rej)=>{ const sc=document.createElement('script'); sc.src='https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js'; sc.onload=res; sc.onerror=rej; document.head.appendChild(sc); });
+/* ---- أكواد QR مخصصة (الأدمن بيحدد النقط والنوع واليوم) ---- */
+const QR_TYPES=[['شرح','🧠 شرح'],['ألعاب','🎮 ألعاب'],['شعار','🎬 شعار'],['بونص','🎁 بونص'],['أخرى','⭐ أخرى']];
+const QR_WHY={'شرح':'شرح','ألعاب':'لعبة','شعار':'شعار','بونص':'بونص','أخرى':'أخرى'};
+const cqBtnHtml=()=>`<button class="btn btn-ghost" data-cq="1" style="margin-top:10px">🔳 امسح كود نقط من المنظمين</button>`;
+function claimCustom(t,val){
+  const v=String(val||'').trim().toUpperCase(); if(!v) return false;
+  const q=(CONF.qrs||[]).find(x=>x&&x.on!==false&&String(x.code||'').trim().toUpperCase()===v); if(!q) return false;
+  const info=dayInfo(), dayOk=q.day==null||q.day===''||q.day==='all'||CONF.allowAnyDay||(info.state==='live'&&info.idx===+q.day);
+  if(!dayOk){ toast(`الكود ده بيشتغل في ${(CONF.days[+q.day]||{}).label||'يوم تاني'} بس`,true); return true; }
+  const key='qr-'+q.id; t.scans=t.scans||{};
+  if(t.scans[key]){ toast('فريقكم سجّل الكود ده قبل كده',true); stopScan(); return true; }
+  const pts=Math.round(+q.pts||0); if(!pts) return true;
+  t.scans[key]=true; addPoints(t,pts,`${QR_WHY[q.type]||'أخرى'}: ${q.name}`);
+  if(!persistTeams()){ delete t.scans[key]; t.points-=pts; t.log.shift(); return true; }
+  stopScan(); pushNotif(t,`فريقكم سجّل "${q.name}" ${pts>0?'وكسب +'+pts:'وخسر '+pts} نقطة ${pts>0?'✅':'⚠️'}`,pts>0?'✅':'⚠️');
+  if(pts>0){ confetti(2200); toast(`+${pts} نقاط 🎉`); } else toast(`${pts} نقطة`,true);
+  closeOv(); try{ if($('.ex-page')) refreshEx(); else rerender(); }catch(e){} return true;
+}
+function openQrScan(){
+  closeOv(); const t=currentTeam(); if(!t) return; const ov=document.createElement('div'); ov.className='ov';
+  ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><div class="sheet-head"><div class="sheet-title">🔳 كود نقط</div><button class="sheet-x" aria-label="إغلاق">✕</button></div><div class="sc-box"><div class="sc-t">📷 امسح الكود اللي المنظمين بيدّوه وخد نقطه</div><button class="btn btn-primary" id="scBtn">افتح الكاميرا</button>
+    <div class="scan-box hidden" id="scBox"><video id="scVid" playsinline muted></video><canvas id="scCv" class="hidden"></canvas><i class="scan-line"></i></div>
+    <div class="sc-or">أو اكتب الكود يدويًا</div><div class="sc-man"><input class="field" id="scIn" placeholder="C10-Q-XXXX" autocomplete="off" dir="ltr" style="text-align:center"><button class="btn btn-ghost" id="scOk" style="width:auto;padding:0 20px">تأكيد</button></div></div></div>`;
+  ov.onclick=e=>{ if(e.target===ov||e.target.closest('.sheet-x')) closeOv(); };
+  document.body.appendChild(ov);
+  const submit=v=>{ if(claimCustom(t,v)) return true; toast('الكود ده مش صحيح',true); return false; };
+  ov.querySelector('#scOk').onclick=()=>submit(ov.querySelector('#scIn').value);
+  ov.querySelector('#scIn').onkeydown=e=>{ if(e.key==='Enter') submit(e.target.value); };
+  ov.querySelector('#scBtn').onclick=()=>{ ov.querySelector('#scBox').classList.remove('hidden'); startScan(ov,v=>claimCustom(t,v)); };
+}
+document.addEventListener('click',e=>{ if(e.target.closest('[data-cq]')){ e.preventDefault(); openQrScan(); } });
 function stopScan(){ clearTimeout(scanTimer); if(scanStream){ scanStream.getTracks().forEach(x=>x.stop()); scanStream=null; } }
 async function startScan(ov,onCode){
   stopScan(); const vid=ov.querySelector('#scVid'), cv=ov.querySelector('#scCv');
@@ -1941,17 +2050,17 @@ const AG_COL=['#F4B740','#3FDCC9','#FF7A59','#9B8CFF','#5FE0A4','#FF6B9A'];
 function agendaHtml(t,info,di,key,title){
   const d=CONF.days[di], ss=d.sessions, z=dayState(di,info), st=z.live?sessState(info):{nowIdx:-1,nextIdx:-1}, [y,m,dd]=d.date.split('-').map(Number);
   const stat=i=>z.past?'done':z.live?(i<st.nowIdx?'done':i===st.nowIdx?'now':i===st.nextIdx?'next':'up'):(info.state==='before'&&di===info.idx&&i===0?'next':'up');
-  const lab={done:'✓ تمّت',now:'جارية الآن',next:'القادمة',up:'قريبًا'};
+  const lab={done:'✓ تمّت',now:'جارية الآن',next:'القادمة',up:''};
   const nDone=ss.filter((_,i)=>stat(i)==='done').length, pct=ss.length?Math.round(nDone/ss.length*100):0;
   const cur=z.live?(st.nowIdx>=0?st.nowIdx:st.nextIdx):z.past?-1:0, curS=cur>=0?ss[cur]:null;
-  const eb=z.live?'النهاردة':z.past?'✓ تمّ':'قريبًا';
+  const eb=z.live?'النهاردة':z.past?'✓ تمّ':'';
   const sub=z.past?`${ss.length} فقرات · خلص`:curS?`${z.live?(st.nowIdx>=0?'الآن':'التالي'):'أول فقرة'}: ${curS.name} · ${curS.time}`:`${ss.length} فقرات`;
   const open=AGS[key], items=ss.map((s,i)=>{ const k=stat(i);
     return `<div class="ag-it ${k}" style="--c:${AG_COL[i%AG_COL.length]};--i:${i}"><div class="ag-dot">${s.ico}</div>
       <button class="ag-c" data-ags="${i}"><span class="ag-st">${lab[k]}</span><span class="ag-tm">⏰ ${esc(s.time)}</span><div class="ag-n">${esc(s.name)}</div>${s.desc?`<div class="ag-d">${esc(s.desc)}</div>`:''}</button></div>`; }).join('');
   return `<div class="ag ${open?'open':''} ${open&&key==='home'?'static':''}" id="agBox">
     <button class="ag-hero" id="agHero" aria-expanded="${open}"><div class="ag-ring" style="--p:${pct}"><span>🗓️</span></div>
-      <div class="ag-info"><div class="ag-eb">${eb} · ${esc(AR_SHORT.format(new Date(y,m-1,dd)))}</div><div class="ag-t">${esc(title||d.label)}</div><div class="ag-s">${esc(sub)}</div></div>
+      <div class="ag-info"><div class="ag-eb">${eb?eb+' · ':''}${esc(AR_SHORT.format(new Date(y,m-1,dd)))}</div><div class="ag-t">${esc(title||d.label)}</div><div class="ag-s">${esc(sub)}</div></div>
       <span class="ag-chev">⌄</span></button>
     <div class="ag-body"><div><div class="ag-list">${items}</div></div></div>
     <div class="ag-hint" id="agHint">${open?'اضغط على أي فقرة لتفاصيلها':`اضغط لعرض ${ss.length} فقرات`}</div></div>`;
@@ -1960,7 +2069,7 @@ function bindAgenda(di,key){
   const h=$('#agHero'), box=$('#agBox'); if(!h||!box) return; const n=CONF.days[di].sessions.length;
   h.onclick=()=>{ AGS[key]=!AGS[key]; box.classList.remove('static'); box.classList.toggle('open',AGS[key]); h.setAttribute('aria-expanded',AGS[key]);
     $('#agHint').textContent=AGS[key]?'اضغط على أي فقرة لتفاصيلها':`اضغط لعرض ${n} فقرات`; };
-  box.querySelectorAll('[data-ags]').forEach(b=>b.onclick=()=>openSession(di,+b.dataset.ags));
+  box.querySelectorAll('[data-ags]').forEach(b=>b.onclick=()=>{ const k=+b.dataset.ags, nm=String((CONF.days[di].sessions[k]||{}).name||''), pt=/^الشرح/.test(nm)?'explain':/^الشعار/.test(nm)?'slogan':/^الألعاب/.test(nm)?'games':''; if(pt) openPart(di,pt); else openSession(di,k); });
 }
 
 /* ---- الصفحات ---- */
@@ -1990,7 +2099,7 @@ const PAGES={
   },
   days:t=>{
     const info=dayInfo();
-    return `<div class="section-title" style="margin-top:18px">الفقرات <span class="sub">${CONF.days[0].sessions.length} فقرات</span></div>${agendaHtml(t,info,0,'days',CONF.days[0].label)}<button class="btn btn-ghost" id="icsBtn" style="margin-top:14px">📅 أضف الأجندة لتقويمك</button>`;
+    return `<div class="section-title" style="margin-top:18px">أيام المؤتمر</div>${dayZone(info)}<button class="btn btn-ghost" id="icsBtn" style="margin-top:14px">📅 أضف الأجندة لتقويمك</button>`;
   },
   team:t=>{
     const sorted=lbRows(t);
@@ -2040,7 +2149,7 @@ const BIND={
     const ce=$('#certBtn'); if(ce){ ce.onclick=()=>downloadCert(t); if(!window._finConf){ window._finConf=1; try{ confetti(3500); }catch(e){} } }
   },
   days:t=>{
-    $('#icsBtn').onclick=downloadIcs; bindAgenda(0,'days');
+    $('#icsBtn').onclick=downloadIcs; bindDayZone();
   },
   team:t=>{
     $('#editTeam').onclick=()=>{

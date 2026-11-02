@@ -667,9 +667,31 @@ button.ex-att{cursor:pointer;transition:transform .2s}button.ex-att:active{trans
 .ex-sec{margin-top:18px;animation:exRise .7s .35s cubic-bezier(.2,.9,.3,1.15) both}
 @media (prefers-reduced-motion:reduce){.ex-frame i,.ex-frame b,.ex-frame span{animation:none}}
 .dc-badge:empty,.ag-st:empty,.sd-desc:empty{display:none}
+
+/* ===== تابلت: العرض فقط (لو الشاشة بالطول تظهر رسالة لف الجهاز) ===== */
+#rotateGate{display:none}
+@media (orientation:portrait) and (min-width:600px){
+  html,body{overflow:hidden!important}
+  #rotateGate{position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:30px;text-align:center;background:#0E0D2B;color:#FFDE94;font-family:'Cairo',sans-serif}
+  #rotateGate .rg-ico{width:110px;height:110px;border:6px solid #F4B740;border-radius:18px;position:relative;animation:rgTurn 2.4s ease-in-out infinite}
+  #rotateGate .rg-ico::after{content:'';position:absolute;left:50%;bottom:8px;width:26px;height:4px;margin-left:-13px;border-radius:4px;background:#F4B740}
+  #rotateGate b{font-size:26px;line-height:1.6;color:#fff}
+  #rotateGate span{font-size:17px;opacity:.85;line-height:1.8}
+  @keyframes rgTurn{0%,25%{transform:rotate(0)}60%,85%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+}
+
+/* ===== تابلت بالعرض: توسيع العمود بدل 520px عشان مايبقاش في فراغ كبير على الجنبين ===== */
+@media (orientation:landscape) and (min-width:800px) and (min-height:500px){
+  #app,.dv-in,.ex-in{max-width:960px}
+  #app{padding-left:24px;padding-right:24px}
+  .bnav{max-width:936px}
+  .sheet{max-width:720px}
+  .msg{max-width:560px}
+}
 </style>
 </head>
 <body>
+<div id="rotateGate" role="alert" aria-live="polite"><div class="rg-ico"></div><b>لف التابلت بالعرض</b><span>الموقع بيشتغل بالعرض فقط على التابلت.<br>تأكد إن خاصية الدوران التلقائي شغّالة.</span></div>
 <noscript><p style="padding:30px;text-align:center;color:#fff">لازم تفعّل JavaScript لتشغيل موقع المؤتمر.</p></noscript>
 <canvas id="confetti"></canvas>
 <div id="app">
@@ -2291,6 +2313,19 @@ fillForm();
 { const t=currentTeam(); if(t) enterPortal(t.id); else showGate(); }
 document.addEventListener('gesturestart',e=>e.preventDefault());
 document.addEventListener('touchmove',e=>{ if(e.touches&&e.touches.length>1) e.preventDefault(); },{passive:false});
+
+/* قفل الاتجاه على العرض (بيشتغل لو الموقع متثبّت كتطبيق أو في وضع ملء الشاشة، ولو مش مدعوم تظهر رسالة اللف) */
+(function(){
+  function lockLandscape(){
+    try{
+      if(screen.orientation && screen.orientation.lock && Math.min(screen.width,screen.height)>=600){
+        screen.orientation.lock('landscape').catch(function(){});
+      }
+    }catch(e){}
+  }
+  lockLandscape();
+  document.addEventListener('click',lockLandscape,{once:true});
+})();
 </script>
 </body>
 </html>

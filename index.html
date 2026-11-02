@@ -559,6 +559,62 @@ input,select,textarea{font-size:max(16px,1em)}
 .adm-lb b{font-size:16px;direction:ltr}
 .adm-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .adm-acts .btn{margin:0}
+
+/* ===== أجندة النهاردة (الرئيسية) ===== */
+.ag{margin-bottom:6px}
+.ag-hero{position:relative;overflow:hidden;width:100%;text-align:start;display:flex;align-items:center;gap:14px;padding:16px;border-radius:24px;color:var(--text);
+  background:linear-gradient(135deg,rgba(244,183,64,.22),rgba(255,122,89,.14) 55%,rgba(63,220,201,.12));border:1px solid rgba(244,183,64,.38);
+  box-shadow:0 10px 30px rgba(0,0,0,.18);transition:transform .2s}
+.ag-hero:active{transform:scale(.98)}
+.ag-hero::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.18),transparent);animation:agShine 4.5s ease-in-out infinite}
+@keyframes agShine{55%,100%{left:130%}}
+.ag-ring{--p:0;position:relative;flex:0 0 auto;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:conic-gradient(var(--gold) calc(var(--p)*1%),rgba(255,255,255,.12) 0)}
+.ag-ring::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--surface)}
+.ag-ring span{position:relative;font-size:24px}
+.ag-info{flex:1;min-width:0}
+.ag-eb{font-size:11px;color:var(--gold2);font-family:'Cairo',sans-serif;font-weight:800}
+.ag-t{font-family:'Cairo',sans-serif;font-weight:900;font-size:17px;margin-top:1px}
+.ag-s{font-size:12px;color:var(--soft);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ag-chev{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--glass);border:1px solid var(--border);font-size:15px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.ag.open .ag-chev{transform:rotate(180deg)}
+.ag-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:6px}
+.ag-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.2,.8,.2,1)}
+.ag.open .ag-body{grid-template-rows:1fr}
+.ag-body>div{overflow:hidden;min-height:0}
+.ag-list{position:relative;padding:16px 2px 6px}
+.ag-list::before{content:"";position:absolute;top:30px;bottom:30px;inset-inline-start:23px;width:3px;border-radius:3px;background:linear-gradient(180deg,var(--gold),var(--teal),#FF7A59);opacity:.45;transform-origin:top;transform:scaleY(0)}
+.ag.open .ag-list::before{animation:agLine 1s .15s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes agLine{to{transform:scaleY(1)}}
+.ag-it{position:relative;display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;--dx:70px;--rot:3deg}
+.ag-it:nth-child(even){--dx:-70px;--rot:-3deg}
+.ag.open .ag-it{animation:agIn .7s cubic-bezier(.2,.9,.3,1.15) both;animation-delay:calc(.2s + var(--i)*.1s)}
+.ag.open .ag-dot{animation:agPop .55s cubic-bezier(.2,.9,.3,1.4) both;animation-delay:calc(.3s + var(--i)*.1s)}
+@keyframes agIn{0%{opacity:0;transform:translateX(var(--dx)) rotate(var(--rot)) scale(.8);filter:blur(8px)}60%{filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
+@keyframes agPop{0%{transform:scale(0) rotate(-40deg)}100%{transform:scale(1) rotate(0)}}
+.ag-dot{position:relative;z-index:1;flex:0 0 auto;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;
+  background:var(--surface);border:2px solid var(--c);box-shadow:0 0 0 4px var(--bg),0 4px 16px color-mix(in srgb,var(--c) 45%,transparent)}
+.ag-c{position:relative;overflow:hidden;flex:1;min-width:0;text-align:start;padding:12px 14px;border-radius:20px;color:var(--text);cursor:pointer;
+  background:radial-gradient(circle at 100% 0,color-mix(in srgb,var(--c) 24%,transparent),transparent 62%),linear-gradient(160deg,var(--surface),var(--surface2));
+  border:1px solid color-mix(in srgb,var(--c) 38%,var(--border));transition:transform .2s}
+.ag-c:active{transform:scale(.97)}
+.ag-c::before{content:"";position:absolute;top:0;bottom:0;inset-inline-start:0;width:4px;background:var(--c)}
+.ag-tm{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:99px;font-family:'Cairo',sans-serif;font-weight:800;font-size:11.5px;background:color-mix(in srgb,var(--c) 20%,transparent);color:var(--c);border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+.ag-n{font-family:'Cairo',sans-serif;font-weight:800;font-size:14.5px;margin-top:7px;line-height:1.6}
+.ag-d{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ag-st{position:absolute;top:10px;inset-inline-end:10px;font-size:10.5px;font-family:'Cairo',sans-serif;font-weight:800;padding:2px 9px;border-radius:99px;background:var(--glass);border:1px solid var(--border);color:var(--muted)}
+.ag-it.done .ag-c{opacity:.68}
+.ag-it.done .ag-st{color:var(--good);border-color:rgba(95,224,164,.4)}
+.ag-it.done .ag-dot{border-color:var(--good)}
+.ag-it.now .ag-c{border-color:var(--teal);animation:agGlow 2s ease-in-out infinite}
+.ag-it.now .ag-st{color:#06261f;background:var(--teal);border-color:transparent}
+.ag-it.now .ag-st::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#e53935;margin-inline-end:5px;animation:ping 1.6s infinite}
+.ag-it.next .ag-c{border-style:dashed}
+.ag-it.next .ag-st{color:var(--gold2);border-color:rgba(244,183,64,.5)}
+@keyframes agGlow{50%{box-shadow:0 0 22px rgba(63,220,201,.4)}}
+.ag.static .ag-body,.ag.static .ag-it,.ag.static .ag-dot,.ag.static .ag-list::before{animation:none!important;transition:none!important}
+.ag.static .ag-list::before{transform:scaleY(1)}
+@media (prefers-reduced-motion:reduce){.ag-hero::after,.ag-it.now .ag-c{animation:none}.ag.open .ag-it,.ag.open .ag-dot{animation-duration:.01s;animation-delay:0s}}
 </style>
 </head>
 <body>
@@ -1618,7 +1674,7 @@ function goPage(p){
   BIND[p]&&BIND[p](t);
   window.scrollTo(0,0);
 }
-document.querySelectorAll('.bn').forEach(b=>b.onclick=()=>goPage(b.dataset.page));
+document.querySelectorAll('.bn').forEach(b=>b.onclick=()=>{ AGS.home=false; AGS.days=true; goPage(b.dataset.page); });
 
 /* ---- عداد المؤتمر ---- */
 function cdHtml(){
@@ -1797,6 +1853,34 @@ async function startScan(ov,onCode){
 }
 function bindDayZone(){ document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{ const r=b.getBoundingClientRect(); openDv(+b.dataset.day,r.left+r.width/2,r.top+r.height/2); }); }
 
+/* ---- كروت الأجندة (الرئيسية + صفحة الأيام) ---- */
+const AGS={home:false,days:true};
+const AG_COL=['#F4B740','#3FDCC9','#FF7A59','#9B8CFF','#5FE0A4','#FF6B9A'];
+function agendaHtml(t,info,di,key,title){
+  const d=CONF.days[di], ss=d.sessions, z=dayState(di,info), st=z.live?sessState(info):{nowIdx:-1,nextIdx:-1}, [y,m,dd]=d.date.split('-').map(Number);
+  const stat=i=>z.past?'done':z.live?(i<st.nowIdx?'done':i===st.nowIdx?'now':i===st.nextIdx?'next':'up'):(info.state==='before'&&di===info.idx&&i===0?'next':'up');
+  const lab={done:'✓ تمّت',now:'جارية الآن',next:'القادمة',up:'قريبًا'};
+  const nDone=ss.filter((_,i)=>stat(i)==='done').length, pct=ss.length?Math.round(nDone/ss.length*100):0;
+  const cur=z.live?(st.nowIdx>=0?st.nowIdx:st.nextIdx):z.past?-1:0, curS=cur>=0?ss[cur]:null;
+  const eb=z.live?'النهاردة':z.past?'✓ تمّ':'قريبًا';
+  const sub=z.past?`${ss.length} فقرات · خلص`:curS?`${z.live?(st.nowIdx>=0?'الآن':'التالي'):'أول فقرة'}: ${curS.name} · ${curS.time}`:`${ss.length} فقرات`;
+  const open=AGS[key], items=ss.map((s,i)=>{ const k=stat(i);
+    return `<div class="ag-it ${k}" style="--c:${AG_COL[i%AG_COL.length]};--i:${i}"><div class="ag-dot">${s.ico}</div>
+      <button class="ag-c" data-ags="${i}"><span class="ag-st">${lab[k]}</span><span class="ag-tm">⏰ ${esc(s.time)}</span><div class="ag-n">${esc(s.name)}</div>${s.desc?`<div class="ag-d">${esc(s.desc)}</div>`:''}</button></div>`; }).join('');
+  return `<div class="ag ${open?'open':''} ${open&&key==='home'?'static':''}" id="agBox">
+    <button class="ag-hero" id="agHero" aria-expanded="${open}"><div class="ag-ring" style="--p:${pct}"><span>🗓️</span></div>
+      <div class="ag-info"><div class="ag-eb">${eb} · ${esc(AR_SHORT.format(new Date(y,m-1,dd)))}</div><div class="ag-t">${esc(title||d.label)}</div><div class="ag-s">${esc(sub)}</div></div>
+      <span class="ag-chev">⌄</span></button>
+    <div class="ag-body"><div><div class="ag-list">${items}</div></div></div>
+    <div class="ag-hint" id="agHint">${open?'اضغط على أي فقرة لتفاصيلها':`اضغط لعرض ${ss.length} فقرات`}</div></div>`;
+}
+function bindAgenda(di,key){
+  const h=$('#agHero'), box=$('#agBox'); if(!h||!box) return; const n=CONF.days[di].sessions.length;
+  h.onclick=()=>{ AGS[key]=!AGS[key]; box.classList.remove('static'); box.classList.toggle('open',AGS[key]); h.setAttribute('aria-expanded',AGS[key]);
+    $('#agHint').textContent=AGS[key]?'اضغط على أي فقرة لتفاصيلها':`اضغط لعرض ${n} فقرات`; };
+  box.querySelectorAll('[data-ags]').forEach(b=>b.onclick=()=>openSession(di,+b.dataset.ags));
+}
+
 /* ---- الصفحات ---- */
 const PAGES={
   home:t=>{
@@ -1805,7 +1889,7 @@ const PAGES={
     const dots=CONF.days.map((_,i)=>`<i class="${info.state==='live'&&i===info.idx?'on':(info.state==='after'||(info.state==='live'&&i<info.idx))?'done':''}"></i>`).join('');
     return `
       <div style="height:16px"></div>
-      
+      ${agendaHtml(t,info,info.idx,'home','أجندة '+d.label)}
 
       <div class="section-title">بطاقة الفريق</div>
       <div class="id-card">
@@ -1824,7 +1908,7 @@ const PAGES={
   },
   days:t=>{
     const info=dayInfo();
-    return `<div class="section-title" style="margin-top:18px">أيام المؤتمر <span class="sub">${CONF.days.length} أيام</span></div><div id="dayZone">${dayZone(info)}</div><button class="btn btn-ghost" id="icsBtn">📅 أضف الأجندة لتقويمك</button>`;
+    return `<div class="section-title" style="margin-top:18px">الفقرات <span class="sub">${CONF.days[0].sessions.length} فقرات</span></div>${agendaHtml(t,info,0,'days',CONF.days[0].label)}<button class="btn btn-ghost" id="icsBtn" style="margin-top:14px">📅 أضف الأجندة لتقويمك</button>`;
   },
   team:t=>{
     const sorted=lbRows(t);
@@ -1872,12 +1956,13 @@ const PAGES={
 };
 const BIND={
   home:t=>{
+    bindAgenda(dayInfo().idx,'home');
     document.querySelectorAll('[data-task]').forEach(b=>b.onclick=()=>openPart(dayInfo().idx,b.dataset.task));
     const ak=$('#askBtn'); if(ak) ak.onclick=()=>openAsk(t); const rt=$('#rateBtn'); if(rt) rt.onclick=()=>openRate(t);
     const ce=$('#certBtn'); if(ce){ ce.onclick=()=>downloadCert(t); if(!window._finConf){ window._finConf=1; try{ confetti(3500); }catch(e){} } }
   },
   days:t=>{
-    $('#icsBtn').onclick=downloadIcs; bindDayZone();
+    $('#icsBtn').onclick=downloadIcs; bindAgenda(0,'days');
   },
   team:t=>{
     $('#editTeam').onclick=()=>{

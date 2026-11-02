@@ -615,6 +615,38 @@ input,select,textarea{font-size:max(16px,1em)}
 .ag.static .ag-body,.ag.static .ag-it,.ag.static .ag-dot,.ag.static .ag-list::before{animation:none!important;transition:none!important}
 .ag.static .ag-list::before{transform:scaleY(1)}
 @media (prefers-reduced-motion:reduce){.ag-hero::after,.ag-it.now .ag-c{animation:none}.ag.open .ag-it,.ag.open .ag-dot{animation-duration:.01s;animation-delay:0s}}
+
+/* ===== صفحة الشرح + حضور QR ===== */
+.ex-page{position:fixed;inset:0;z-index:115;overflow-y:auto;background:radial-gradient(circle at 15% 5%,rgba(63,220,201,.16),transparent 40%),radial-gradient(circle at 90% 25%,rgba(244,183,64,.12),transparent 42%),linear-gradient(180deg,var(--bg),var(--bg2));animation:exPg .5s cubic-bezier(.2,.8,.2,1) both}
+.ex-page.closing{animation:exPgOut .3s ease both}
+@keyframes exPg{from{opacity:0;transform:translateY(60px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes exPgOut{to{opacity:0;transform:translateY(60px) scale(.96)}}
+.ex-in{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 16px) 16px 40px}
+.ex-att{position:relative;overflow:hidden;width:100%;margin-top:16px;padding:26px 18px 22px;border-radius:28px;text-align:center;color:var(--text);
+  background:linear-gradient(150deg,rgba(63,220,201,.2),rgba(244,183,64,.14) 60%,rgba(255,122,89,.12));border:1px solid rgba(63,220,201,.45);box-shadow:0 14px 34px rgba(0,0,0,.2);animation:exRise .7s .15s cubic-bezier(.2,.9,.3,1.15) both}
+@keyframes exRise{from{opacity:0;transform:translateY(34px) scale(.92);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+button.ex-att{cursor:pointer;transition:transform .2s}button.ex-att:active{transform:scale(.97)}
+.ex-frame{position:relative;width:128px;height:128px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:50px}
+.ex-frame i{position:absolute;width:30px;height:30px;border:4px solid var(--teal);animation:exPulse 2s ease-in-out infinite}
+.ex-frame i:nth-child(1){top:0;inset-inline-start:0;border-width:4px 0 0 4px;border-radius:12px 0 0 0}
+.ex-frame i:nth-child(2){top:0;inset-inline-end:0;border-width:4px 4px 0 0;border-radius:0 12px 0 0}
+.ex-frame i:nth-child(3){bottom:0;inset-inline-start:0;border-width:0 0 4px 4px;border-radius:0 0 0 12px}
+.ex-frame i:nth-child(4){bottom:0;inset-inline-end:0;border-width:0 4px 4px 0;border-radius:0 0 12px 0}
+.ex-frame b{position:absolute;left:10px;right:10px;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,var(--teal),transparent);box-shadow:0 0 12px var(--teal);animation:exLine 2.2s ease-in-out infinite alternate}
+.ex-frame span{animation:exFloat 2.4s ease-in-out infinite}
+@keyframes exLine{from{top:12%}to{top:86%}}
+@keyframes exPulse{50%{transform:scale(1.12);opacity:.65}}
+@keyframes exFloat{50%{transform:translateY(-6px) scale(1.06)}}
+.ex-at{font-family:'Cairo',sans-serif;font-weight:900;font-size:19px}
+.ex-as{font-size:12.5px;color:var(--soft);margin-top:5px;line-height:1.8}
+.ex-pts{display:inline-block;margin-top:10px;padding:5px 16px;border-radius:99px;font-family:'Cairo',sans-serif;font-weight:900;font-size:14px;color:#221900;background:linear-gradient(95deg,var(--gold),var(--gold2));box-shadow:0 6px 16px rgba(244,183,64,.35)}
+.ex-att.done{border-color:rgba(95,224,164,.55);background:linear-gradient(150deg,rgba(95,224,164,.2),rgba(63,220,201,.1))}
+.ex-att.done .ex-frame i,.ex-att.done .ex-frame b{display:none}
+.ex-att.lock{cursor:default;opacity:.85;border-color:var(--border);background:var(--surface)}
+.ex-att.lock .ex-frame i,.ex-att.lock .ex-frame b{display:none}
+.ex-scanwrap{margin-top:14px;text-align:start}
+.ex-sec{margin-top:18px;animation:exRise .7s .35s cubic-bezier(.2,.9,.3,1.15) both}
+@media (prefers-reduced-motion:reduce){.ex-frame i,.ex-frame b,.ex-frame span{animation:none}}
 </style>
 </head>
 <body>
@@ -697,7 +729,6 @@ input,select,textarea{font-size:max(16px,1em)}
       <button class="bn" data-page="days"><span class="bi">🗓️</span><span class="bl">الأيام</span></button>
       <button class="bn" data-page="team"><span class="bi">👥</span><span class="bl">فريقي</span></button>
       <button class="bn" data-page="challenges"><span class="bi">🏆</span><span class="bl">التحديات</span></button>
-      <button class="bn" data-page="medals"><span class="bi">🏅</span><span class="bl">إنجازاتي</span></button>
       <button class="bn" data-page="settings"><span class="bi">⚙️</span><span class="bl">الإعدادات</span></button>
     </nav>
   </main>
@@ -847,26 +878,29 @@ E('اذكر اسم واحد من التلاميذ الاثني عشر.',['بطر
 E('اكتب اسم المدينة اللي عاش فيها المسيح طفولته.',['الناصرة']),
 ];
 let EXQ=20, EXSEC=20, EXPTS=2;
+let exPart=0; /* 0 = شاشة اختيار | 1 أو 2 = الشرح 1 / الشرح 2 */
+const exSK=(d,p)=>p===2?d+'_2':String(d);
+const exFin=e=>!!e&&e.i>=EXQ;
 const AR=s=>String(s).replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/[^\u0621-\u064A0-9]/g,'');
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
-function exStart(t,day){
+function exStart(t,day,p){
   const used=new Set(Object.values(t.ex||{}).flatMap(e=>e.ids)); let pool=CONF.bank.map((_,i)=>i).filter(i=>!used.has(i));
   if(pool.length<EXQ) pool=CONF.bank.map((_,i)=>i);
-  t.ex=t.ex||{}; t.ex[day]={ids:shuf(pool).slice(0,EXQ),i:0,ok:0}; persistTeams();
+  t.ex=t.ex||{}; t.ex[exSK(day,p||1)]={ids:shuf(pool).slice(0,EXQ),i:0,ok:0}; persistTeams();
 }
 function explainHtml(t,info){
-  const live=info.state==='live', st=live&&(t.ex||{})[info.idx]; let body;
+  const live=info.state==='live', pp=exPart||1, st=live&&(t.ex||{})[exSK(info.idx,pp)]; let body;
   if(st&&st.i>=EXQ) body=`<div class="hint">خلصتوا فقرة الشرح ✅ — ${st.ok} صح من ${EXQ} (+${st.ok*EXPTS} نقطة)</div>`;
   else body=`<button class="btn btn-primary" id="exGo" style="margin-top:10px">${st?`كمّل (${st.i}/${EXQ})`:'ابدأ الفقرة'}</button><div class="hint">${EXQ} سؤال متنوعة مختلفة لكل فريق · ${EXSEC} ثانية للسؤال · ${EXPTS} نقطة للصح${live?'':' — دلوقتي تدريب بدون نقاط'}</div>`;
-  return `<div class="card"><div class="step-t">🧠 فقرة الشرح</div>${body}</div>`;
+  return `<div class="card"><div class="step-t">🧠 أسئلة الشرح ${pp}</div>${body}</div>`;
 }
 function bindExplain(t,info){ const b=$('#exGo'); if(b) b.onclick=()=>exRun(t,info); }
 function exRun(t,info){
-  closeOv(); const live=info.state==='live', day=info.idx;
-  if(live&&!(t.ex||{})[day]) exStart(t,day);
-  const st=live?t.ex[day]:{ids:shuf(CONF.bank.map((_,i)=>i)).slice(0,EXQ),i:0,ok:0};
+  closeOv(); const live=info.state==='live', day=info.idx, pp=exPart||1, sk=exSK(day,pp);
+  if(live&&!(t.ex||{})[sk]) exStart(t,day,pp);
+  const st=live?t.ex[sk]:{ids:shuf(CONF.bank.map((_,i)=>i)).slice(0,EXQ),i:0,ok:0};
   const ov=document.createElement('div'); ov.className='ov'; document.body.appendChild(ov); let tm;
-  const end=()=>{ clearInterval(tm); ov.remove(); if($('.dv')) refreshDv(); else goPage('challenges'); };
+  const end=()=>{ clearInterval(tm); ov.remove(); if($('.ex-page')){ exClaimed=true; refreshEx(); } else if($('.dv')) refreshDv(); else goPage('challenges'); };
   const show=()=>{
     clearInterval(tm);
     if(st.i>=EXQ){ ov.innerHTML=`<div class="sheet"><div class="sheet-title">🎉 خلصت الفقرة</div><p class="sd-desc">${st.ok} إجابة صح من ${EXQ}${live?` — كسبتوا +${st.ok*EXPTS} نقطة`:''}</p><button class="btn btn-primary" id="exX">تمام</button></div>`;
@@ -879,7 +913,7 @@ function exRun(t,info){
       (opts?opts.map(o=>`<button class="opt" data-o="${esc(o)}">${esc(o)}</button>`).join(''):`<input class="field" id="exIn" placeholder="اكتب إجابتك" autocomplete="off"><button class="btn btn-primary" id="exSend" style="margin-top:10px">تأكيد</button>`)+`</div>`;
     const fin=ans=>{ if(locked) return; locked=true; clearInterval(tm); let ok=false;
       if(ans!=null){ if(q.t==='m') ok=ans===q.o[q.a]; else if(q.t==='t') ok=(ans==='صح')===q.a; else { const n=AR(ans); ok=!!n&&q.a.some(k=>n.includes(AR(k))); } }
-      st.i++; if(ok){ st.ok++; if(live) addPoints(t,EXPTS,'سؤال الشرح'); } if(live) persistTeams();
+      st.i++; if(ok){ st.ok++; if(live) addPoints(t,EXPTS,pp===2?'سؤال الشرح 2':'سؤال الشرح'); } if(live) persistTeams();
       toast(ok?`صح ✅ +${EXPTS}`:ans==null?'خلص الوقت ⏰':'إجابة غلط',!ok); show(); };
     ov.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>fin(b.dataset.o));
     const inp=ov.querySelector('#exIn'); if(inp){ ov.querySelector('#exSend').onclick=()=>fin(inp.value); inp.onkeydown=e=>{ if(e.key==='Enter') fin(inp.value); }; inp.focus(); }
@@ -906,7 +940,7 @@ function watchContent(){ if(contentOn||!DB) return; contentOn=true;
     if(currentTeam()&&!document.querySelector('#portal').classList.contains('hidden')) rerender(); },()=>{}); }
 function removeMyTeam(id){ GONE[id]=1; unsub.forEach(f=>f()); unsub=[]; teams=teams.filter(x=>x.id!==id); ls.set(K.teams,teams);
   if(ls.get(K.cur,null)===id){ ls.del(K.cur); closeOv(); toast('الأدمن حذف الفريق ده',true); form=freshForm(); fillForm(); document.querySelector('#portal').classList.add('hidden'); showGate(); gateTab('login'); } }
-function rerender(){ if(document.getElementById('adm')) return; const pv=document.querySelector('.ov.part'); if(pv){ pv.fill(); if($('.dv')) refreshDv(); return; } if(document.querySelector('.ov')) return; if($('.dv')){ refreshDv(); return; } const b=document.querySelector('.bn.on'); if(b&&(b.dataset.page==='challenges'||b.dataset.page==='home'||b.dataset.page==='medals')) goPage(b.dataset.page); }
+function rerender(){ if(document.getElementById('adm')) return; if(document.querySelector('.ex-page')) return; const pv=document.querySelector('.ov.part'); if(pv){ pv.fill(); if($('.dv')) refreshDv(); return; } if(document.querySelector('.ov')) return; if($('.dv')){ refreshDv(); return; } const b=document.querySelector('.bn.on'); if(b&&(b.dataset.page==='challenges'||b.dataset.page==='home')) goPage(b.dataset.page); }
 function pushTeam(){ if(!DB) return; const t=currentTeam(); if(!t||GONE[t.id]) return; DB.collection('teams').doc(t.id).set({id:t.id,name:t.name||'',code:firebase.firestore.FieldValue.delete(),color:t.color||'',points:t.points||0,ts:Date.now()},{merge:true}).catch(()=>{});
   if(t.code) DB.collection('codes').doc(String(t.code)).set({teamId:t.id,ts:Date.now()}).catch(()=>{});
   let j=JSON.stringify(t); if(j.length>900000){ const c=JSON.parse(j); c.leader.photo=''; c.members.forEach(m=>m.photo=''); j=JSON.stringify(c); }
@@ -1150,6 +1184,9 @@ function openAdmin(){
     else if(sec==='days') h+=`<div class="hint" style="text-align:start">لو غيّرت ترتيب الفقرات أو حذفت فقرة، أكواد الـ QR الافتراضية (C10-D1-S1...) بتتغير. حط كود ثابت لكل فقرة لو الأكواد اتطبعت.</div>`
       +D.days.map((d,i)=>`<details class="card"><summary ${SUM}>${i+1}. ${esc(d.label||'يوم جديد')} <small style="color:var(--muted)">${esc(d.date||'')}</small></summary>`
         +ef(`days.${i}.label`,'اسم اليوم','text',d.label)+ef(`days.${i}.date`,'التاريخ','date',d.date)
+        +ef(`days.${i}.expts`,'نقط حضور الشرح 1 و 2 (0 = الافتراضي)','number',d.expts||0)+ef(`days.${i}.exqr`,'كود QR حضور الشرح (فاضي = الافتراضي)','text',d.exqr||'')
+        +ef(`days.${i}.exqr2`,'كود QR حضور الشرح 2 (فاضي = الافتراضي)','text',d.exqr2||'')
+        +`<div class="hint" style="text-align:start">كود الشرح 1: <b dir="ltr">${esc(d.exqr||('C10-D'+(i+1)+'-EX'))}</b> · كود الشرح 2: <b dir="ltr">${esc(d.exqr2||('C10-D'+(i+1)+'-EX2'))}</b></div>`
         +`<div class="section-title" style="margin:16px 0 6px;font-size:14px">الفقرات (${d.sessions.length})</div>`
         +d.sessions.map((s,j)=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:10px"><b style="font-size:13px">فقرة ${j+1}</b>`
           +ef(`days.${i}.sessions.${j}.time`,'الوقت (زي 10:00 ص)','text',s.time)+ef(`days.${i}.sessions.${j}.name`,'اسم الفقرة','text',s.name)
@@ -1196,6 +1233,7 @@ function openAdmin(){
       if(!d.label) err.push(n+': الاسم ناقص');
       if(!/^\d{4}-\d{2}-\d{2}$/.test(d.date)) err.push(n+': التاريخ ناقص'); else { if(prev&&d.date<=prev) err.push(n+': لازم تاريخه يكون بعد اليوم اللي قبله'); prev=d.date; }
       if(!d.sessions.length) err.push(n+': مفيش فقرات');
+      d.expts=Math.max(0,+d.expts||0); if(!d.expts) delete d.expts; d.exqr=String(d.exqr||'').trim(); if(!d.exqr) delete d.exqr; d.exqr2=String(d.exqr2||'').trim(); if(!d.exqr2) delete d.exqr2;
       d.sessions.forEach((s,j)=>{ const m=n+' فقرة '+(j+1); s.time=String(s.time||'').trim(); s.name=String(s.name||'').trim(); s.ico=String(s.ico||'').trim()||'📌';
         if(!/^\d{1,2}:\d{2}\s*(ص|م)$/.test(s.time)) err.push(m+': الوقت لازم يبقى زي 10:00 ص');
         if(!s.name) err.push(m+': الاسم ناقص');
@@ -1405,9 +1443,9 @@ function lbRows(t){
 }
 function tasksHtml(t,info){
   if(info.state!=='live') return `<div class="card"><div class="hint" style="margin:0">المهام بتظهر أيام المؤتمر</div></div>`;
-  const d=info.idx, sl=MYAW[`${t.id}_${d}_slogan`], sb=MYSUB[`${t.id}_${d}`], ex=(t.ex||{})[d], g=['g0','g1','g2','g3'].filter(x=>MYAW[`${t.id}_${d}_${x}`]).length;
-  const exd=ex&&ex.i>=EXQ;
-  const R=[['slogan','🎬','الشعار',sl?'تم ✓':sb?'مستني الأدمن':'لسه',!!sl],['explain','🧠','الشرح',exd?`تم ✓ ${ex.ok}/${EXQ}`:ex?`${ex.i}/${EXQ}`:'لسه',!!exd],['games','🎮','الألعاب',`${g}/4`,g>=4]];
+  const d=info.idx, sl=MYAW[`${t.id}_${d}_slogan`], sb=MYSUB[`${t.id}_${d}`], exn=exFin((t.ex||{})[d])+exFin((t.ex||{})[d+'_2']), exs=!!(t.ex||{})[d]||!!(t.ex||{})[d+'_2'], g=['g0','g1','g2','g3'].filter(x=>MYAW[`${t.id}_${d}_${x}`]).length;
+  const exd=exn===2;
+  const R=[['slogan','🎬','الشعار',sl?'تم ✓':sb?'مستني الأدمن':'لسه',!!sl],['explain','🧠','الشرح',exd?'تم ✓ 2/2':exs?`${exn}/2`:'لسه',!!exd],['games','🎮','الألعاب',`${g}/4`,g>=4]];
   return `<div class="tasks">${R.map(([k,ic,n,st,ok],i)=>`<button class="task ${ok?'ok':''}" data-task="${k}" style="animation-delay:${i*.1}s"><span class="task-i">${ic}</span><span class="task-n">${n}</span><span class="task-s">${st}</span><span class="task-c">${ok?'✓':''}</span></button>`).join('')}</div>`;
 }
 function podiumHtml(t){
@@ -1423,20 +1461,6 @@ function breakdownHtml(t){
   const tot=C.reduce((a,[k])=>a+Math.abs(b[k]||0),0);
   if(!tot) return `<div class="card"><div class="hint" style="margin:0">لسه مفيش نقاط — أول نقطة هتظهر هنا</div></div>`;
   return `<div class="card">${C.filter(([k])=>b[k]).map(([k,n,c],i)=>`<div class="bk"><div class="bk-t"><span>${n}</span><b>${b[k]}</b></div><div class="bk-b"><i style="--c:${c};width:${Math.round(Math.abs(b[k])/tot*100)}%;animation-delay:${.2+i*.12}s"></i></div></div>`).join('')}</div>`;
-}
-function mbList(t){
-  const A=Object.keys(MYAW), has=k=>A.some(x=>x.endsWith('_'+k)), ex=Object.values(t.ex||{}), L=lbRows(t);
-  return [['🎬','أول شعار',has('slogan')],['🧠','خلّصنا الشرح',ex.some(e=>e.i>=EXQ)],['🔥','دقة عالية',ex.some(e=>e.ok>=16)],['🎮','لاعبين',A.some(x=>/_g\d$/.test(x))],['🎁','بونص',has('bonus')],['⭐','100 نقطة',(t.points||0)>=100],['👑','المركز الأول',(t.points||0)>0&&!!L[0]&&L[0].id===t.id],['🏆','أول تحدّي',Object.keys(t.chal||{}).length>0]];
-}
-function mbHtml(t){ return `<div class="mb">${mbList(t).map(([ic,n,ok],i)=>`<div class="mbi ${ok?'on':''}" style="animation-delay:${i*.06}s"><span>${ic}</span><small>${n}</small></div>`).join('')}</div>`; }
-function openMedal(k){
-  closeOv(); const t=currentTeam(); if(!t) return; const ov=document.createElement('div'); ov.className='ov part';
-  ov.fill=()=>{ const body=k==='ach'
-    ?`<div class="stats" style="margin-bottom:6px"><div class="stat"><div class="n">${t.points||0}</div><div class="l">نقاط الفريق</div></div><div class="stat"><div class="n">#${teamRank(t)}</div><div class="l">الترتيب</div></div></div><div class="section-title">نقط فريقك</div>${breakdownHtml(t)}<div class="section-title">سجل النقاط</div><div class="card">${(t.log&&t.log.length)?logHtml(t):'<div class="empty">لسه مفيش نقاط</div>'}</div>`
-    :mbHtml(t);
-    ov.innerHTML=`<div class="sheet"><div class="sheet-head"><div class="sheet-title">${k==='ach'?'🏅 الإنجازات':'🎖️ الشارات'}</div><button class="sheet-x" aria-label="إغلاق">✕</button></div>${body}</div>`; };
-  ov.onclick=e=>{ if(e.target===ov||e.target.closest('.sheet-x')) closeOv(); };
-  document.body.appendChild(ov); ov.fill();
 }
 function homeExtra(t,info){
   return `${info.state==='after'?finalHtml(t):''}<div class="section-title">مهام النهاردة</div>${tasksHtml(t,info)}
@@ -1772,7 +1796,7 @@ const sessCode=(d,i)=>String(CONF.days[d].sessions[i].qr||`C10-D${d+1}-S${i+1}`)
 const sessPts=s=>s.pts||CONF.sessionPoints;
 function partStatus(t,fi,k){
   const L=fi.state==='live';
-  if(k==='explain'){ if(!L) return 'تدريب'; const e=(t.ex||{})[fi.idx]; return e?(e.i>=EXQ?`✅ ${e.ok}/${EXQ}`:`${e.i}/${EXQ}`):'ابدأ'; }
+  if(k==='explain'){ if(!L) return 'تدريب'; const e1=(t.ex||{})[fi.idx], e2=(t.ex||{})[fi.idx+'_2'], n=exFin(e1)+exFin(e2); return n===2?'✅ 2/2':(e1||e2||(t.scans||{})[fi.idx+'-ex']||(t.scans||{})[fi.idx+'-ex2'])?`${n}/2 خلصت`:'ابدأ'; }
   if(!fbOn()) return '⚙️ السيرفر'; if(!L) return '🔒 في يومه';
   if(k==='slogan'){ const sl=MYAW[`${t.id}_${fi.idx}_slogan`], sb=MYSUB[`${t.id}_${fi.idx}`]; return sl?`✅ +${sl.pts}`:sb?(sb.status==='wrong'?'❌ جرّب تاني':'⏳ مستني الأدمن'):'ارفع الشعار'; }
   const n=['g0','g1','g2','g3','bonus'].filter(x=>MYAW[`${t.id}_${fi.idx}_${x}`]).length; return `${n} مسجّل`;
@@ -1783,7 +1807,65 @@ function dvInner(i,info,t){
   return `<div class="dv-head"><button class="dv-back" aria-label="رجوع">→</button><div style="flex:1"><div class="dv-t">${esc(d.label)}</div><div class="dv-d">${AR_DATE.format(new Date(y,m-1,dd))}</div></div></div>
     <div style="height:14px"></div><div class="ptg">${P.map(([k,ic,n,c],j)=>`<button class="pt ${j===2?'wide':''}" data-p="${k}" style="--c:${c};animation-delay:${j*.08}s"><span class="pt-i">${ic}</span><span class="pt-n">${n}</span><span class="pt-s">${partStatus(t,fi,k)}</span></button>`).join('')}</div>`;
 }
+/* ---- صفحة الشرح: حضور بمسح QR + أسئلة الشرح ---- */
+const exCode=(d,p)=>p===2?String(CONF.days[d].exqr2||`C10-D${d+1}-EX2`):String(CONF.days[d].exqr||`C10-D${d+1}-EX`);
+const exSc=(d,p)=>d+(p===2?'-ex2':'-ex');
+const exPts=d=>CONF.days[d].expts||CONF.sessionPoints;
+let exDay=null, exClaimed=false;
+function exAttHtml(t,d){
+  const pp=exPart||1, info=dayInfo(), can=CONF.allowAnyDay||(info.state==='live'&&info.idx===d), done=!!(t.scans||{})[exSc(d,pp)], pts=exPts(d);
+  if(done) return `<div class="ex-att done"><div class="ex-frame"><span>✅</span></div><div class="ex-at">تم تسجيل حضور الشرح ${pp}</div><div class="ex-as">فريقكم كسب نقاط الحضور بنجاح</div><span class="ex-pts">+${pts} نقطة</span></div>`;
+  if(!can) return `<div class="ex-att lock"><div class="ex-frame"><span>🔒</span></div><div class="ex-at">تسجيل حضور الشرح ${pp} مقفول</div><div class="ex-as">مسح الكود بيتفتح في يوم الشرح نفسه (${esc(CONF.days[d].label)})</div><span class="ex-pts">+${pts} نقطة</span></div>`;
+  return `<button class="ex-att" id="exAttBtn"><div class="ex-frame"><i></i><i></i><i></i><i></i><b></b><span>📷</span></div><div class="ex-at">اضغط لتسجيل حضورك</div><div class="ex-as">امسح كود الـ QR بتاع الشرح ${pp} وخد نقاط الحضور</div><span class="ex-pts">+${pts} نقطة</span></button>
+    <div class="scan-box hidden" id="scBox"><video id="scVid" playsinline muted></video><canvas id="scCv" class="hidden"></canvas><i class="scan-line"></i></div>
+    <div class="ex-scanwrap hidden" id="exMan"><div class="sc-or" style="margin-top:12px">أو اكتب الكود يدويًا</div><div class="sc-man"><input class="field" id="scIn" placeholder="${pp===2?'C10-D1-EX2':'C10-D1-EX'}" autocomplete="off" dir="ltr" style="text-align:center"><button class="btn btn-ghost" id="scOk" style="width:auto;padding:0 20px">تأكيد</button></div></div>`;
+}
+function claimExplain(t,d,val){
+  const pp=exPart||1; if(String(val).trim().toUpperCase()!==exCode(d,pp).toUpperCase()){ toast(`الكود ده مش كود الشرح ${pp}`,true); return false; }
+  const key=exSc(d,pp), pts=exPts(d); t.scans=t.scans||{}; if(t.scans[key]) return true;
+  t.scans[key]=true; addPoints(t,pts,pp===2?'حضور الشرح 2':'حضور الشرح');
+  if(!persistTeams()){ delete t.scans[key]; t.points-=pts; t.log.shift(); return false; }
+  stopScan(); exClaimed=true; pushNotif(t,`فريقكم سجّل حضور الشرح ${pp} وكسب +${pts} نقاط ✅`,'✅');
+  confetti(2200); toast(`+${pts} نقاط 🎉`); refreshEx(); return true;
+}
+function exChooseHtml(t,d,fi){
+  const live=fi.state==='live', C=['#3FDCC9','#F4B740'];
+  return `<div style="height:14px"></div><div class="hint" style="text-align:center;margin-bottom:12px">اختار الشرح اللي عايز تدخله</div><div class="ptg">${[1,2].map((p,j)=>{
+    const e=(t.ex||{})[exSK(d,p)], at=(t.scans||{})[exSc(d,p)];
+    const st=!live?'تدريب':exFin(e)?`✅ ${e.ok}/${EXQ}`:e?`${e.i}/${EXQ}`:at?'✅ حضور':'ابدأ';
+    return `<button class="pt" data-xp="${p}" style="--c:${C[j]};animation-delay:${j*.08}s"><span class="pt-i">${p===1?'1️⃣':'2️⃣'}</span><span class="pt-n">الشرح ${p}</span><span class="pt-s">${st}</span></button>`; }).join('')}</div>`;
+}
+function refreshEx(){
+  const pg=$('.ex-page'), t=currentTeam(); if(!pg||!t) return; const d=exDay, fi=dayFi(d,dayInfo());
+  pg.querySelector('.dv-t').textContent=exPart?`🧠 الشرح ${exPart}`:'🧠 الشرح';
+  if(!exPart){
+    pg.querySelector('#exAtt').innerHTML=exChooseHtml(t,d,fi); pg.querySelector('#exQz').innerHTML='';
+    pg.querySelectorAll('[data-xp]').forEach(b=>b.onclick=()=>{ exPart=+b.dataset.xp; pg.scrollTop=0; refreshEx(); });
+    return;
+  }
+  pg.querySelector('#exAtt').innerHTML=exAttHtml(t,d); pg.querySelector('#exQz').innerHTML=explainHtml(t,fi); bindEx(pg,t,d,fi);
+}
+function bindEx(pg,t,d,fi){
+  bindExplain(t,fi);
+  const b=pg.querySelector('#exAttBtn'); if(!b) return; const submit=v=>claimExplain(t,d,v);
+  pg.querySelector('#scOk').onclick=()=>submit(pg.querySelector('#scIn').value);
+  pg.querySelector('#scIn').onkeydown=e=>{ if(e.key==='Enter') submit(e.target.value); };
+  b.onclick=()=>{ pg.querySelector('#scBox').classList.remove('hidden'); pg.querySelector('#exMan').classList.remove('hidden'); startScan(pg,submit); };
+}
+function closeEx(){
+  const pg=$('.ex-page'); if(!pg) return; stopScan(); closeOv(); exPart=0; pg.classList.add('closing'); setTimeout(()=>pg.remove(),300);
+  if(exClaimed){ exClaimed=false; if(page==='home'&&!$('.dv')){ const y=window.scrollY; goPage('home'); window.scrollTo(0,y); } else if($('.dv')) refreshDv(); }
+}
+function openExplainPage(d){
+  closeOv(); const t=currentTeam(); if(!t) return; exDay=d; exClaimed=false; exPart=0;
+  const old=$('.ex-page'); if(old) old.remove();
+  const day=CONF.days[d], [y,m,dd]=day.date.split('-').map(Number), pg=document.createElement('div'); pg.className='ex-page';
+  pg.innerHTML=`<div class="ex-in"><div class="dv-head"><button class="dv-back" aria-label="رجوع">→</button><div style="flex:1"><div class="dv-t">🧠 الشرح</div><div class="dv-d">${esc(day.label)} · ${AR_DATE.format(new Date(y,m-1,dd))}</div></div></div>
+    <div id="exAtt"></div><div class="ex-sec" id="exQz"></div></div>`;
+  document.body.appendChild(pg); pg.querySelector('.dv-back').onclick=()=>{ if(exPart){ stopScan(); closeOv(); exPart=0; pg.scrollTop=0; refreshEx(); } else closeEx(); }; refreshEx();
+}
 function openPart(i,k){
+  if(k==='explain') return openExplainPage(i);
   closeOv(); const t=currentTeam(); if(!t) return; const ov=document.createElement('div'); ov.className='ov part';
   const T={slogan:'🎬 الشعار',explain:'🧠 الشرح',games:'🎮 الألعاب'};
   ov.fill=()=>{ const fi=dayFi(i,dayInfo());
@@ -1934,10 +2016,6 @@ const PAGES={
       <div class="card">${rows}</div>
       <div class="hint">الليدر يضغط "تم التحدّي" بعد ما الفريق يخلّصه عشان ياخدوا النقاط</div>`;
   },
-  medals:t=>{ const L=mbList(t), n=L.filter(x=>x[2]).length;
-    return `<div class="section-title" style="margin-top:18px">إنجازاتي</div><div class="ptg">
-      <button class="pt" data-m="ach" style="--c:#F4B740"><span class="pt-i">🏅</span><span class="pt-n">الإنجازات</span><span class="pt-s">${t.points||0} نقطة</span></button>
-      <button class="pt" data-m="bdg" style="--c:#9B8CFF;animation-delay:.1s"><span class="pt-i">🎖️</span><span class="pt-n">الشارات</span><span class="pt-s">${n}/${L.length}</span></button></div>`; },
   settings:t=>{
     const light=ls.get(K.theme,'dark')==='light';
     return `<div class="section-title" style="margin-top:18px">المظهر</div>
@@ -1980,7 +2058,6 @@ const BIND={
       pushNotif(t,`فريقكم خلّص تحدّي "${c.title}" وكسب +${c.pts} نقاط 🏆`,'🏆');
       confetti(2000); toast(`+${c.pts} نقاط 🎉`); goPage('challenges'); });
   },
-  medals:t=>{ document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>openMedal(b.dataset.m)); },
   settings:t=>{
     const nb=$('#notifBtn'); const nUp=()=>{ nb.textContent=!('Notification' in window)?'🔔 التنبيهات مش مدعومة على الجهاز ده':Notification.permission==='granted'?'🔔 تنبيهات الجهاز شغّالة ✅':Notification.permission==='denied'?'🔔 التنبيهات مقفولة من إعدادات المتصفح':'🔔 تفعيل تنبيهات الجهاز'; }; nUp();
     nb.onclick=async()=>{ if(!('Notification' in window)) return; if(Notification.permission==='default'){ try{ await Notification.requestPermission(); }catch(e){} } nUp(); toast(Notification.permission==='granted'?'التنبيهات اتفعّلت — بتظهر لما التطبيق يكون في الخلفية':'التنبيهات مش متاحة',Notification.permission!=='granted'); };

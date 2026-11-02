@@ -686,33 +686,28 @@ button.ex-att{cursor:pointer;transition:transform .2s}button.ex-att:active{trans
   .msg{max-width:560px}
 }
 
-/* ===== ترتيب الفرق: سباق ===== */
-.race{background:linear-gradient(180deg,var(--surface),var(--surface2));border:1px solid var(--border);border-radius:22px;padding:14px 14px 6px;margin-bottom:12px;animation:rise .6s both}
-.race-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-.race-h b{font-family:'Cairo',sans-serif;font-weight:900;font-size:16px;color:var(--gold2)}
-.race-h small{color:var(--muted);font-weight:700;font-size:12.5px}
-.rc{padding:9px 8px 16px;margin:0 -8px;border-radius:16px;animation:rise .6s var(--d) both}
-.rc.me{background:color-mix(in srgb,var(--c) 14%,transparent);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--c) 70%,transparent)}
-.rc-top{display:flex;align-items:center;gap:8px;margin-bottom:9px}
-.rc-rk{width:28px;text-align:center;font-size:21px;line-height:1}
-.rc-n{font-family:'Cairo',sans-serif;font-weight:900;font-size:15px;color:var(--muted)}
-.rc-name{flex:1;min-width:0;font-weight:800;font-size:14.5px;color:var(--c);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rc-you{display:inline-block;margin-inline-start:4px;padding:1px 7px;border-radius:20px;background:var(--c);color:#fff;font-size:10.5px;font-weight:800;vertical-align:middle}
-.rc-gap{font-size:11.5px;font-weight:700;color:var(--muted);white-space:nowrap}
-.rc.lead .rc-gap{color:var(--gold2)}
-.rc-pts{font-style:normal;font-family:'Cairo',sans-serif;font-weight:900;font-size:19px;min-width:34px;text-align:end}
-.rc-track{position:relative;height:14px;border-radius:10px;background:color-mix(in srgb,var(--text) 9%,transparent);margin-inline-end:6px}
-.rc-track::before{content:'';position:absolute;inset:6px 10px;border-top:2px dashed color-mix(in srgb,var(--text) 14%,transparent)}
-.rc-fill{position:absolute;inset-block:0;inset-inline-start:0;width:var(--w);border-radius:10px;background:linear-gradient(to left,var(--c),color-mix(in srgb,var(--c) 30%,transparent));box-shadow:0 4px 14px color-mix(in srgb,var(--c) 40%,transparent);animation:rcGo 1.2s var(--d) cubic-bezier(.2,.8,.25,1) both;overflow:visible}
-.rc-fill::after{content:'';position:absolute;inset:0;border-radius:10px;background:repeating-linear-gradient(115deg,rgba(255,255,255,.28) 0 5px,transparent 5px 12px);animation:rcStripe 1s linear infinite}
-.rc-car{position:absolute;inset-inline-end:-15px;top:50%;font-size:25px;line-height:1;transform:translateY(-52%);filter:drop-shadow(0 3px 4px rgba(0,0,0,.35));animation:rcBob .7s ease-in-out infinite alternate;z-index:2}
-.rc.lead .rc-car{font-size:29px;inset-inline-end:-17px}
-.rc.lead .rc-pts{color:var(--gold2);text-shadow:0 0 14px rgba(244,183,64,.55)}
-.rc-fin{position:absolute;inset-block:-3px;inset-inline-end:-6px;width:10px;border-radius:3px;background:repeating-conic-gradient(#111 0 25%,#fff 0 50%) 0 0/5px 5px;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+/* ===== ترتيب الفرق: صفوف زجاجية هادية ===== */
+.race{background:linear-gradient(180deg,color-mix(in srgb,var(--text) 6%,transparent),color-mix(in srgb,var(--text) 3%,transparent));border:1px solid var(--border);border-radius:22px;padding:14px 12px 8px;margin-bottom:12px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);animation:rise .6s both}
+.race-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 4px 8px}
+.race-h b{font-family:'Cairo',sans-serif;font-weight:800;font-size:14px;color:var(--text)}
+.race-h small{color:var(--muted);font-weight:700;font-size:12px}
+.rc{display:flex;align-items:center;gap:12px;padding:11px 10px;border-radius:16px;animation:rise .55s var(--d) both}
+.rc+.rc{margin-top:2px}
+.rc.me{background:color-mix(in srgb,var(--c) 12%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 45%,transparent)}
+.rc-rk{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:color-mix(in srgb,var(--text) 8%,transparent);border:1px solid var(--border)}
+.rc-n{font-family:'Cairo',sans-serif;font-weight:800;font-size:15px;color:var(--muted)}
+.rc.top .rc-rk{background:color-mix(in srgb,var(--c) 18%,transparent);border-color:color-mix(in srgb,var(--c) 50%,transparent)}
+.rc.top .rc-n{color:var(--text)}
+.rc-mid{flex:1;min-width:0}
+.rc-line{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:7px}
+.rc-name{min-width:0;font-weight:800;font-size:14.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc-you{display:inline-block;margin-inline-start:6px;padding:1px 8px;border-radius:20px;background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--text);font-size:10.5px;font-weight:700;vertical-align:middle}
+.rc-gap{font-size:11.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+.rc-track{height:6px;border-radius:6px;background:color-mix(in srgb,var(--text) 10%,transparent);overflow:hidden}
+.rc-fill{display:block;height:100%;width:var(--w);border-radius:6px;background:var(--c);animation:rcGo 1s var(--d) cubic-bezier(.2,.8,.25,1) both}
+.rc-pts{flex:none;font-style:normal;font-family:'Cairo',sans-serif;font-weight:800;font-size:18px;min-width:38px;text-align:end;color:var(--text)}
 @keyframes rcGo{from{width:0}}
-@keyframes rcStripe{to{background-position:24px 0}}
-@keyframes rcBob{to{transform:translateY(-52%) rotate(-3deg) translateX(-2px)}}
-@media (prefers-reduced-motion:reduce){.rc-fill,.rc-fill::after,.rc-car{animation:none}}
+@media (prefers-reduced-motion:reduce){.rc-fill{animation:none}}
 </style>
 </head>
 <body>
@@ -1571,18 +1566,17 @@ function tasksHtml(t,info){
   return `<div class="tasks">${R.map(([k,ic,n,st,ok],i)=>`<button class="task ${ok?'ok':''}" data-task="${k}" style="animation-delay:${i*.1}s"><span class="task-i">${ic}</span><span class="task-n">${n}</span><span class="task-s">${st}</span><span class="task-c">${ok?'✓':''}</span></button>`).join('')}</div>`;
 }
 function podiumHtml(t){
-  const L=lbRows(t), CAR=['🏎️','🚗','🛵','🚲','🏃'], M=['🥇','🥈','🥉'];
+  const L=lbRows(t);
   const my=L.findIndex(x=>x.id===t.id)+1, mx=Math.max(1,...L.map(x=>x.points||0)), lead=L[0]||{};
   let show=L.slice(0,8).map((x,i)=>({x,i}));
   if(my>8) show.push({x:L[my-1],i:my-1});
   const lanes=show.map(({x,i},k)=>{
-    const pts=x.points||0, w=Math.round(8+84*(pts/mx)), gap=(lead.points||0)-pts, me=x.id===t.id;
-    const rk=i<3?M[i]:`<span class="rc-n">${i+1}</span>`;
-    const g=i===0?'👑 في الصدارة':(gap===0?'🤝 متعادل':`متأخر ${gap}`);
-    return `<div class="rc ${me?'me':''} ${i===0?'lead':''}" style="--c:${x.color||'#F4B740'};--w:${w}%;--d:${.12+k*.12}s"><div class="rc-top"><span class="rc-rk">${rk}</span><span class="rc-name">${esc(x.name||'—')}${me?' <small class="rc-you">إنت</small>':''}</span><span class="rc-gap">${g}</span><em class="rc-pts">${pts}</em></div><div class="rc-track"><i class="rc-fill"><b class="rc-car">${CAR[Math.min(i,CAR.length-1)]}</b></i><span class="rc-fin"></span></div></div>`;
+    const pts=x.points||0, w=Math.max(4,Math.round(100*(pts/mx))), gap=(lead.points||0)-pts, me=x.id===t.id;
+    const g=i===0?'في الصدارة':(gap===0?'متعادل':`متأخر ${gap}`);
+    return `<div class="rc ${me?'me':''} ${i<3?'top':''}" style="--c:${x.color||'#8FA3C9'};--w:${w}%;--d:${.08+k*.07}s"><span class="rc-rk"><span class="rc-n">${i+1}</span></span><div class="rc-mid"><div class="rc-line"><span class="rc-name">${esc(x.name||'—')}${me?' <small class="rc-you">إنت</small>':''}</span><span class="rc-gap">${g}</span></div><div class="rc-track"><i class="rc-fill"></i></div></div><em class="rc-pts">${pts}</em></div>`;
   }).join('');
-  const sub=my===1?'إنتو في المقدمة 🔥':(my?`إنتو في المركز ${my} من ${L.length}`:'');
-  return `<div class="race"><div class="race-h"><b>🏁 سباق الفرق</b><small>${sub}</small></div>${lanes}</div>`;
+  const sub=my===1?'إنتو في المقدمة':(my?`إنتو في المركز ${my} من ${L.length}`:'');
+  return `<div class="race"><div class="race-h"><b>الترتيب الحالي</b><small>${sub}</small></div>${lanes}</div>`;
 }
 function breakdownHtml(t){
   const C=[['slogan','الشعار','#F4B740'],['explain','الشرح','#3FDCC9'],['games','الألعاب','#FF7A59'],['bonus','البونص','#9B8CFF'],['other','أخرى','#9D9BC4'],['adj','خصم','#FF6B6B']], b=t.brk||{};
@@ -2345,6 +2339,9 @@ document.addEventListener('gesturestart',e=>e.preventDefault());
 document.addEventListener('touchmove',e=>{ if(e.touches&&e.touches.length>1) e.preventDefault(); },{passive:false});
 
 
+
+/* فك أي قفل اتجاه قديم، والموقع يتبع دوران الجهاز (عرض/طول) */
+try{ if(screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); }catch(e){}
 </script>
 </body>
 </html>

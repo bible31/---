@@ -1,5 +1,5 @@
 /* Service worker — المؤتمر العاشر */
-const CACHE = 'c10-v1';
+const CACHE = 'c10-v2';
 const CORE = ['./', 'icon-192.png', 'icon-512.png', 'manifest.json'];
 
 self.addEventListener('install', e => {

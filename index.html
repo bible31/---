@@ -668,16 +668,13 @@ button.ex-att{cursor:pointer;transition:transform .2s}button.ex-att:active{trans
 @media (prefers-reduced-motion:reduce){.ex-frame i,.ex-frame b,.ex-frame span{animation:none}}
 .dc-badge:empty,.ag-st:empty,.sd-desc:empty{display:none}
 
-/* ===== تابلت: العرض فقط (لو الشاشة بالطول تظهر رسالة لف الجهاز) ===== */
-#rotateGate{display:none}
+/* ===== تابلت بالطول: عمود أعرض شوية عشان الصفحة تملا الشاشة بشكل مريح ===== */
 @media (orientation:portrait) and (min-width:600px){
-  html,body{overflow:hidden!important}
-  #rotateGate{position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:30px;text-align:center;background:#0E0D2B;color:#FFDE94;font-family:'Cairo',sans-serif}
-  #rotateGate .rg-ico{width:110px;height:110px;border:6px solid #F4B740;border-radius:18px;position:relative;animation:rgTurn 2.4s ease-in-out infinite}
-  #rotateGate .rg-ico::after{content:'';position:absolute;left:50%;bottom:8px;width:26px;height:4px;margin-left:-13px;border-radius:4px;background:#F4B740}
-  #rotateGate b{font-size:26px;line-height:1.6;color:#fff}
-  #rotateGate span{font-size:17px;opacity:.85;line-height:1.8}
-  @keyframes rgTurn{0%,25%{transform:rotate(0)}60%,85%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+  #app,.dv-in,.ex-in{max-width:720px}
+  #app{padding-left:24px;padding-right:24px}
+  .bnav{max-width:696px}
+  .sheet{max-width:640px}
+  .msg{max-width:520px}
 }
 
 /* ===== تابلت بالعرض: توسيع العمود بدل 520px عشان مايبقاش في فراغ كبير على الجنبين ===== */
@@ -688,10 +685,38 @@ button.ex-att{cursor:pointer;transition:transform .2s}button.ex-att:active{trans
   .sheet{max-width:720px}
   .msg{max-width:560px}
 }
+
+/* ===== ترتيب الفرق: سباق ===== */
+.race{background:linear-gradient(180deg,var(--surface),var(--surface2));border:1px solid var(--border);border-radius:22px;padding:14px 14px 6px;margin-bottom:12px;animation:rise .6s both}
+.race-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.race-h b{font-family:'Cairo',sans-serif;font-weight:900;font-size:16px;color:var(--gold2)}
+.race-h small{color:var(--muted);font-weight:700;font-size:12.5px}
+.rc{padding:9px 8px 16px;margin:0 -8px;border-radius:16px;animation:rise .6s var(--d) both}
+.rc.me{background:color-mix(in srgb,var(--c) 14%,transparent);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--c) 70%,transparent)}
+.rc-top{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.rc-rk{width:28px;text-align:center;font-size:21px;line-height:1}
+.rc-n{font-family:'Cairo',sans-serif;font-weight:900;font-size:15px;color:var(--muted)}
+.rc-name{flex:1;min-width:0;font-weight:800;font-size:14.5px;color:var(--c);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc-you{display:inline-block;margin-inline-start:4px;padding:1px 7px;border-radius:20px;background:var(--c);color:#fff;font-size:10.5px;font-weight:800;vertical-align:middle}
+.rc-gap{font-size:11.5px;font-weight:700;color:var(--muted);white-space:nowrap}
+.rc.lead .rc-gap{color:var(--gold2)}
+.rc-pts{font-style:normal;font-family:'Cairo',sans-serif;font-weight:900;font-size:19px;min-width:34px;text-align:end}
+.rc-track{position:relative;height:14px;border-radius:10px;background:color-mix(in srgb,var(--text) 9%,transparent);margin-inline-end:6px}
+.rc-track::before{content:'';position:absolute;inset:6px 10px;border-top:2px dashed color-mix(in srgb,var(--text) 14%,transparent)}
+.rc-fill{position:absolute;inset-block:0;inset-inline-start:0;width:var(--w);border-radius:10px;background:linear-gradient(to left,var(--c),color-mix(in srgb,var(--c) 30%,transparent));box-shadow:0 4px 14px color-mix(in srgb,var(--c) 40%,transparent);animation:rcGo 1.2s var(--d) cubic-bezier(.2,.8,.25,1) both;overflow:visible}
+.rc-fill::after{content:'';position:absolute;inset:0;border-radius:10px;background:repeating-linear-gradient(115deg,rgba(255,255,255,.28) 0 5px,transparent 5px 12px);animation:rcStripe 1s linear infinite}
+.rc-car{position:absolute;inset-inline-end:-15px;top:50%;font-size:25px;line-height:1;transform:translateY(-52%);filter:drop-shadow(0 3px 4px rgba(0,0,0,.35));animation:rcBob .7s ease-in-out infinite alternate;z-index:2}
+.rc.lead .rc-car{font-size:29px;inset-inline-end:-17px}
+.rc.lead .rc-pts{color:var(--gold2);text-shadow:0 0 14px rgba(244,183,64,.55)}
+.rc-fin{position:absolute;inset-block:-3px;inset-inline-end:-6px;width:10px;border-radius:3px;background:repeating-conic-gradient(#111 0 25%,#fff 0 50%) 0 0/5px 5px;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+@keyframes rcGo{from{width:0}}
+@keyframes rcStripe{to{background-position:24px 0}}
+@keyframes rcBob{to{transform:translateY(-52%) rotate(-3deg) translateX(-2px)}}
+@media (prefers-reduced-motion:reduce){.rc-fill,.rc-fill::after,.rc-car{animation:none}}
 </style>
 </head>
 <body>
-<div id="rotateGate" role="alert" aria-live="polite"><div class="rg-ico"></div><b>لف التابلت بالعرض</b><span>الموقع بيشتغل بالعرض فقط على التابلت.<br>تأكد إن خاصية الدوران التلقائي شغّالة.</span></div>
+
 <noscript><p style="padding:30px;text-align:center;color:#fff">لازم تفعّل JavaScript لتشغيل موقع المؤتمر.</p></noscript>
 <canvas id="confetti"></canvas>
 <div id="app">
@@ -1546,12 +1571,18 @@ function tasksHtml(t,info){
   return `<div class="tasks">${R.map(([k,ic,n,st,ok],i)=>`<button class="task ${ok?'ok':''}" data-task="${k}" style="animation-delay:${i*.1}s"><span class="task-i">${ic}</span><span class="task-n">${n}</span><span class="task-s">${st}</span><span class="task-c">${ok?'✓':''}</span></button>`).join('')}</div>`;
 }
 function podiumHtml(t){
-  const L=lbRows(t), top=L.slice(0,3), H=[118,92,72], M=['🥇','🥈','🥉'];
-  const col=i=>{ const x=top[i]; if(!x) return ''; return `<div class="pd ${x.id===t.id?'me':''}" style="--c:${x.color||'#F4B740'};animation-delay:${.15+i*.15}s"><div class="pd-m">${M[i]}</div><div class="pd-n">${esc(x.name||'—')}</div><div class="pd-p">${x.points||0}</div><div class="pd-b" style="--h:${H[i]}px"><span>${i+1}</span></div></div>`; };
-  const my=L.findIndex(x=>x.id===t.id)+1;
-  const rest=L.slice(3,5).map((x,i)=>`<div class="lbr ${x.id===t.id?'me':''}"><b>${i+4}</b><span>${esc(x.name)}</span><em>${x.points||0}</em></div>`).join('');
-  const mine=my>5?`<div class="lbr me"><b>${my}</b><span>${esc(t.name)}</span><em>${t.points||0}</em></div>`:'';
-  return `<div class="pdm">${col(1)}${col(0)}${col(2)}</div>${rest||mine?`<div class="card" style="padding:8px 14px">${rest}${mine}</div>`:''}`;
+  const L=lbRows(t), CAR=['🏎️','🚗','🛵','🚲','🏃'], M=['🥇','🥈','🥉'];
+  const my=L.findIndex(x=>x.id===t.id)+1, mx=Math.max(1,...L.map(x=>x.points||0)), lead=L[0]||{};
+  let show=L.slice(0,8).map((x,i)=>({x,i}));
+  if(my>8) show.push({x:L[my-1],i:my-1});
+  const lanes=show.map(({x,i},k)=>{
+    const pts=x.points||0, w=Math.round(8+84*(pts/mx)), gap=(lead.points||0)-pts, me=x.id===t.id;
+    const rk=i<3?M[i]:`<span class="rc-n">${i+1}</span>`;
+    const g=i===0?'👑 في الصدارة':(gap===0?'🤝 متعادل':`متأخر ${gap}`);
+    return `<div class="rc ${me?'me':''} ${i===0?'lead':''}" style="--c:${x.color||'#F4B740'};--w:${w}%;--d:${.12+k*.12}s"><div class="rc-top"><span class="rc-rk">${rk}</span><span class="rc-name">${esc(x.name||'—')}${me?' <small class="rc-you">إنت</small>':''}</span><span class="rc-gap">${g}</span><em class="rc-pts">${pts}</em></div><div class="rc-track"><i class="rc-fill"><b class="rc-car">${CAR[Math.min(i,CAR.length-1)]}</b></i><span class="rc-fin"></span></div></div>`;
+  }).join('');
+  const sub=my===1?'إنتو في المقدمة 🔥':(my?`إنتو في المركز ${my} من ${L.length}`:'');
+  return `<div class="race"><div class="race-h"><b>🏁 سباق الفرق</b><small>${sub}</small></div>${lanes}</div>`;
 }
 function breakdownHtml(t){
   const C=[['slogan','الشعار','#F4B740'],['explain','الشرح','#3FDCC9'],['games','الألعاب','#FF7A59'],['bonus','البونص','#9B8CFF'],['other','أخرى','#9D9BC4'],['adj','خصم','#FF6B6B']], b=t.brk||{};
@@ -1562,7 +1593,6 @@ function breakdownHtml(t){
 function homeExtra(t,info){
   return `${info.state==='after'?finalHtml(t):''}<div class="section-title">مهام النهاردة</div>${tasksHtml(t,info)}
   <div class="section-title">ترتيب الفرق</div>${podiumHtml(t)}
-  <div class="section-title">كود نقط</div><div class="card"><div class="hint" style="text-align:start">لو المنظمين إدّوكم كود QR، امسحوه من هنا وخدوا النقط.</div>${cqBtnHtml()}</div>
   <div class="section-title">لاسلكي</div>${munaCard(t)}
   <div class="section-title">تواصل مع المنظمين</div><div class="card"><button class="btn btn-ghost" id="askBtn">💬 اسأل المنظمين</button>${info.state!=='before'?'<button class="btn btn-ghost" id="rateBtn" style="margin-top:8px">⭐ قيّم المؤتمر</button>':''}</div>
 <div style="height:10px"></div>`;
@@ -2314,18 +2344,7 @@ fillForm();
 document.addEventListener('gesturestart',e=>e.preventDefault());
 document.addEventListener('touchmove',e=>{ if(e.touches&&e.touches.length>1) e.preventDefault(); },{passive:false});
 
-/* قفل الاتجاه على العرض (بيشتغل لو الموقع متثبّت كتطبيق أو في وضع ملء الشاشة، ولو مش مدعوم تظهر رسالة اللف) */
-(function(){
-  function lockLandscape(){
-    try{
-      if(screen.orientation && screen.orientation.lock && Math.min(screen.width,screen.height)>=600){
-        screen.orientation.lock('landscape').catch(function(){});
-      }
-    }catch(e){}
-  }
-  lockLandscape();
-  document.addEventListener('click',lockLandscape,{once:true});
-})();
+
 </script>
 </body>
 </html>

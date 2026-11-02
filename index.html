@@ -871,7 +871,7 @@ function startSync(id){
   unsub.push(DB.collection('announcements').onSnapshot(q=>{ t.annApplied=t.annApplied||{}; const born=+String(t.id).slice(1)||0; let dirty=false;
     q.forEach(d=>{ if(t.annApplied[d.id]) return; t.annApplied[d.id]=1; dirty=true; const a=d.data(); if((a.ts||0)>=born){ pushNotif(t,a.text,'📢'); toast('📢 '+a.text); } });
     if(dirty){ persistTeams(); try{ renderHeader(); }catch(e){} } }));
-  { const key=walkieKey(t.color), seenK='radioSeen_'+id, born=+String(t.id).slice(1)||0; let seen={}; try{ seen=JSON.parse(localStorage.getItem(seenK)||'{}'); }catch(e){}
+  { const key=walkieKey(t.color), seenK='radioSeen_'+id, born=(+String(t.id).slice(1)||0)-600000; let seen={}; try{ seen=JSON.parse(localStorage.getItem(seenK)||'{}'); }catch(e){}
     unsub.push(DB.collection('radio').where('team','in',key==='all'?['all']:[key,'all']).onSnapshot(q=>{ const list=[]; q.forEach(d=>{ const m=d.data(); if(!seen[d.id]&&(m.ts||0)>=born&&m.audio) list.push({id:d.id,...m}); });
       if(list.length) radioQueue(list.sort((a,b)=>(a.ts||0)-(b.ts||0)),seen,seenK); },()=>{})); }
 }
@@ -1027,14 +1027,14 @@ function radioQueue(list,seen,k){ RQ_SEEN={seen,k}; list.forEach(m=>{ if(!RQ.som
 function radioMark(id){ try{ RQ_SEEN.seen[id]=1; localStorage.setItem(RQ_SEEN.k,JSON.stringify(RQ_SEEN.seen)); }catch(e){} }
 function radioShow(){
   const m=RQ[0], old=document.getElementById('radioMsg');
-  if(!m){ RQ_ON=false; if(old) old.remove(); return; } RQ_ON=true;
+  if(!m){ RQ_ON=false; if(old) old.remove(); return; } RQ_ON=true; try{ if(!old&&navigator.vibrate) navigator.vibrate([250,100,250]); }catch(e){}
   let o=old; if(!o){ o=document.createElement('div'); o.id='radioMsg'; o.style.cssText='position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)'; document.body.appendChild(o); }
   const ctx=radioCtx(); let busy=false;
-  const state=(h)=>{ o.innerHTML=`<div class="card" style="max-width:340px;width:100%;text-align:center;border-color:var(--gold)"><div class="rm-ic" style="${h.done?'animation:none':''}">${h.done?'✅':'📻'}</div><div class="step-t">${h.done?'خلصت الرسالة':'رسالة لاسلكية جديدة'}</div><div class="hint" style="margin:6px 0 14px">${m.team==='all'?'📣 موجّهة لكل الفرق':'🎯 موجّهة لفريقكم'}${RQ.length>1&&!h.done?' · و'+(RQ.length-1)+' كمان بعدها':''}</div>${h.playing?'<div class="hint" style="font-weight:800;color:var(--gold2)">🔊 بيتشغّل…</div>':h.done?`<button class="btn btn-ghost" id="rmAgain">🔁 إعادة</button><button class="btn btn-primary" id="rmOk" style="margin-top:8px">${RQ.length>1?'الرسالة اللي بعدها ⏭️':'تمام'}</button>`:`<button class="btn btn-primary" id="rmPlay">▶️ شغّل الرسالة</button><button class="btn btn-ghost" id="rmLater" style="margin-top:8px">لاحقاً</button>`}</div>`;
+  const state=(h)=>{ o.innerHTML=`<div class="card" style="max-width:340px;width:100%;text-align:center;border-color:var(--gold)"><div class="rm-ic" style="${h.done?'animation:none':''}">${h.done?'✅':'📻'}</div><div class="step-t">${h.done?'خلصت الرسالة':'رسالة لاسلكية جديدة'}</div><div class="hint" style="margin:6px 0 14px">${m.team==='all'?'📣 موجّهة لكل الفرق':'🎯 موجّهة لفريقكم'}${RQ.length>1&&!h.done?' · و'+(RQ.length-1)+' كمان بعدها':''}</div>${h.playing?'<div class="hint" style="font-weight:800;color:var(--gold2)">🔊 بيتشغّل…</div>':h.done?`<button class="btn btn-ghost" id="rmAgain">🔁 إعادة</button><button class="btn btn-primary" id="rmOk" style="margin-top:8px">${RQ.length>1?'الرسالة اللي بعدها ⏭️':'تمام'}</button>`:`<button class="btn btn-primary" id="rmPlay">▶️ المس الشاشة لتشغيل الرسالة</button><button class="btn btn-ghost" id="rmLater" style="margin-top:8px">لاحقاً</button>`}</div>`;
     const q=s=>o.querySelector(s); if(q('#rmPlay')) q('#rmPlay').onclick=play; if(q('#rmAgain')) q('#rmAgain').onclick=play; if(q('#rmLater')) q('#rmLater').onclick=()=>{ RQ=[]; RQ_ON=false; o.remove(); };
     if(q('#rmOk')) q('#rmOk').onclick=()=>{ RQ.shift(); radioShow(); }; };
   const play=()=>{ if(busy) return; busy=true; state({playing:1}); radioMark(m.id); radioPlay(m.audio,()=>{ busy=false; state({done:1}); }); };
-  state({}); if(ctx&&ctx.state==='running') play();
+  state({}); o.onclick=ev=>{ if(!busy&&o.querySelector('#rmPlay')&&!ev.target.closest('#rmLater')) play(); }; if(ctx&&ctx.state==='running') play();
 }
 function radioLogInner(){ const L=RADIO.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,10);
   return L.length?L.map(m=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)"><div style="flex:1;text-align:start"><div style="font-weight:800;font-size:13px">${m.team==='all'?'📣 ':'🎯 '}${esc(radioLabel(m.team))}</div><div class="hint" style="margin:0;text-align:start">${esc(timeAgo(m.ts||0))} · ${m.dur||0}ث</div></div><button class="btn btn-ghost" data-rplay="${m.id}" style="width:auto;padding:6px 12px">▶️</button><button class="btn btn-danger" data-rdel="${m.id}" style="width:auto;padding:6px 12px">🗑️</button></div>`).join(''):'<div class="hint">لسه مفيش رسائل مُرسلة</div>'; }

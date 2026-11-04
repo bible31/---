@@ -517,6 +517,28 @@ textarea.field{resize:vertical;min-height:70px;font-size:14px}
 @keyframes dBar{from{transform:scaleX(0)}}
 .dc.live{animation:dIn 1.2s cubic-bezier(.2,.85,.25,1) backwards,lvp 2.6s ease-in-out 2.5s infinite !important}
 @keyframes lvp{50%{box-shadow:0 10px 34px rgba(244,183,64,.45)}}
+/* ---- كارت الفقرات: مربع في نص الشاشة ---- */
+.dz-stage{display:grid;place-items:center;min-height:calc(100dvh - 330px);padding:8px 0}
+.dz-stage .dc{position:relative;isolation:isolate;overflow:hidden;width:min(76vw,320px);aspect-ratio:1/1;min-height:0;padding:22px;border-radius:34px;border:0;
+  background:transparent;box-shadow:0 18px 44px rgba(0,0,0,.28),0 0 60px rgba(244,183,64,.12)}
+.dz-stage .dc::before{content:'';position:absolute;inset:-60%;z-index:-3;
+  background:conic-gradient(from 0deg,var(--gold),var(--teal),#FF7A59,var(--gold));animation:dzSpin 7s linear infinite}
+.dz-stage .dc::after{content:'';position:absolute;inset:3px;z-index:-2;border-radius:31px;
+  background:radial-gradient(circle at 80% 12%,rgba(244,183,64,.2),transparent 48%),radial-gradient(circle at 12% 95%,rgba(63,220,201,.16),transparent 50%),linear-gradient(160deg,var(--surface),var(--surface2))}
+@keyframes dzSpin{to{transform:rotate(360deg)}}
+.dc-orb{position:absolute;z-index:-1;border-radius:50%;filter:blur(2px);pointer-events:none}
+.dc-orb.o1{width:120px;height:120px;top:-34px;inset-inline-start:-30px;border:2px dashed rgba(244,183,64,.35);animation:dzSpin 18s linear infinite}
+.dc-orb.o2{width:90px;height:90px;bottom:-26px;inset-inline-end:-22px;background:radial-gradient(circle,rgba(63,220,201,.4),transparent 70%);animation:dzFloat 4s ease-in-out infinite}
+.dc-orb.o3{width:46px;height:46px;top:46%;inset-inline-end:14%;background:radial-gradient(circle,rgba(255,122,89,.35),transparent 70%);animation:dzFloat 5s ease-in-out -2s infinite}
+@keyframes dzFloat{50%{transform:translateY(-14px) scale(1.15)}}
+.dz-stage .dc-no{font-size:84px;background:linear-gradient(135deg,var(--gold),var(--gold2) 55%,var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 14px rgba(244,183,64,.35))}
+.dz-stage .dc.past .dc-no{background:none;color:var(--muted);filter:none}
+.dz-stage .dc-name{font-size:28px;letter-spacing:.5px}
+.dz-stage .dc-date{font-size:13.5px}
+.dz-stage .dc-bar{height:6px;margin:12px 0 6px}
+.dz-stage .dc-meta{font-size:12.5px}
+.dz-stage .dc-badge{backdrop-filter:blur(6px)}
+.dz-stage .dc.live{box-shadow:0 18px 44px rgba(0,0,0,.28),0 0 70px rgba(244,183,64,.3)}
 .swatches{display:flex;justify-content:space-between;gap:10px}.swc{display:flex;flex-direction:column;align-items:center;gap:7px;flex:1}.swc small{font-size:12px;font-weight:700;color:var(--soft)}.swc .sw{width:58px;height:58px}
 .tasks{display:flex;flex-direction:column;gap:10px}
 .task{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:20px;background:linear-gradient(160deg,var(--surface),var(--bg2));border:1.5px solid var(--border);color:var(--text);text-align:start;animation:rise .5s both}
@@ -636,8 +658,9 @@ input,select,textarea{font-size:max(16px,1em)}
 @media (prefers-reduced-motion:reduce){.ag-hero::after,.ag-it.now .ag-c{animation:none}.ag.open .ag-it,.ag.open .ag-dot{animation-duration:.01s;animation-delay:0s}}
 
 /* ===== صفحة الشرح + حضور QR ===== */
-.ex-page{position:fixed;inset:0;z-index:115;overflow-y:auto;background:radial-gradient(circle at 15% 5%,rgba(63,220,201,.16),transparent 40%),radial-gradient(circle at 90% 25%,rgba(244,183,64,.12),transparent 42%),linear-gradient(180deg,var(--bg),var(--bg2));animation:exPg .5s cubic-bezier(.2,.8,.2,1) both}
-.ex-page.closing{animation:exPgOut .3s ease both}
+.ex-page,.att-page{position:fixed;inset:0;z-index:115;overflow-y:auto;background:radial-gradient(circle at 15% 5%,rgba(63,220,201,.16),transparent 40%),radial-gradient(circle at 90% 25%,rgba(244,183,64,.12),transparent 42%),linear-gradient(180deg,var(--bg),var(--bg2));animation:exPg .5s cubic-bezier(.2,.8,.2,1) both}
+.ex-page.closing,.att-page.closing{animation:exPgOut .3s ease both}
+.att-page{z-index:120}.att-page .scan-box{margin-top:18px}
 @keyframes exPg{from{opacity:0;transform:translateY(60px) scale(.96)}to{opacity:1;transform:none}}
 @keyframes exPgOut{to{opacity:0;transform:translateY(60px) scale(.96)}}
 .ex-in{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 16px) 16px 40px}
@@ -1538,12 +1561,19 @@ function adminForm(){
   ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><div class="sheet-head"><div class="sheet-title">🔐 دخول الأدمن</div><button class="sheet-x" aria-label="إغلاق">✕</button></div>
     <input class="field" id="aEm" type="email" placeholder="الإيميل" dir="ltr" autocomplete="username">
     <input class="field" id="aPw" type="password" placeholder="كلمة السر" dir="ltr" autocomplete="current-password" style="margin-top:10px">
-    <button class="btn btn-primary" id="aGo" style="margin-top:14px">دخول</button></div>`;
+    <button class="btn btn-primary" id="aGo" style="margin-top:14px">دخول</button>
+    <button class="btn btn-ghost" id="aForgot" type="button" style="margin-top:10px">نسيت كلمة السر؟</button></div>`;
   ov.onclick=e=>{ if(e.target===ov||e.target.closest('.sheet-x')) ov.remove(); };
   document.body.appendChild(ov);
   const go=async()=>{ const b=ov.querySelector('#aGo'); b.disabled=true;
     try{ await AUTH.signInWithEmailAndPassword(ov.querySelector('#aEm').value.trim(),ov.querySelector('#aPw').value); ov.remove(); openAdmin(); }
     catch(e){ const c=(e&&e.code)||'', M={'auth/operation-not-allowed':'تسجيل الدخول بالإيميل مش مفعّل في Firebase (Authentication ← Sign-in method ← Email/Password)','auth/user-not-found':'الإيميل ده مش متسجّل كأدمن في Firebase','auth/invalid-credential':'الإيميل أو كلمة السر غلط (أو الأدمن مش متضاف في Firebase)','auth/wrong-password':'كلمة السر غلط','auth/invalid-email':'شكل الإيميل غلط','auth/network-request-failed':'مفيش نت أو Firebase مش بيرد','auth/unauthorized-domain':'الدومين ده مش مضاف في Firebase (Authentication ← Settings ← Authorized domains)','auth/too-many-requests':'محاولات كتير — استنى شوية وجرّب تاني','auth/user-disabled':'الحساب ده متوقف'}; toast(M[c]||('فشل الدخول'+(c?' ('+c+')':'')),true); b.disabled=false; } };
+  ov.querySelector('#aForgot').onclick=async()=>{ const em=ov.querySelector('#aEm').value.trim();
+    if(!em){ toast('اكتب الإيميل الأول وبعدين اضغط نسيت كلمة السر',true); return; }
+    const b=ov.querySelector('#aForgot'); b.disabled=true;
+    try{ await AUTH.sendPasswordResetEmail(em); toast('بعتنالك لينك إعادة تعيين كلمة السر على الإيميل 📧 (شوف الـ Spam كمان)'); }
+    catch(e){ const c=(e&&e.code)||''; toast(c==='auth/invalid-email'?'شكل الإيميل غلط':c==='auth/network-request-failed'?'مفيش نت أو Firebase مش بيرد':c==='auth/too-many-requests'?'محاولات كتير — استنى شوية':'تعذّر الإرسال'+(c?' ('+c+')':''),true); }
+    b.disabled=false; };
   ov.querySelector('#aGo').onclick=go;
   ov.querySelector('#aPw').onkeydown=e=>{ if(e.key==='Enter') go(); };
 }
@@ -1907,10 +1937,11 @@ function dayZone(info){
   const grid=CONF.days.slice(0,1).map((d,k)=>{ const z=dayState(k,info), [y,m,dd]=d.date.split('-').map(Number), ss=d.sessions;
     const badge=z.live?'النهاردة':z.past?'✓ تمّ':'', pct=z.past?100:z.live?Math.round((st.nowIdx+1)/ss.length*100):0;
     return `<button class="dc ${z.live?'live':''} ${z.past?'past':''}" data-day="${k}" style="animation-delay:${(.2+k*.17).toFixed(2)}s" aria-label="الفقرات">
+      <i class="dc-orb o1"></i><i class="dc-orb o2"></i><i class="dc-orb o3"></i>
       <span class="dc-top"><span class="dc-no">${String(k+1).padStart(2,'0')}</span><span class="dc-badge">${badge}</span></span>
       <span class="dc-bot"><span class="dc-name">الفقرات</span><span class="dc-date">${AR_SHORT.format(new Date(y,m-1,dd))}</span>
       <span class="dc-bar"><i style="width:${pct}%"></i></span><span class="dc-meta">${z.live?'شغّال دلوقتي':z.past?'خلص':'لسه'}</span></span></button>`; }).join('');
-  return `<div class="dgrid" style="grid-template-columns:1fr">${grid}</div>`;
+  return `<div class="dgrid dz-stage" style="grid-template-columns:1fr">${grid}</div>`;
 }
 /* ---- شاشة اليوم + فقرات + مسح QR ---- */
 let scanStream=null, scanTimer=null, dvDay=null;
@@ -1938,9 +1969,7 @@ function exAttHtml(t,d){
   const pp=exPart||1, info=dayInfo(), can=CONF.allowAnyDay||(info.state==='live'&&info.idx===d), done=!!(t.scans||{})[exSc(d,pp)], pts=exPts(d);
   if(done) return `<div class="ex-att done"><div class="ex-frame"><span>✅</span></div><div class="ex-at">تم تسجيل حضور الشرح ${pp}</div><div class="ex-as">فريقكم كسب نقاط الحضور بنجاح</div><span class="ex-pts">+${pts} نقطة</span></div>`;
   if(!can) return `<div class="ex-att lock"><div class="ex-frame"><span>🔒</span></div><div class="ex-at">تسجيل حضور الشرح ${pp} مقفول</div><div class="ex-as">مسح الكود بيتفتح في يوم الشرح نفسه (${esc(CONF.days[d].label)})</div><span class="ex-pts">+${pts} نقطة</span></div>`;
-  return `<button class="ex-att" id="exAttBtn"><div class="ex-frame"><i></i><i></i><i></i><i></i><b></b><span>📷</span></div><div class="ex-at">اضغط لتسجيل حضورك</div><div class="ex-as">امسح كود الـ QR بتاع الشرح ${pp} وخد نقاط الحضور</div><span class="ex-pts">+${pts} نقطة</span></button>
-    <div class="scan-box hidden" id="scBox"><video id="scVid" playsinline muted></video><canvas id="scCv" class="hidden"></canvas><i class="scan-line"></i></div>
-    <div class="ex-scanwrap hidden" id="exMan"><div class="sc-or" style="margin-top:12px">أو اكتب الكود يدويًا</div><div class="sc-man"><input class="field" id="scIn" placeholder="${pp===2?'C10-D1-EX2':'C10-D1-EX'}" autocomplete="off" dir="ltr" style="text-align:center"><button class="btn btn-ghost" id="scOk" style="width:auto;padding:0 20px">تأكيد</button></div></div>`;
+  return `<button class="ex-att" id="exAttBtn"><div class="ex-frame"><i></i><i></i><i></i><i></i><b></b><span>📷</span></div><div class="ex-at">تسجيل حضور</div><div class="ex-as">اضغط وامسح كود الـ QR بتاع الشرح ${pp} وخد نقاط الحضور</div><span class="ex-pts">+${pts} نقطة</span></button>`;
 }
 function claimExplain(t,d,val){
   if(claimCustom(t,val)) return true;
@@ -1970,14 +1999,47 @@ function refreshEx(){
 }
 function bindEx(pg,t,d,fi){
   bindExplain(t,fi);
-  const b=pg.querySelector('#exAttBtn'); if(!b) return; const submit=v=>claimExplain(t,d,v);
-  pg.querySelector('#scOk').onclick=()=>submit(pg.querySelector('#scIn').value);
-  pg.querySelector('#scIn').onkeydown=e=>{ if(e.key==='Enter') submit(e.target.value); };
-  b.onclick=()=>{ pg.querySelector('#scBox').classList.remove('hidden'); pg.querySelector('#exMan').classList.remove('hidden'); startScan(pg,submit); };
+  const b=pg.querySelector('#exAttBtn'); if(b) b.onclick=()=>openAttendPage(d,exPart||1);
 }
 function closeEx(){
   const pg=$('.ex-page'); if(!pg) return; stopScan(); closeOv(); exPart=0; pg.classList.add('closing'); setTimeout(()=>pg.remove(),300);
   if(exClaimed){ exClaimed=false; if(page==='home'&&!$('.dv')){ const y=window.scrollY; goPage('home'); window.scrollTo(0,y); } else if($('.dv')) refreshDv(); }
+}
+function openAttendPage(d,pp){
+  const t=currentTeam(); if(!t) return; const old=$('.att-page'); if(old){ stopScan(); old.remove(); }
+  const day=CONF.days[d], pg=document.createElement('div'); pg.className='att-page';
+  const close=()=>{ stopScan(); pg.classList.add('closing'); setTimeout(()=>pg.remove(),300); };
+  const head=`<div class="dv-head"><button class="dv-back" aria-label="رجوع">→</button><div style="flex:1"><div class="dv-t">📷 تسجيل حضور · ${esc(CONF.ui.names[pp-1]||('الشرح '+pp))}</div><div class="dv-d">${esc(day.label)}</div></div></div>`;
+  let submit;
+  const draw=res=>{
+    if(res){
+      pg.innerHTML=`<div class="ex-in">${head}<div class="ex-att ${res.ok?'done':'lock'}" style="cursor:default"><div class="ex-frame"><span>${res.ok?'✅':'ℹ️'}</span></div><div class="ex-at">${esc(res.msg)}</div>${res.pts>0?`<span class="ex-pts">+${res.pts} نقطة</span>`:''}</div>
+        <button class="btn btn-primary" id="attAgain" style="margin-top:16px">📷 امسح كود تاني</button><button class="btn btn-ghost" id="attBack" style="margin-top:10px">رجوع</button></div>`;
+      pg.querySelector('#attAgain').onclick=()=>draw(null); pg.querySelector('#attBack').onclick=close;
+    } else {
+      pg.innerHTML=`<div class="ex-in">${head}<div class="ex-att" style="cursor:default"><div class="ex-at">امسح كود الحضور</div><div class="ex-as">وجّه الكاميرا ناحية الـ QR اللي المنظمين عملوه</div></div>
+        <div class="scan-box" id="scBox"><video id="scVid" playsinline muted></video><canvas id="scCv" class="hidden"></canvas><i class="scan-line"></i></div>
+        <div class="sc-or">أو اكتب الكود يدويًا</div><div class="sc-man"><input class="field" id="scIn" placeholder="اكتب الكود" autocomplete="off" dir="ltr" style="text-align:center"><button class="btn btn-ghost" id="scOk" style="width:auto;padding:0 20px">تأكيد</button></div></div>`;
+      pg.querySelector('#scOk').onclick=()=>submit(pg.querySelector('#scIn').value);
+      pg.querySelector('#scIn').onkeydown=e=>{ if(e.key==='Enter') submit(e.target.value); };
+      startScan(pg,submit);
+    }
+    pg.querySelector('.dv-back').onclick=close; pg.scrollTop=0;
+  };
+  submit=v=>{ v=String(v||'').trim(); if(!v) return false;
+    const n0=Object.keys(t.scans||{}).length, p0=t.points||0;
+    if(claimCustom(t,v)){ stopScan(); const ok=Object.keys(t.scans||{}).length>n0;
+      draw(ok?{ok:1,msg:'تم تسجيل الحضور',pts:(t.points||0)-p0}:{msg:'مفيش نقط اتسجّلت — الكود اتسجّل قبل كده أو مش متاح دلوقتي'}); return true; }
+    const p=v.toUpperCase()===exCode(d,pp).toUpperCase()?pp:0;
+    if(!p){ toast(`الكود ده مش كود حضور الشرح ${pp}`,true); return false; }
+    const info=dayInfo(); if(!(CONF.allowAnyDay||(info.state==='live'&&info.idx===d))){ toast(`تسجيل الحضور بيتفتح في ${day.label} بس`,true); return false; }
+    const key=exSc(d,p), pts=exPts(d); t.scans=t.scans||{};
+    if(t.scans[key]){ stopScan(); draw({msg:'فريقكم سجّل الحضور ده قبل كده'}); return true; }
+    t.scans[key]=true; addPoints(t,pts,p===2?'حضور الشرح 2':'حضور الشرح');
+    if(!persistTeams()){ delete t.scans[key]; t.points-=pts; t.log.shift(); return false; }
+    stopScan(); exClaimed=true; pushNotif(t,`فريقكم سجّل حضور الشرح ${p} وكسب +${pts} نقاط ✅`,'✅');
+    confetti(2200); toast(`+${pts} نقاط 🎉`); draw({ok:1,msg:'تم تسجيل الحضور',pts}); try{ refreshEx(); }catch(e){} return true; };
+  document.body.appendChild(pg); draw(null);
 }
 function openExplainPage(d){
   closeOv(); const t=currentTeam(); if(!t) return; exDay=d; exClaimed=false; exPart=0;

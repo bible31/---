@@ -802,7 +802,7 @@ button.ex-att{cursor:pointer;transition:transform .2s}button.ex-att:active{trans
         <button class="btn btn-ghost" data-gtab="home" style="margin-top:10px">→ رجوع</button>
       </div>
     </section>
-    <div style="text-align:center;margin-top:18px"><button id="admBtn" class="adm-pill">دخول الأدمن</button></div>
+    <div style="text-align:center;margin-top:18px"><button id="admBtn" class="adm-pill" hidden style="display:none" tabindex="-1" aria-hidden="true">دخول الأدمن</button></div>
   </main>
 
   <!-- ================= موقع المؤتمر ================= -->
@@ -813,7 +813,6 @@ button.ex-att{cursor:pointer;transition:transform .2s}button.ex-att:active{trans
       <button class="bn on" data-page="home"><span class="bi">🏠</span><span class="bl">الرئيسية</span></button>
       <button class="bn" data-page="days"><span class="bi">🗓️</span><span class="bl">الأيام</span></button>
       <button class="bn" data-page="team"><span class="bi">👥</span><span class="bl">فريقي</span></button>
-      <button class="bn" data-page="challenges"><span class="bi">🏆</span><span class="bl">التحديات</span></button>
       <button class="bn" data-page="settings"><span class="bi">⚙️</span><span class="bl">الإعدادات</span></button>
     </nav>
   </main>
@@ -985,7 +984,7 @@ function exRun(t,info){
   if(live&&!(t.ex||{})[sk]) exStart(t,day,pp);
   const st=live?t.ex[sk]:{ids:shuf(CONF.bank.map((_,i)=>i)).slice(0,EXQ),i:0,ok:0};
   const ov=document.createElement('div'); ov.className='ov'; document.body.appendChild(ov); let tm;
-  const end=()=>{ clearInterval(tm); ov.remove(); if($('.ex-page')){ exClaimed=true; refreshEx(); } else if($('.dv')) refreshDv(); else goPage('challenges'); };
+  const end=()=>{ clearInterval(tm); ov.remove(); if($('.ex-page')){ exClaimed=true; refreshEx(); } else if($('.dv')) refreshDv(); else goPage(page==='challenges'?'home':page); };
   const show=()=>{
     clearInterval(tm);
     if(st.i>=EXQ){ ov.innerHTML=`<div class="sheet"><div class="sheet-title">🎉 خلصت الفقرة</div><p class="sd-desc">${st.ok} إجابة صح من ${EXQ}${live?` — كسبتوا +${st.ok*EXPTS} نقطة`:''}</p><button class="btn btn-primary" id="exX">تمام</button></div>`;
@@ -1064,7 +1063,7 @@ function gamesCard(t,fi){
   if(!fbOn()) return `<div class="card"><div class="step-t">🎮 الألعاب</div><div class="hint">⚠️ السيرفر مش متظبط (CONF.fb)</div></div>`;
   if(fi.state!=='live') return `<div class="card"><div class="step-t">🎮 الألعاب</div><div class="hint">بتفتح في يومها</div></div>`;
   const d=fi.idx, aw=k=>MYAW[`${t.id}_${d}_${k}`], st=(a,w)=>a?`✅ +${a.pts}`:w;
-  return `<div class="card"><div class="step-t">🎮 الألعاب</div>${CONF.gameNames.map((n,i)=>`<div class="lg"><span>${esc(n)}</span><b>${st(aw('g'+i),'⏳')}</b></div>`).join('')}<div class="lg"><span>🎁 بونص</span><b>${st(aw('bonus'),'⏳')}</b></div><button class="btn btn-ghost" id="qrBtn" style="margin-top:10px">📱 اعرض كود الفريق QR للأدمن</button></div>`;
+  return `<div class="card"><div class="step-t">🎮 الألعاب</div>${CONF.gameNames.map((n,i)=>`<div class="lg"><span>${esc(n)}</span><b>${st(aw('g'+i),'⏳')}</b></div>`).join('')}<div class="lg"><span>🎁 بونص</span><b>${st(aw('bonus'),'⏳')}</b></div><button class="btn btn-primary" data-gscan="${d}" style="margin-top:12px">📷 اسكان وكسب نقط</button><button class="btn btn-ghost" id="qrBtn" style="margin-top:10px">📱 اعرض كود الفريق QR للأدمن</button></div>`;
 }
 const dayFi=(i,info)=>({state:(CONF.allowAnyDay||(info.state==='live'&&info.idx===i))?'live':'x',idx:i});
 function bindDayParts(i){ document.querySelectorAll('.pt').forEach(b=>b.onclick=()=>openPart(i,b.dataset.p)); }
@@ -1260,7 +1259,7 @@ function openAdmin(){
   const ebtn=(attr,lab,cls)=>`<button type="button" class="btn ${cls||'btn-ghost'}" ${attr} style="width:auto;padding:8px 14px;font-size:13px;margin:0">${lab}</button>`;
   const mvRow=p=>`<div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">${ebtn(`data-mv="${p}:-1"`,'▲')}${ebtn(`data-mv="${p}:1"`,'▼')}${ebtn(`data-rm="${p}"`,'🗑️ حذف','btn-danger')}</div>`;
   const SUM='style="font-weight:800;cursor:pointer;line-height:1.8"';
-  const SECS=[['gen','⚙️ عام'],['days','🗓️ الأيام والفقرات'],['chal','🏆 التحديات'],['bank','🧠 أسئلة الشرح'],['ui','🎛️ شكل الشرح'],['quiz','❓ سؤال اليوم'],['qr','🔳 أكواد QR']];
+  const SECS=[['gen','⚙️ عام'],['days','🗓️ الأيام والفقرات'],['bank','🧠 أسئلة الشرح'],['ui','🎛️ شكل الشرح'],['quiz','❓ سؤال اليوم'],['qr','🔳 أكواد QR']];
   const BL={days:()=>({label:'',date:'',sessions:[]}),sessions:()=>({time:'10:00 ص',name:'',ico:'📌'}),challenges:()=>({id:'c'+Date.now(),day:0,ico:'⭐',title:'',desc:'',pts:10}),bank:()=>({t:'m',q:'',o:['','','',''],a:0}),quiz:()=>({q:'',opts:['',''],a:1}),qrs:()=>({id:'q'+Date.now().toString(36),name:'',type:'شرح',pts:10,day:'all',code:'C10-Q-'+Math.random().toString(36).slice(2,6).toUpperCase(),on:true})};
   const fixBank=i=>{ const it=D.bank[i]; if(!it) return; if(it.t==='m'){ if(!Array.isArray(it.o)) it.o=['','','','']; it.a=0; } else if(it.t==='t'){ it.a=it.a===true; delete it.o; } else { if(!Array.isArray(it.a)) it.a=[]; delete it.o; } };
   function edHtml(){
@@ -1578,6 +1577,10 @@ function adminForm(){
   ov.querySelector('#aPw').onkeydown=e=>{ if(e.key==='Enter') go(); };
 }
 document.addEventListener('click',e=>{ if(e.target.id==='admBtn') adminLogin(); });
+/* دخول الأدمن السري: 5 نقرات سريعة على اللوجو */
+(()=>{ let n=0,tm=null; document.addEventListener('click',e=>{ if(!e.target.closest('#gate .hero')) return;
+  n++; clearTimeout(tm); tm=setTimeout(()=>{ n=0; },1500);
+  if(n>=5){ n=0; clearTimeout(tm); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){} adminLogin(); } }); })();
 if(location.hash==='#admin') setTimeout(adminLogin,600);
 
 /* ===== الرئيسية: مهام / ترتيب / نقط / شارات ===== */
@@ -1909,7 +1912,7 @@ function bindQuiz(t,info){
     if(ok) addPoints(t,CONF.quizPoints,'إجابة سؤال اليوم');
     if(!persistTeams()){ delete t.quiz[info.idx]; return; }
     if(ok){ confetti(1800); toast(`+${CONF.quizPoints} نقاط 🎉`); } else toast('إجابة غلط 💪',true);
-    goPage('challenges');
+    goPage(page==='challenges'?'home':page);
   });
 }
 function badgesHtml(t){
@@ -2009,7 +2012,7 @@ function openAttendPage(d,pp){
   const t=currentTeam(); if(!t) return; const old=$('.att-page'); if(old){ stopScan(); old.remove(); }
   const day=CONF.days[d], pg=document.createElement('div'); pg.className='att-page';
   const close=()=>{ stopScan(); pg.classList.add('closing'); setTimeout(()=>pg.remove(),300); };
-  const head=`<div class="dv-head"><button class="dv-back" aria-label="رجوع">→</button><div style="flex:1"><div class="dv-t">📷 تسجيل حضور · ${esc(CONF.ui.names[pp-1]||('الشرح '+pp))}</div><div class="dv-d">${esc(day.label)}</div></div></div>`;
+  const head=`<div class="dv-head"><button class="dv-back" aria-label="رجوع">→</button><div style="flex:1"><div class="dv-t">${pp?`📷 تسجيل حضور · ${esc(CONF.ui.names[pp-1]||('الشرح '+pp))}`:'🎮 اسكان الألعاب'}</div><div class="dv-d">${esc(day.label)}</div></div></div>`;
   let submit;
   const draw=res=>{
     if(res){
@@ -2017,7 +2020,7 @@ function openAttendPage(d,pp){
         <button class="btn btn-primary" id="attAgain" style="margin-top:16px">📷 امسح كود تاني</button><button class="btn btn-ghost" id="attBack" style="margin-top:10px">رجوع</button></div>`;
       pg.querySelector('#attAgain').onclick=()=>draw(null); pg.querySelector('#attBack').onclick=close;
     } else {
-      pg.innerHTML=`<div class="ex-in">${head}<div class="ex-att" style="cursor:default"><div class="ex-at">امسح كود الحضور</div><div class="ex-as">وجّه الكاميرا ناحية الـ QR اللي المنظمين عملوه</div></div>
+      pg.innerHTML=`<div class="ex-in">${head}<div class="ex-att" style="cursor:default"><div class="ex-at">${pp?'امسح كود الحضور':'امسح الكود وخد نقط'}</div><div class="ex-as">وجّه الكاميرا ناحية الـ QR اللي المنظمين عملوه</div></div>
         <div class="scan-box" id="scBox"><video id="scVid" playsinline muted></video><canvas id="scCv" class="hidden"></canvas><i class="scan-line"></i></div>
         <div class="sc-or">أو اكتب الكود يدويًا</div><div class="sc-man"><input class="field" id="scIn" placeholder="اكتب الكود" autocomplete="off" dir="ltr" style="text-align:center"><button class="btn btn-ghost" id="scOk" style="width:auto;padding:0 20px">تأكيد</button></div></div>`;
       pg.querySelector('#scOk').onclick=()=>submit(pg.querySelector('#scIn').value);
@@ -2029,9 +2032,9 @@ function openAttendPage(d,pp){
   submit=v=>{ v=String(v||'').trim(); if(!v) return false;
     const n0=Object.keys(t.scans||{}).length, p0=t.points||0;
     if(claimCustom(t,v)){ stopScan(); const ok=Object.keys(t.scans||{}).length>n0;
-      draw(ok?{ok:1,msg:'تم تسجيل الحضور',pts:(t.points||0)-p0}:{msg:'مفيش نقط اتسجّلت — الكود اتسجّل قبل كده أو مش متاح دلوقتي'}); return true; }
-    const p=v.toUpperCase()===exCode(d,pp).toUpperCase()?pp:0;
-    if(!p){ toast(`الكود ده مش كود حضور الشرح ${pp}`,true); return false; }
+      draw(ok?{ok:1,msg:pp?'تم تسجيل الحضور':'تم تسجيل الكود',pts:(t.points||0)-p0}:{msg:'مفيش نقط اتسجّلت — الكود اتسجّل قبل كده أو مش متاح دلوقتي'}); return true; }
+    const p=pp&&v.toUpperCase()===exCode(d,pp).toUpperCase()?pp:0;
+    if(!p){ toast(pp?`الكود ده مش كود حضور الشرح ${pp}`:'الكود ده مش صحيح',true); return false; }
     const info=dayInfo(); if(!(CONF.allowAnyDay||(info.state==='live'&&info.idx===d))){ toast(`تسجيل الحضور بيتفتح في ${day.label} بس`,true); return false; }
     const key=exSc(d,p), pts=exPts(d); t.scans=t.scans||{};
     if(t.scans[key]){ stopScan(); draw({msg:'فريقكم سجّل الحضور ده قبل كده'}); return true; }
@@ -2054,7 +2057,7 @@ function openPart(i,k){
   closeOv(); const t=currentTeam(); if(!t) return; const ov=document.createElement('div'); ov.className='ov part';
   const T={slogan:'🎬 الشعار',explain:'🧠 الشرح',games:'🎮 الألعاب'};
   ov.fill=()=>{ const fi=dayFi(i,dayInfo());
-    ov.innerHTML=`<div class="sheet"><div class="sheet-head"><div class="sheet-title">${T[k]} · ${esc(CONF.days[i].label)}</div><button class="sheet-x" aria-label="إغلاق">✕</button></div>${k==='slogan'?sloganCard(t,fi):k==='explain'?explainHtml(t,fi):gamesCard(t,fi)}${k==='explain'?'':cqBtnHtml()}</div>`;
+    ov.innerHTML=`<div class="sheet"><div class="sheet-head"><div class="sheet-title">${T[k]} · ${esc(CONF.days[i].label)}</div><button class="sheet-x" aria-label="إغلاق">✕</button></div>${k==='slogan'?sloganCard(t,fi):k==='explain'?explainHtml(t,fi):gamesCard(t,fi)}${k==='slogan'?cqBtnHtml():''}</div>`;
     bindExplain(t,fi); bindExtra(t,fi); };
   ov.onclick=e=>{ if(e.target===ov||e.target.closest('.sheet-x')) closeOv(); };
   document.body.appendChild(ov); ov.fill();
@@ -2129,7 +2132,7 @@ function openQrScan(){
   ov.querySelector('#scIn').onkeydown=e=>{ if(e.key==='Enter') submit(e.target.value); };
   ov.querySelector('#scBtn').onclick=()=>{ ov.querySelector('#scBox').classList.remove('hidden'); startScan(ov,v=>claimCustom(t,v)); };
 }
-document.addEventListener('click',e=>{ if(e.target.closest('[data-cq]')){ e.preventDefault(); openQrScan(); } });
+document.addEventListener('click',e=>{ const g=e.target.closest('[data-gscan]'); if(g){ e.preventDefault(); closeOv(); openAttendPage(+g.dataset.gscan,0); return; } if(e.target.closest('[data-cq]')){ e.preventDefault(); openQrScan(); } });
 function stopScan(){ clearTimeout(scanTimer); if(scanStream){ scanStream.getTracks().forEach(x=>x.stop()); scanStream=null; } }
 async function startScan(ov,onCode){
   stopScan(); const vid=ov.querySelector('#scVid'), cv=ov.querySelector('#scCv');
@@ -2365,7 +2368,6 @@ function searchIndex(t){
   items.push({ico:'👑',title:t.leader.name,sub:'ليدر الفريق',go:()=>goPage('team')});
   t.members.forEach(m=>items.push({ico:'👤',title:m.name,sub:'عضو في '+t.name,go:()=>goPage('team')}));
   teams.filter(x=>x.id!==t.id).forEach(x=>items.push({ico:'👥',title:x.name,sub:'فريق · الليدر '+x.leader.name,go:()=>goPage('team')}));
-  CONF.challenges.forEach(c=>items.push({ico:c.ico,title:c.title,sub:'التحديات · '+c.desc,go:()=>goPage('challenges')}));
   items.push({ico:'⚙️',title:'الإعدادات',sub:'المظهر وكود الفريق',go:()=>goPage('settings')});
   return items;
 }

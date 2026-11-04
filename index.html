@@ -1547,7 +1547,10 @@ function openAdmin(){
   }
   draw();
 }
+/* مؤقتًا: الدخول للأدمن بدون إيميل وباسورد. لإرجاع الإيميل والباسورد غيّر false إلى true */
+const ADMIN_NEEDS_LOGIN=false;
 function adminLogin(){
+  if(!ADMIN_NEEDS_LOGIN){ if(!fbOn()) return toast('اظبط إعدادات Firebase الأول',true); return openAdmin(); }
   if(!window.firebase) return toast('مكتبة Firebase مش اتحمّلت — اتأكد من النت وافتح الصفحة تاني',true);
   if(!/^https?:$/.test(location.protocol)) return toast('دخول الأدمن مش بيشتغل والملف مفتوح من الموبايل — لازم تفتحه من رابط موقع (https)',true);
   if(!fbOn()||!AUTH) return toast('اظبط إعدادات Firebase الأول',true);

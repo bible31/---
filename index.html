@@ -1051,6 +1051,9 @@ const CONF = {
     {text:'كُلُّ الْكِتَابِ هُوَ مُوحًى بِهِ مِنَ اللهِ وَنَافِعٌ لِلتَّعْلِيمِ.', ref:'٢ تيموثاوس ٣: ١٦'},
   ],
 };
+/* المؤتمر يوم واحد فقط */
+function oneDay(){ if(Array.isArray(CONF.days)&&CONF.days.length>1) CONF.days=CONF.days.slice(0,1); const d=CONF.days&&CONF.days[0]; if(d&&(!d.label||/^اليوم الأول$/.test(d.label))) d.label='يوم المؤتمر'; }
+oneDay();
 
 /* ================= أدوات ================= */
 /* ===== فقرة الشرح: بنك الأسئلة (50) — عدّل أو زوّد من هنا =====
@@ -1165,7 +1168,7 @@ let DB=null,ST=null,AUTH=null,CODES={},GONE={},ANN=[],contentOn=false,RT=[],MYAW
 function fbOn(){ if(DB) return true; if(!CONF.fb.apiKey||!window.firebase) return false;
   try{ firebase.initializeApp(CONF.fb); DB=firebase.firestore(); try{ AUTH=firebase.auth(); }catch(e){} try{ ST=firebase.storage(); }catch(e){} }catch(e){ return false; } try{ watchContent(); }catch(e){} return !!DB; }
 function applyContent(c){ if(!c) return;
-  ['days','challenges','bank','gameNames'].forEach(k=>{ if(Array.isArray(c[k])&&c[k].length) CONF[k]=c[k]; });
+  ['days','challenges','bank','gameNames'].forEach(k=>{ if(Array.isArray(c[k])&&c[k].length) CONF[k]=c[k]; }); oneDay();
   if(c.sessionPoints!=null) CONF.sessionPoints=+c.sessionPoints||0; if(c.allowAnyDay!=null) CONF.allowAnyDay=!!c.allowAnyDay;
   if(Array.isArray(c.qrs)) CONF.qrs=c.qrs;
   if(c.ui&&typeof c.ui==='object') CONF.ui={...CONF.ui,...c.ui};
@@ -1392,7 +1395,7 @@ function openAdmin(){
     b.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>award(tm,x.dataset.k,x.dataset.p,x.dataset.k==='bonus'?'بونص':'لعبة: '+x.dataset.w)); };
     /* ===== محرر المحتوى (تحكم كامل) ===== */
   let sec='gen', D=null;
-  const edInit=()=>{ D=JSON.parse(JSON.stringify({days:CONF.days,challenges:CONF.challenges,bank:CONF.bank,gameNames:CONF.gameNames,sessionPoints:CONF.sessionPoints,allowAnyDay:!!CONF.allowAnyDay,qrs:(CONF.qrs||[]).map(q=>({...q})),exq:EXQ,exsec:EXSEC,expts:EXPTS,start:CONF.start,end:CONF.end,checkinPoints:CONF.checkinPoints,quizPoints:CONF.quizPoints,ui:CONF.ui,quiz:CONF.quiz.map(q=>({q:q.q,opts:q.opts.slice(),a:(+q.a||0)+1}))})); };
+  const edInit=()=>{ D=JSON.parse(JSON.stringify({days:CONF.days.slice(0,1),challenges:CONF.challenges,bank:CONF.bank,gameNames:CONF.gameNames,sessionPoints:CONF.sessionPoints,allowAnyDay:!!CONF.allowAnyDay,qrs:(CONF.qrs||[]).map(q=>({...q})),exq:EXQ,exsec:EXSEC,expts:EXPTS,start:CONF.start,end:CONF.end,checkinPoints:CONF.checkinPoints,quizPoints:CONF.quizPoints,ui:CONF.ui,quiz:CONF.quiz.map(q=>({q:q.q,opts:q.opts.slice(),a:(+q.a||0)+1}))})); };
   const getP=(o,p)=>p?p.split('.').reduce((a,x)=>a[x],o):o;
   const setP=(o,p,v)=>{ const k=p.split('.'), l=k.pop(); getP(o,k.join('.'))[l]=v; };
   const cast=(t,el)=>{ const v=el.value; return t==='number'?(v===''?0:+v):t==='bool'?v==='true':t==='lines'?v.split('\n'):v; };
@@ -1419,11 +1422,11 @@ function openAdmin(){
       +ef('expts','نقط السؤال الصح','number',D.expts)
       +ef('start','بداية المؤتمر (العد التنازلي)','dt',D.start)+ef('end','نهاية المؤتمر','dt',D.end)
       +ef('checkinPoints','نقط تسجيل الدخول اليومي','number',D.checkinPoints)+ef('quizPoints','نقط إجابة سؤال اليوم','number',D.quizPoints)
-      +ef('allowAnyDay','وضع التجربة: يسمح بالمسح وبفتح كل الأيام','bool',D.allowAnyDay,{y:'شغّال (للتجربة بس)',n:'مقفول (الوضع العادي)'})
+      +ef('allowAnyDay','وضع التجربة: يسمح بالمسح في أي وقت (للتجربة بس)','bool',D.allowAnyDay,{y:'شغّال (للتجربة بس)',n:'مقفول (الوضع العادي)'})
       +`<div class="hint" style="text-align:start">نقط الشعار والبونص والألعاب بتتظبط من تبويب ⚙️ نقط.</div></div>`;
     else if(sec==='days') h+=`<div class="hint" style="text-align:start">لو غيّرت ترتيب الفقرات أو حذفت فقرة، أكواد الـ QR الافتراضية (C10-D1-S1...) بتتغير. حط كود ثابت لكل فقرة لو الأكواد اتطبعت.</div>`
-      +D.days.map((d,i)=>`<details class="card"><summary ${SUM}>${i+1}. ${esc(d.label||'يوم جديد')} <small style="color:var(--muted)">${esc(d.date||'')}</small></summary>`
-        +ef(`days.${i}.label`,'اسم اليوم','text',d.label)+ef(`days.${i}.date`,'التاريخ','date',d.date)
+      +D.days.map((d,i)=>`<details class="card"><summary ${SUM}>🗓️ ${esc(d.label||'يوم المؤتمر')} <small style="color:var(--muted)">${esc(d.date||'')}</small></summary>`
+        +ef(`days.${i}.label`,'اسم اليوم (بيظهر للفرق)','text',d.label)+ef(`days.${i}.date`,'التاريخ','date',d.date)
         +ef(`days.${i}.expts`,'نقط حضور الشرح 1 و 2 (0 = الافتراضي)','number',d.expts||0)+ef(`days.${i}.exqr`,'كود QR حضور الشرح (فاضي = الافتراضي)','text',d.exqr||'')
         +ef(`days.${i}.exqr2`,'كود QR حضور الشرح 2 (فاضي = الافتراضي)','text',d.exqr2||'')
         +`<div class="hint" style="text-align:start">كود الشرح 1: <b dir="ltr">${esc(d.exqr||('C10-D'+(i+1)+'-EX'))}</b> · كود الشرح 2: <b dir="ltr">${esc(d.exqr2||('C10-D'+(i+1)+'-EX2'))}</b></div>`
@@ -1433,8 +1436,8 @@ function openAdmin(){
           +ef(`days.${i}.sessions.${j}.ico`,'أيقونة','text',s.ico)+ef(`days.${i}.sessions.${j}.desc`,'وصف (اختياري)','area',s.desc||'',{rows:2})
           +ef(`days.${i}.sessions.${j}.pts`,'نقط الفقرة (0 = الافتراضي)','number',s.pts||0)+ef(`days.${i}.sessions.${j}.qr`,'كود QR (فاضي = الافتراضي)','text',s.qr||'')
           +`<div class="hint" style="text-align:start">الكود الحالي: <b dir="ltr">${esc(s.qr||('C10-D'+(i+1)+'-S'+(j+1)))}</b></div>`+mvRow(`days.${i}.sessions.${j}`)+`</div>`).join('')
-        +ebtn(`data-add="days.${i}.sessions"`,'➕ فقرة')+mvRow(`days.${i}`)+`</details>`).join('')
-      +`<div style="margin-top:6px">${ebtn('data-add="days"','➕ يوم جديد')}</div>`;
+        +ebtn(`data-add="days.${i}.sessions"`,'➕ فقرة')+`</details>`).join('')
+      ;
     else if(sec==='chal') h+=D.challenges.map((c,i)=>`<details class="card"><summary ${SUM}>${esc(c.ico||'')} ${esc(c.title||'تحدّي جديد')}</summary>`
         +ef(`challenges.${i}.title`,'العنوان','text',c.title)+ef(`challenges.${i}.ico`,'أيقونة','text',c.ico)+ef(`challenges.${i}.desc`,'الوصف','area',c.desc,{rows:2})
         +ef(`challenges.${i}.day`,'بيتفتح من يوم','select',c.day,{num:1,opts:D.days.map((d,k)=>[k,d.label||('يوم '+(k+1))])})
@@ -1451,7 +1454,6 @@ function openAdmin(){
         +ef(`qrs.${i}.name`,'اسم الكود (بيظهر للفريق)','text',q.name)
         +ef(`qrs.${i}.type`,'النوع','select',q.type,{opts:QR_TYPES})
         +ef(`qrs.${i}.pts`,'النقط (أي رقم، والسالب = خصم)','number',q.pts)
-        +ef(`qrs.${i}.day`,'بيشتغل في','select',String(q.day==null?'all':q.day),{opts:[['all','كل الأيام'],...D.days.map((d,k)=>[String(k),d.label||('يوم '+(k+1))])]})
         +ef(`qrs.${i}.code`,'نص الكود (اتركه زي ما هو أو غيّره)','text',q.code)
         +ef(`qrs.${i}.on`,'الحالة','bool',q.on!==false,{y:'شغّال',n:'متوقف'})
         +`<div class="qrprev" data-qrbox="${i}" style="background:#fff;border-radius:16px;padding:14px;margin:14px auto 0;width:fit-content;min-height:60px"></div>`
@@ -1622,7 +1624,7 @@ function openAdmin(){
     const u=URL.createObjectURL(new Blob(['\ufeff'+c],{type:'text/csv;charset=utf-8'})), l=document.createElement('a'); l.href=u; l.download='نتائج-المؤتمر.csv'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(()=>URL.revokeObjectURL(u),2000); toast('اتصدّرت النتائج ✅'); };
   /* ===== لوحة التحكم v2: مركز القيادة ===== */
   const A2={lastTab:null,dr:null,reason:'بونص'}, md=['🥇','🥈','🥉'];
-  const dayLbl=()=>(CONF.days[day]||{}).label||'';
+  const dayLbl=()=>'';
   const ini=n=>{ const w=String(n||'').trim().split(/\s+/).filter(x=>x&&!/^(ال)?فريق$/.test(x)).map(x=>x.replace(/^ال(?=.{2,})/,'')); if(!w.length) return '؟'; return w.length>1?w[0][0]+w[1][0]:w[0].slice(0,2); };
   const tcol=x=>/^#[0-9a-f]{6}$/i.test((x&&x.color)||'')?x.color:'#F4B740';
   const nrm=s=>String(s==null?'':s).toLowerCase().replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).trim();
@@ -1663,7 +1665,7 @@ function openAdmin(){
   function pickTeam(list,cb,title){ const p=sheet(`<div class="a2-sec" style="margin-top:0">${title||'اختار الفريق'}</div><div class="a2-pk">${list.map(x=>`<button data-pk="${x.id}"><span class="av2" style="--c:${tcol(x)}">${esc(ini(x.name))}</span><span style="flex:1">${esc(x.name)}</span><b dir="ltr">${x.points||0}</b></button>`).join('')}</div>`);
     p.onclick=e=>{ const b=e.target.closest('[data-pk]'); if(b){ const tm=RT.find(x=>x.id===b.dataset.pk); closeSheet(); cb(tm); } }; }
   function cmdConfirm(list,n,why){ if(!list.length) return toast('مفيش فرق',true);
-    const p=sheet(`<div class="a2-cf"><div class="a2-big ${n>0?'up':'dn'}">${sgn(n)}</div><div style="font:900 18px 'Cairo'">${list.length===1?esc(list[0].name):list.length+' فريق'}</div><div class="hint">${esc(why)} · ${esc(dayLbl())}</div></div><div class="a2-acts"><button class="btn btn-primary" id="cfOk">✅ تأكيد</button><button class="btn btn-ghost" id="cfNo">إلغاء</button></div>`);
+    const p=sheet(`<div class="a2-cf"><div class="a2-big ${n>0?'up':'dn'}">${sgn(n)}</div><div style="font:900 18px 'Cairo'">${list.length===1?esc(list[0].name):list.length+' فريق'}</div><div class="hint">${esc(why)}</div></div><div class="a2-acts"><button class="btn btn-primary" id="cfOk">✅ تأكيد</button><button class="btn btn-ghost" id="cfNo">إلغاء</button></div>`);
     p.querySelector('#cfNo').onclick=closeSheet;
     p.querySelector('#cfOk').onclick=async e=>{ e.target.disabled=true; let ok=0; for(const tm of list) if(await pushAward(tm,n,why)) ok++; closeSheet(); if(ok){ toast(`تم ${sgn(n)} ${list.length>1?'لـ '+ok+' فريق':'لـ '+list[0].name} ✅`); if(n>0) confetti(900); } }; }
   function smartExec(raw){ const p=smartParse(raw); if(!p) return; const inp=A.querySelector('#a2q');
@@ -1679,10 +1681,10 @@ function openAdmin(){
   /* ملف الفريق */
   function drHead(tm){ return `<div class="a2-dh"><span class="av2" style="--c:${tcol(tm)}">${esc(ini(tm.name))}</span><div class="t"><b>${esc(tm.name)}</b><small>الترتيب #${rankOf(tm.id)} · كود ${esc(tCode(tm.id))}</small></div><div class="dpt">${tm.points||0}</div></div>`; }
   function drHist(tm){ const mine=AW.filter(a=>a.teamId===tm.id).sort((a,b)=>(b.ts||0)-(a.ts||0)), rv=new Set(AW.filter(a=>a.undo).map(a=>a.undo)), rest=(tm.points||0)-mine.reduce((s,a)=>s+(a.pts||0),0);
-    return (rest?`<div class="a2-hr"><div>📚 شرح وحضور وأكواد وغيره</div><b class="${rest>0?'up':'dn'}">${sgn(rest)}</b></div>`:'')+mine.slice(0,25).map(a=>`<div class="a2-hr ${rv.has(a.id)?'rv':''}"><div>${esc(a.why||a.kind)}<br><small>${esc((CONF.days[a.day]||{}).label||'')} · ${timeAgo(a.ts||0)}</small></div><b class="${a.pts>0?'up':'dn'}">${sgn(a.pts)}</b>${a.undo||rv.has(a.id)||!a.id?'':`<button class="a2-un" data-un="${esc(a.id)}" title="عكس العملية">↩️</button>`}</div>`).join('')||(rest?'':'<div class="hint">لسه مفيش عمليات</div>'); }
+    return (rest?`<div class="a2-hr"><div>📚 شرح وحضور وأكواد وغيره</div><b class="${rest>0?'up':'dn'}">${sgn(rest)}</b></div>`:'')+mine.slice(0,25).map(a=>`<div class="a2-hr ${rv.has(a.id)?'rv':''}"><div>${esc(a.why||a.kind)}<br><small>${timeAgo(a.ts||0)}</small></div><b class="${a.pts>0?'up':'dn'}">${sgn(a.pts)}</b>${a.undo||rv.has(a.id)||!a.id?'':`<button class="a2-un" data-un="${esc(a.id)}" title="عكس العملية">↩️</button>`}</div>`).join('')||(rest?'':'<div class="hint">لسه مفيش عمليات</div>'); }
   function drRefresh(){ if(!A2.dr) return; const tm=RT.find(x=>x.id===A2.dr), h=document.getElementById('drHead'); if(!tm||!h){ if(!tm) closeSheet(); return; } h.innerHTML=drHead(tm); document.getElementById('drHist').innerHTML=drHist(tm); }
   function openTeam(id){ const tm=RT.find(x=>x.id===id); if(!tm) return;
-    const p=sheet(`<div id="drHead"></div><div class="a2-sec">⚡ نقط سريعة (ليوم: ${esc(dayLbl())})</div>
+    const p=sheet(`<div id="drHead"></div><div class="a2-sec">⚡ نقط سريعة</div>
       <div class="a2-q">${(CFG.quick||[5,10,20,50]).map(n=>`<button class="up" data-q="${n}">+${n}</button>`).join('')}${(CFG.quickNeg||[5,10,20]).map(n=>`<button class="dn" data-q="-${n}">-${n}</button>`).join('')}<button data-qx="1" style="font-size:13px">أي رقم</button></div>
       <div class="a2-sec">السبب</div><div class="a2-rs">${(CFG.reasons||REASONS).map(r=>`<button class="chip ${r===A2.reason?'on':''}" data-rs="${esc(r)}">${esc(r)}</button>`).join('')}</div>
       <div class="sc-man"><input class="field" id="drN" type="number" dir="ltr" placeholder="رقم (+ أو -)"><input class="field" id="drW" placeholder="تفاصيل (اختياري)"><button class="btn btn-primary" id="drOk" style="width:auto;padding:0 16px">تطبيق</button></div>
@@ -1721,7 +1723,7 @@ function openAdmin(){
     if(!T.length) return [['👥','لسه مفيش فرق متسجلة — أول ما يسجّلوا هتظهر هنا.','']];
     if(T.length>1){ const g=(T[0].points||0)-(T[1].points||0); out.push(g<=10?['🔥',`سباق ساخن! ${esc(T[0].name)} متقدم بـ ${g} نقطة بس على ${esc(T[1].name)}`,'warn']:['👑',`${esc(T[0].name)} مسيطر بفارق ${g} نقطة عن ${esc(T[1].name)}`,'good']); }
     if(pend) out.push(['🎬',`${pend} شعار مستني مراجعتك`,'warn','slg']); if(unq) out.push(['💬',`${unq} سؤال من الفرق مستني رد`,'warn','qs']);
-    const none=T.filter(x=>!today.some(a=>a.teamId===x.id)); if(none.length&&none.length<T.length) out.push(['😴',`${none.length} فريق ما خدوش نقط منك في ${esc(dayLbl())}: ${none.slice(0,3).map(x=>esc(x.name)).join('، ')}${none.length>3?'…':''}`,'','teams']);
+    const none=T.filter(x=>!today.some(a=>a.teamId===x.id)); if(none.length&&none.length<T.length) out.push(['😴',`${none.length} فريق لسه ما خدوش نقط منك: ${none.slice(0,3).map(x=>esc(x.name)).join('، ')}${none.length>3?'…':''}`,'','teams']);
     const hr=now-3600000, by={}; AW.filter(a=>(a.ts||0)>hr&&a.pts>0).forEach(a=>by[a.teamId]=(by[a.teamId]||0)+a.pts); const best=Object.keys(by).sort((a,b)=>by[b]-by[a])[0]; if(best){ const tm=RT.find(x=>x.id===best); if(tm) out.push(['🚀',`أسرع صعود آخر ساعة: ${esc(tm.name)} (+${by[best]})`,'good']); }
     const last=Math.max(0,...AW.map(a=>a.ts||0)); if(last&&now-last>30*60000) out.push(['⏱️',`آخر توزيع نقط كان ${timeAgo(last)}`,'']); if(!AW.length) out.push(['🎁','لسه ما وزّعتش أي نقط — جرّب شريط الأوامر فوق: "+10 اسم الفريق"','']);
     return out; }
@@ -1733,7 +1735,7 @@ function openAdmin(){
   function homeHtml(){ const T=teamsSorted(), total=T.reduce((t,x)=>t+(x.points||0),0), mx=Math.max(1,...T.map(x=>x.points||0)), info=dayInfo(), today=AW.filter(a=>a.day===day), pend=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unq=QS.filter(q=>!q.reply).length;
     const live=info.state==='live', st=live?'المؤتمر شغّال دلوقتي':info.state==='after'?'المؤتمر خلص 🏁':'المؤتمر لسه ما بدأش';
     const feed=AW.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,10), rv=new Set(AW.filter(a=>a.undo).map(a=>a.undo));
-    return `<div class="a2-hero"><h2>مركز القيادة</h2><p>${esc(dayLbl())} · ${T.length} فريق مسجّل</p><span class="a2-live ${live?'':'off'}"><i></i>${st}</span></div>${nowCard()}
+    return `<div class="a2-hero"><h2>مركز القيادة</h2><p>${T.length} فريق مسجّل</p><span class="a2-live ${live?'':'off'}"><i></i>${st}</span></div>${nowCard()}
       <div class="a2-tiles">
         <div class="a2-tile" style="--c:#3FDCC9"><small>👥 الفرق</small><b data-count="${T.length}">${T.length}</b></div>
         <div class="a2-tile" style="--c:#F4B740"><small>⭐ إجمالي النقط</small><b data-count="${total}">${total}</b></div>
@@ -1757,7 +1759,7 @@ function openAdmin(){
     {id:'teams',ic:'👥',l:'الفرق',subs:[['teams','الفرق'],['rank','الترتيب'],['stats','تحليلات'],['log','السجل'],['bulk','نقط جماعية'],['scan','مسح'],['att','حضور بالوش']]},
     {id:'prog',ic:'🎯',l:'البرنامج',subs:[['agenda','اليوم'],['slg','الشعارات'],['content:qr','أكواد QR']]},
     {id:'comm',ic:'📣',l:'التواصل',subs:[['ann','إعلانات'],['qs','الأسئلة'],['muna','لاسلكي'],['fbk','التقييمات']]},
-    {id:'cont',ic:'🧩',l:'المحتوى',subs:[['content:gen','عام'],['content:days','الأيام والفقرات'],['content:bank','أسئلة الشرح'],['content:quiz','سؤال اليوم'],['content:ui','شكل الشرح']]},
+    {id:'cont',ic:'🧩',l:'المحتوى',subs:[['content:gen','عام'],['content:days','الفقرات'],['content:bank','أسئلة الشرح'],['content:quiz','سؤال اليوم'],['content:ui','شكل الشرح']]},
     {id:'sys',ic:'⚙️',l:'النظام',subs:[['cfg','النقط والإعدادات'],['tools','الأدوات']]}];
   A2.hubSub={}; A2.lf={team:'',k:'all',q:''};
   const gkey=()=>tab==='content'?'content:'+sec:tab;
@@ -1796,7 +1798,7 @@ function openAdmin(){
   const lgMatch=a=>{ const f=A2.lf; if(f.team&&a.teamId!==f.team) return false; if(f.k==='pos'&&!(a.pts>0)) return false; if(f.k==='neg'&&!(a.pts<0)) return false; if(f.k==='slogan'&&a.kind!=='slogan') return false; if(f.k==='games'&&!/^g\d/.test(a.kind)) return false; if(f.k==='undo'&&!a.undo) return false;
     if(f.q){ const t=RT.find(x=>x.id===a.teamId); if(!nrm((a.why||'')+' '+(t?t.name:'')).includes(nrm(f.q))) return false; } return true; };
   function lgList(){ const L=AW.filter(lgMatch).sort((a,b)=>(b.ts||0)-(a.ts||0)), rv=new Set(AW.filter(a=>a.undo).map(a=>a.undo)), sum=L.reduce((s,a)=>s+(a.pts||0),0);
-    return `<div class="hint" style="text-align:start">${L.length} عملية · المجموع <b dir="ltr">${sgn(sum)}</b></div><div class="card">${L.slice(0,150).map(a=>{ const t=RT.find(x=>x.id===a.teamId); return `<div class="a2-hr ${rv.has(a.id)?'rv':''}"><div>${esc(t?t.name:'؟')} <small>— ${esc(a.why||a.kind)}<br>${esc((CONF.days[a.day]||{}).label||'')} · ${timeAgo(a.ts||0)}</small></div><b class="${a.pts>0?'up':'dn'}">${sgn(a.pts)}</b>${a.undo||rv.has(a.id)||!t?'':`<button class="a2-un" data-un2="${esc(a.id)}">↩️</button>`}</div>`; }).join('')||'<div class="hint">مفيش عمليات بالفلتر ده</div>'}</div>`; }
+    return `<div class="hint" style="text-align:start">${L.length} عملية · المجموع <b dir="ltr">${sgn(sum)}</b></div><div class="card">${L.slice(0,150).map(a=>{ const t=RT.find(x=>x.id===a.teamId); return `<div class="a2-hr ${rv.has(a.id)?'rv':''}"><div>${esc(t?t.name:'؟')} <small>— ${esc(a.why||a.kind)}<br>${timeAgo(a.ts||0)}</small></div><b class="${a.pts>0?'up':'dn'}">${sgn(a.pts)}</b>${a.undo||rv.has(a.id)||!t?'':`<button class="a2-un" data-un2="${esc(a.id)}">↩️</button>`}</div>`; }).join('')||'<div class="hint">مفيش عمليات بالفلتر ده</div>'}</div>`; }
   function logHtml(){ return `<input class="field a2-tf" id="lgQ" placeholder="🔍 دوّر في السبب أو اسم الفريق..." value="${esc(A2.lf.q)}"><select class="field a2-tf" id="lgT"><option value="">كل الفرق</option>${teamsSorted().map(x=>`<option value="${x.id}" ${x.id===A2.lf.team?'selected':''}>${esc(x.name)}</option>`).join('')}</select><div class="a2-rs">${[['all','الكل'],['pos','➕ إضافة'],['neg','➖ خصم'],['slogan','🎬 شعار'],['games','🎮 ألعاب'],['undo','↩️ عكس']].map(([k,l])=>`<button class="chip ${A2.lf.k===k?'on':''}" data-lk="${k}">${l}</button>`).join('')}</div><div id="lgList">${lgList()}</div><button class="btn btn-ghost" id="lgCsv" style="margin-top:10px">📥 تصدير النتيجة CSV</button>`; }
   function bulkHtml(){ const T=teamsSorted();
     return `<div class="card"><div class="step-t">👥 نقط جماعية</div><div class="hint" style="text-align:start">اختار الفرق واكتب النقط (سالب = خصم) وطبّق مرة واحدة.</div><div>${T.map(x=>`<label class="chip a2-ck" style="--c:${tcol(x)}"><input type="checkbox" data-bk="${x.id}" checked> ${esc(x.name)}</label>`).join('')||'<div class="hint">مفيش فرق</div>'}</div>
@@ -1872,9 +1874,8 @@ function openAdmin(){
     else if(tab==='ann') body=`<div class="card"><div class="step-t">📢 إعلان لكل الفرق</div><div class="a2-tp" style="margin:6px 0 0">${TPL.map(t=>`<button class="chip" data-fill="${esc(t)}">${esc(t)}</button>`).join('')}</div><textarea class="field" id="aAnn" placeholder="اكتب الإعلان..." maxlength="200" style="margin-top:10px"></textarea><button class="btn btn-primary" id="aSend" style="margin-top:10px">إرسال</button></div><div class="card"><div class="step-t">الإعلانات السابقة</div>${ANN.length?ANN.map(a=>`<div class="lg"><span>${esc(a.text)} <small style="color:var(--muted)">· ${timeAgo(a.ts||0)}</small></span><button class="rm" data-ad="${a.id}" aria-label="حذف">✕</button></div>`).join(''):'<div class="hint">مفيش إعلانات</div>'}</div>`;
     else body=`<div class="card"><div class="step-t">النقط (الأدمن بيتحكم)</div>${[['sloganPts','نقط الشعار (افتراضي)'],['bonusPts','نقط البونص'],['gamePts','نقط كل لعبة']].map(([k,l])=>`<div class="hint" style="margin-top:10px">${l}</div><input class="field" type="number" id="c-${k}" value="${CFG[k]}" dir="ltr">`).join('')}<button class="btn btn-primary" id="cSave" style="margin-top:12px">حفظ</button></div>`+cfgQuick();
     const fresh=A2.lastTab!==tab+'|'+day; A2.lastTab=tab+'|'+day; const pendS=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unqN=QS.filter(q=>!q.reply).length, bdg={slg:pendS,qs:unqN}, gk=gkey(), hub=HUBS.find(h=>h.subs.some(x=>x[0]===gk))||HUBS[0];
-    A.innerHTML=`<div class="a2"><div class="a2-head"><div><div class="adm-title">🛠️ لوحة التحكم</div><div class="adm-sub">${esc((CONF.days[day]||{}).label||'')} · ${RT.length} فريق</div></div><div class="a2-hb"><button id="aProj" class="a2-ib" aria-label="شاشة العرض">📺</button><button id="aOut" class="a2-ib" aria-label="خروج">🚪</button><button id="aX" class="a2-ib" aria-label="إغلاق">✕</button></div></div>
+    A.innerHTML=`<div class="a2"><div class="a2-head"><div><div class="adm-title">🛠️ لوحة التحكم</div><div class="adm-sub">${RT.length} فريق مسجّل</div></div><div class="a2-hb"><button id="aProj" class="a2-ib" aria-label="شاشة العرض">📺</button><button id="aOut" class="a2-ib" aria-label="خروج">🚪</button><button id="aX" class="a2-ib" aria-label="إغلاق">✕</button></div></div>
       <div class="a2-cmd"><span>⚡</span><input id="a2q" placeholder='اكتب أمر… مثال: +20 الأزرق' autocomplete="off" enterkeyhint="go"><button id="a2go" aria-label="تنفيذ">↵</button></div><div id="a2sug"></div>
-      <div class="a2-days">${CONF.days.map((x,i)=>`<button class="a2-dc ${i===day?'on':''}" data-day="${i}">${esc(x.label)}</button>`).join('')}</div>
       <div class="a2-nav"><div class="a2-hubs">${HUBS.map(h=>{ const n=h.subs.reduce((t,x)=>t+(bdg[x[0]]||0),0); return `<button class="a2-hub ${h===hub?'on':''}" data-hub="${h.id}"><i>${h.ic}</i>${h.l}${n?`<em>${n}</em>`:''}</button>`; }).join('')}</div>${hub.subs.length>1?`<div class="a2-subs">${hub.subs.map(([k,l])=>`<button class="a2-sb ${k===gk?'on':''}" data-sub="${k}">${l}${bdg[k]?` <em>${bdg[k]}</em>`:''}</button>`).join('')}</div>`:''}</div>
       <div class="${fresh?'a2-in':''}">${body}</div></div>`;
     A.querySelector('#aX').onclick=()=>close(); A.querySelector('#aOut').onclick=()=>{ if(confirm('تسجيل الخروج من لوحة الأدمن؟')) close(true); }; bindV2(fresh);
@@ -1956,13 +1957,6 @@ function lbRows(t){
   if(!L.some(x=>x.id===t.id)) L.push(me);
   return L.slice().sort((a,b)=>(b.points||0)-(a.points||0));
 }
-function tasksHtml(t,info){
-  if(info.state!=='live') return `<div class="card"><div class="hint" style="margin:0">المهام بتظهر أيام المؤتمر</div></div>`;
-  const d=info.idx, sl=MYAW[`${t.id}_${d}_slogan`], sb=MYSUB[`${t.id}_${d}`], exn=exFin((t.ex||{})[d])+exFin((t.ex||{})[d+'_2']), exs=!!(t.ex||{})[d]||!!(t.ex||{})[d+'_2'], g=['g0','g1','g2','g3'].filter(x=>MYAW[`${t.id}_${d}_${x}`]).length;
-  const exd=exn===2;
-  const R=[['slogan','🎬','الشعار',sl?'تم ✓':sb?'مستني الأدمن':'لسه',!!sl],['explain','🧠','الشرح',exd?'تم ✓ 2/2':exs?`${exn}/2`:'لسه',!!exd],['games','🎮','الألعاب',`${g}/4`,g>=4]];
-  return `<div class="tasks">${R.map(([k,ic,n,st,ok],i)=>`<button class="task ${ok?'ok':''}" data-task="${k}" style="animation-delay:${i*.1}s"><span class="task-i">${ic}</span><span class="task-n">${n}</span><span class="task-s">${st}</span><span class="task-c">${ok?'✓':''}</span></button>`).join('')}</div>`;
-}
 function podiumHtml(t){
   const L=lbRows(t);
   const my=L.findIndex(x=>x.id===t.id)+1, mx=Math.max(1,...L.map(x=>x.points||0)), lead=L[0]||{};
@@ -1983,7 +1977,7 @@ function breakdownHtml(t){
   return `<div class="card">${C.filter(([k])=>b[k]).map(([k,n,c],i)=>`<div class="bk"><div class="bk-t"><span>${n}</span><b>${b[k]}</b></div><div class="bk-b"><i style="--c:${c};width:${Math.round(Math.abs(b[k])/tot*100)}%;animation-delay:${.2+i*.12}s"></i></div></div>`).join('')}</div>`;
 }
 function homeExtra(t,info){
-  return `${info.state==='after'?finalHtml(t):''}<div class="section-title">مهام النهاردة</div>${tasksHtml(t,info)}
+  return `${info.state==='after'?finalHtml(t):''}<div class="section-title">أجندة النهاردة</div>${agendaHtml(t,info,info.idx,'home','أجندة '+CONF.days[info.idx].label)}
   <div class="section-title">ترتيب الفرق</div>${podiumHtml(t)}
   <div class="section-title">لاسلكي</div>${munaCard(t)}
   <div class="section-title">تواصل مع المنظمين</div><div class="card"><button class="btn btn-ghost" id="askBtn">💬 اسأل المنظمين</button>${info.state!=='before'?'<button class="btn btn-ghost" id="rateBtn" style="margin-top:8px">⭐ قيّم المؤتمر</button>':''}</div>
@@ -2218,7 +2212,7 @@ function goPage(p){
   BIND[p]&&BIND[p](t);
   window.scrollTo(0,0);
 }
-document.querySelectorAll('.bn').forEach(b=>b.onclick=()=>{ AGS.home=false; AGS.days=true; goPage(b.dataset.page); });
+document.querySelectorAll('.bn').forEach(b=>b.onclick=()=>{ AGS.home=true; AGS.days=true; goPage(b.dataset.page); });
 
 /* ---- عداد المؤتمر ---- */
 function cdHtml(){
@@ -2521,7 +2515,7 @@ async function startScan(ov,onCode){
 function bindDayZone(){ document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{ const r=b.getBoundingClientRect(); openDv(+b.dataset.day,r.left+r.width/2,r.top+r.height/2); }); }
 
 /* ---- كروت الأجندة (الرئيسية + صفحة الأيام) ---- */
-const AGS={home:false,days:true};
+const AGS={home:true,days:true};
 const AG_COL=['#F4B740','#3FDCC9','#FF7A59','#9B8CFF','#5FE0A4','#FF6B9A'];
 function agendaHtml(t,info,di,key,title){
   const d=CONF.days[di], ss=d.sessions, z=dayState(di,info), st=z.live?sessState(info):{nowIdx:-1,nextIdx:-1}, [y,m,dd]=d.date.split('-').map(Number);
@@ -2556,9 +2550,7 @@ const PAGES={
     const dots=CONF.days.map((_,i)=>`<i class="${info.state==='live'&&i===info.idx?'on':(info.state==='after'||(info.state==='live'&&i<info.idx))?'done':''}"></i>`).join('');
     return `
       <div style="height:16px"></div>
-      ${agendaHtml(t,info,info.idx,'home','أجندة '+d.label)}
-
-      <div class="section-title">بطاقة الفريق</div>
+      <div class="section-title" style="margin-top:0">بطاقة الفريق</div>
       <div class="id-card">
         ${avHtml(t.leader,t.leader.name)}
         <div class="id-info">
@@ -2620,7 +2612,6 @@ const PAGES={
 const BIND={
   home:t=>{
     bindAgenda(dayInfo().idx,'home');
-    document.querySelectorAll('[data-task]').forEach(b=>b.onclick=()=>openPart(dayInfo().idx,b.dataset.task));
     const ak=$('#askBtn'); if(ak) ak.onclick=()=>openAsk(t); const rt=$('#rateBtn'); if(rt) rt.onclick=()=>openRate(t);
     const ce=$('#certBtn'); if(ce){ ce.onclick=()=>downloadCert(t); if(!window._finConf){ window._finConf=1; try{ confetti(3500); }catch(e){} } }
   },

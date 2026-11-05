@@ -601,6 +601,153 @@ input,select,textarea{font-size:max(16px,1em)}
 .adm-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .adm-acts .btn{margin:0}
 
+/* ===== لوحة الأدمن v2 — مركز القيادة ===== */
+#adm{background:radial-gradient(800px 460px at 90% -8%,rgba(244,183,64,.18),transparent 60%),radial-gradient(640px 460px at -10% 18%,rgba(63,220,201,.15),transparent 60%),radial-gradient(560px 460px at 50% 112%,rgba(255,122,89,.12),transparent 60%),var(--bg) !important}
+.a2{max-width:560px;margin:0 auto;padding-bottom:40px}
+.a2-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.a2-hb{display:flex;gap:8px;align-items:center}
+.a2-ib{width:42px;height:42px;border-radius:14px;border:1px solid var(--border);background:var(--glass);color:var(--text);font-size:19px;display:grid;place-items:center;transition:transform .15s}
+.a2-ib:active{transform:scale(.92)}
+.a2-cmd{display:flex;align-items:center;gap:8px;margin:14px 0 6px;padding:6px 8px 6px 14px;border-radius:20px;border:1.5px solid rgba(244,183,64,.4);background:linear-gradient(95deg,rgba(244,183,64,.12),rgba(63,220,201,.1));box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.a2-cmd>span{font-size:20px}
+.a2-cmd input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--text);font:700 14.5px 'Cairo',sans-serif;padding:10px 4px}
+.a2-cmd input::placeholder{color:var(--muted);font-weight:600}
+.a2-cmd button{width:40px;height:40px;border-radius:13px;border:0;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#221900;font-size:18px;font-weight:900}
+#a2sug{min-height:0}
+.a2-sg{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:2px 2px 8px;font-size:12.5px;color:var(--soft);font-weight:700}
+.a2-sg .chip{cursor:pointer;border-color:var(--c,var(--border))}
+.a2-days{display:flex;gap:8px;overflow-x:auto;padding:6px 0 4px;scrollbar-width:none}
+.a2-days::-webkit-scrollbar,.a2-rail::-webkit-scrollbar{display:none}
+.a2-dc{flex:none;padding:8px 16px;border-radius:99px;border:1px solid var(--border);background:var(--glass);color:var(--muted);font:800 12.5px 'Cairo',sans-serif}
+.a2-dc.on{background:var(--text);color:var(--bg);border-color:transparent}
+.a2-rail{position:sticky;top:-16px;padding-top:20px !important;z-index:6;display:flex;gap:6px;overflow-x:auto;margin:8px -16px 14px;padding:10px 16px;scrollbar-width:none;background:linear-gradient(180deg,var(--bg) 60%,transparent);backdrop-filter:blur(10px)}
+.a2-nb{position:relative;flex:none;display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:15px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font:800 12.5px 'Cairo',sans-serif;transition:.2s}
+.a2-nb i{font-style:normal;font-size:16px}
+.a2-nb.active{background:linear-gradient(95deg,var(--gold),var(--gold2));color:#221900;border-color:transparent;box-shadow:0 6px 18px rgba(244,183,64,.35)}
+.a2-nb em{font-style:normal;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--danger);color:#fff;font-size:10.5px;font-weight:900;display:grid;place-items:center}
+.a2-hero{position:relative;overflow:hidden;padding:18px;border-radius:26px;border:1px solid var(--border);background:linear-gradient(135deg,rgba(244,183,64,.2),rgba(63,220,201,.12) 60%,rgba(255,122,89,.12));margin-bottom:14px}
+.a2-hero h2{margin:0;font:900 21px 'Cairo',sans-serif}
+.a2-hero p{margin:4px 0 0;color:var(--soft);font-size:13px;font-weight:700}
+.a2-live{display:inline-flex;align-items:center;gap:7px;margin-top:10px;padding:5px 12px;border-radius:99px;background:rgba(0,0,0,.22);font-size:12px;font-weight:800}
+.a2-live i{width:9px;height:9px;border-radius:50%;background:var(--good);box-shadow:0 0 0 0 var(--good);animation:ping2 1.8s infinite}
+.a2-live.off i{background:var(--muted);animation:none}
+@keyframes ping2{70%,100%{box-shadow:0 0 0 9px transparent}}
+.a2-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.a2-tile{position:relative;overflow:hidden;text-align:start;padding:14px;border-radius:20px;border:1px solid var(--border);background:linear-gradient(180deg,var(--surface),var(--surface2));color:inherit;font-family:inherit}
+.a2-tile::after{content:'';position:absolute;inset-inline-end:-18px;top:-18px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,var(--c,var(--gold)),transparent 70%);opacity:.35}
+.a2-tile small{display:block;font-size:11.5px;color:var(--muted);font-weight:700}
+.a2-tile b{display:block;font:900 30px 'Cairo',sans-serif;margin-top:2px;direction:ltr;text-align:start}
+.a2-tile.warn{border-color:rgba(244,183,64,.55)}
+.a2-sec{font:900 14px 'Cairo',sans-serif;margin:16px 2px 8px;color:var(--soft)}
+.a2-race{display:flex;flex-direction:column;gap:8px}
+.a2-rc{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border-radius:18px;border:1px solid var(--border);background:var(--surface);color:inherit;font-family:inherit;text-align:start;position:relative;overflow:hidden}
+.a2-rc .m{width:26px;text-align:center;font-size:19px;font-weight:900;color:var(--muted)}
+.av2{flex:none;width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:var(--c,var(--gold));color:#fff;font:900 14px 'Cairo',sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.a2-rc .n{flex:1;min-width:0}
+.a2-rc .n div{font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.a2-rc .n small{font-size:11px;color:var(--muted);font-weight:700}
+.a2-rc .bar{height:6px;border-radius:6px;background:var(--bg2);margin-top:5px;overflow:hidden}
+.a2-rc .bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--c),var(--gold2))}
+.a2-rc b{font:900 18px 'Cairo',sans-serif;direction:ltr}
+.a2-in .a2-rc .bar i{animation:barIn 1s cubic-bezier(.2,.8,.2,1) backwards}
+.a2-in .a2-rc{animation:rise .5s backwards}
+@keyframes barIn{from{width:0}}
+.a2-svg{width:100%;height:auto;display:block;border-radius:16px;background:var(--surface);border:1px solid var(--border)}
+.a2-svg line{stroke:var(--border);stroke-width:1}
+.a2-lg{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--soft)}
+.a2-lg span{display:inline-flex;align-items:center;gap:5px}.a2-lg i{width:10px;height:10px;border-radius:3px;background:var(--c)}
+.a2-insr{display:flex;align-items:center;gap:10px;padding:11px 12px;margin-bottom:8px;border-radius:16px;border:1px solid var(--border);border-inline-start:4px solid var(--teal);background:var(--surface);font-size:13px;font-weight:700;line-height:1.7}
+.a2-insr.warn{border-inline-start-color:var(--gold)}.a2-insr.good{border-inline-start-color:var(--good)}.a2-insr.bad{border-inline-start-color:var(--danger)}
+.a2-insr i{font-style:normal;font-size:20px}.a2-insr span{flex:1}
+.a2-insr button{flex:none;width:34px;height:34px;border-radius:11px;border:1px solid var(--border);background:var(--glass);color:var(--text);font-size:15px}
+.a2-feed .a2-hr{padding:10px 2px}
+.a2-qa{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.a2-qa button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;border-radius:18px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:800 12px 'Cairo',sans-serif}
+.a2-qa button i{font-style:normal;font-size:24px}
+.a2-tf{display:block;margin-bottom:10px}
+.a2-tg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.a2-tc{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px;border-radius:20px;border:1px solid var(--border);background:linear-gradient(180deg,var(--surface),var(--surface2));color:inherit;font-family:inherit;text-align:start}
+.a2-tc::before{content:'';position:absolute;inset-inline:0;top:0;height:4px;background:var(--c)}
+.a2-tc .nm{font-weight:800;font-size:14px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.a2-tc b{font:900 26px 'Cairo',sans-serif;direction:ltr}
+.a2-tc small{color:var(--muted);font-size:11px;font-weight:700}
+.a2-tc .rk{position:absolute;top:12px;inset-inline-end:12px;font:900 12px 'Cairo',sans-serif;color:var(--muted)}
+.a2-tc.h{display:none}
+.a2-ov{position:fixed;inset:0;z-index:330;background:rgba(5,4,24,.62);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;animation:fadeIn2 .2s}
+@keyframes fadeIn2{from{opacity:0}}
+.a2-pn{width:100%;max-width:560px;max-height:88dvh;overflow:auto;padding:10px 18px calc(22px + env(safe-area-inset-bottom,0px));border-radius:28px 28px 0 0;background:linear-gradient(180deg,var(--surface2),var(--bg2));border:1px solid var(--border);border-bottom:0;animation:slideUp2 .35s cubic-bezier(.2,.85,.25,1)}
+@keyframes slideUp2{from{transform:translateY(60px);opacity:0}}
+.a2-grab{display:block;width:44px;height:5px;border-radius:5px;background:var(--border);margin:0 auto 14px}
+.a2-dh{display:flex;align-items:center;gap:12px}
+.a2-dh .av2{width:54px;height:54px;border-radius:18px;font-size:19px}
+.a2-dh .t{flex:1;min-width:0}.a2-dh .t b{display:block;font:900 18px 'Cairo',sans-serif}
+.a2-dh .t small{color:var(--muted);font-weight:700;font-size:12px}
+.a2-dh .dpt{font:900 32px 'Cairo',sans-serif;direction:ltr;color:var(--gold2)}
+.a2-q{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.a2-q button{padding:12px 0;border-radius:15px;border:1px solid var(--border);background:var(--surface);font:900 16px 'Cairo',sans-serif;direction:ltr}
+.a2-q .up{color:var(--good);border-color:rgba(95,224,164,.4)}.a2-q .dn{color:var(--danger);border-color:rgba(255,107,107,.4)}
+.a2-q button:active{transform:scale(.93)}
+.a2-rs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.a2-rs .chip{cursor:pointer;color:var(--soft)}.a2-rs .chip.on{background:var(--gold);color:#221900;border-color:transparent}
+.a2-hr{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.a2-hr>div{flex:1;min-width:0;font-weight:700;font-size:13.5px}.a2-hr small{color:var(--muted);font-weight:600;font-size:11px}
+.a2-hr b{font:900 16px 'Cairo',sans-serif;direction:ltr}.a2-hr b.up{color:var(--good)}.a2-hr b.dn{color:var(--danger)}
+.a2-hr.rv{opacity:.45;text-decoration:line-through}
+.a2-un{width:34px;height:34px;border-radius:11px;border:1px solid var(--border);background:var(--glass);font-size:15px}
+.a2-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.a2-acts .btn{margin:0}
+.a2-cf{text-align:center;padding:10px 0}
+.a2-big{font:900 56px 'Cairo',sans-serif;direction:ltr}.a2-big.up{color:var(--good)}.a2-big.dn{color:var(--danger)}
+.a2-pk{display:flex;flex-direction:column;gap:8px}
+.a2-pk button{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:800 14px 'Cairo',sans-serif;text-align:start}
+.a2-ck{display:inline-flex;align-items:center;gap:6px;margin:3px;cursor:pointer;border-color:var(--c)}
+.a2-ck input{accent-color:var(--gold)}
+.a2-tp{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.a2-tp .chip{cursor:pointer}
+.a2-wheel{font:900 30px 'Cairo',sans-serif;text-align:center;padding:30px 10px;border-radius:22px;border:2px dashed var(--gold);margin:12px 0;min-height:90px;display:grid;place-items:center;transition:color .2s}
+.a2-wheel.done{border-style:solid;box-shadow:0 0 40px rgba(244,183,64,.4);animation:pop2 .5s}
+@keyframes pop2{0%{transform:scale(.8)}60%{transform:scale(1.08)}}
+.a2-pj{position:fixed;inset:0;z-index:400;padding:calc(22px + env(safe-area-inset-top,0px)) 22px 22px;background:radial-gradient(900px 600px at 80% 0,rgba(244,183,64,.22),transparent 60%),radial-gradient(700px 500px at 0 100%,rgba(63,220,201,.18),transparent 60%),var(--bg);overflow:hidden}
+.a2-pj-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.a2-pj-t{font:900 clamp(26px,5vw,48px) 'Cairo',sans-serif;background:linear-gradient(95deg,var(--gold),var(--gold2),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.a2-pj-s{color:var(--muted);font-weight:800}
+.a2-pj-l{position:relative;max-width:900px;margin:0 auto}
+.a2-pj-r{position:absolute;inset-inline:0;top:0;display:flex;align-items:center;gap:14px;padding:0 18px;border-radius:20px;background:var(--surface);border:1px solid var(--border);border-inline-start:8px solid var(--c);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.a2-pj-r .m{width:44px;text-align:center;font:900 clamp(20px,3.4vw,32px) 'Cairo',sans-serif;color:var(--muted)}
+.a2-pj-r .n{width:min(30%,260px);font:900 clamp(15px,2.6vw,26px) 'Cairo',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.a2-pj-r .b{flex:1;height:14px;border-radius:14px;background:var(--bg2);overflow:hidden}
+.a2-pj-r .b i{display:block;height:100%;border-radius:14px;background:linear-gradient(90deg,var(--c),var(--gold2));transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.a2-nav{position:sticky;top:-16px;z-index:6;margin:8px -16px 14px;padding:18px 16px 8px;background:linear-gradient(180deg,var(--bg) 80%,transparent);backdrop-filter:blur(10px)}
+.a2-hubs{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.a2-hub{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px 7px;border-radius:16px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font:800 10.5px/1.1 'Cairo',sans-serif;transition:.2s}
+.a2-hub i{font-style:normal;font-size:20px;line-height:1}
+.a2-hub.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#221900;border-color:transparent;box-shadow:0 6px 18px rgba(244,183,64,.35);transform:translateY(-2px)}
+.a2-hub em,.a2-sb em{font-style:normal;min-width:17px;height:17px;padding:0 4px;border-radius:99px;background:var(--danger);color:#fff;font-size:10px;font-weight:900;display:inline-grid;place-items:center}
+.a2-hub em{position:absolute;top:-5px;inset-inline-end:-3px}
+.a2-subs{display:flex;gap:6px;overflow-x:auto;margin-top:10px;scrollbar-width:none;padding-bottom:2px}.a2-subs::-webkit-scrollbar{display:none}
+.a2-sb{flex:none;padding:7px 14px;border-radius:99px;border:1px solid var(--border);background:var(--glass);color:var(--muted);font:800 12.5px 'Cairo',sans-serif}
+.a2-sb.on{background:var(--text);color:var(--bg);border-color:transparent}
+.a2-tl{position:relative;display:flex;flex-direction:column;gap:10px}
+.a2-ss{display:flex;gap:12px;padding:12px;border-radius:18px;border:1px solid var(--border);background:var(--surface)}
+.a2-ss.now{border-color:var(--good);box-shadow:0 0 0 3px rgba(95,224,164,.15)}
+.a2-ss .tm{flex:none;min-width:62px;font:900 13px 'Cairo',sans-serif;color:var(--gold2);padding-top:2px}
+.a2-ss .bd{flex:1;min-width:0}.a2-ss .nm{font-weight:800;font-size:14px;line-height:1.7}
+.a2-bd{display:inline-block;padding:1px 9px;border-radius:99px;font-size:10.5px;font-weight:900;background:var(--glass)}
+.a2-bd.on{background:rgba(95,224,164,.2);color:var(--good)}.a2-bd.nx{background:rgba(244,183,64,.2);color:var(--gold2)}.a2-bd.dn{color:var(--muted)}
+.a2-pg{height:5px;border-radius:5px;background:var(--bg2);overflow:hidden;margin:6px 0 3px}.a2-pg i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--good))}
+.a2-ss small{color:var(--muted);font-size:11px;font-weight:700}
+.a2-bt{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.a2-bt button{padding:6px 11px;border-radius:11px;border:1px solid var(--border);background:var(--glass);color:var(--text);font:800 11.5px 'Cairo',sans-serif}
+.a2-tbl{width:100%;border-collapse:collapse;font-size:12.5px;text-align:center}
+.a2-tbl th,.a2-tbl td{padding:8px 6px;border-bottom:1px solid var(--border);white-space:nowrap}
+.a2-tbl th{color:var(--muted);font-weight:800}.a2-tbl td:first-child,.a2-tbl th:first-child{text-align:start;font-weight:800;position:sticky;inset-inline-start:0;background:var(--bg2)}
+.a2-tbl tfoot td{color:var(--gold2);font-weight:900}
+.a2-sk{display:flex;height:12px;border-radius:12px;overflow:hidden;background:var(--bg2);margin:6px 0 4px}.a2-sk i{display:block;height:100%}
+.a2-mem{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px}
+.a2-mem div{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:12px;font-weight:800}
+.a2-mem i{width:54px;height:54px;border-radius:50%;border:2px solid var(--border)}.a2-mem small{color:var(--gold2);font-size:10.5px}
+.a2-q{grid-template-columns:repeat(auto-fit,minmax(68px,1fr)) !important}
+.a2-pj-r>b{min-width:70px;text-align:end;font:900 clamp(22px,4vw,40px) 'Cairo',sans-serif;direction:ltr}
+
 /* ===== أجندة النهاردة (الرئيسية) ===== */
 .ag{margin-bottom:6px}
 .ag-hero{position:relative;overflow:hidden;width:100%;text-align:start;display:flex;align-items:center;gap:14px;padding:16px;border-radius:24px;color:var(--text);
@@ -1225,12 +1372,12 @@ let _installEv=null; window.addEventListener('beforeinstallprompt',e=>{ e.preven
 if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(()=>{});
 function openAdmin(){
   if(!fbOn()) return toast('اظبط إعدادات Firebase الأول',true);
-  document.getElementById('adm')?.remove(); const info=dayInfo(); let day=info.state==='live'?info.idx:0, tab='scan'; const U=[];
+  document.getElementById('adm')?.remove(); const info=dayInfo(); let day=info.state==='live'?info.idx:0, tab='home'; const U=[];
   const A=document.createElement('div'); A.id='adm'; A.style.cssText='position:fixed;inset:0;z-index:300;overflow:auto;background:var(--bg);padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px))'; document.body.appendChild(A);
-  const close=(out)=>{ stopScan(); U.forEach(f=>f()); A.remove(); if(out===true){ try{ AUTH&&AUTH.signOut(); }catch(e){} } };
+  const close=(out)=>{ stopScan(); U.forEach(f=>f()); closeSheet(); closeProj(); A.remove(); if(out===true){ try{ AUTH&&AUTH.signOut(); }catch(e){} } };
   const soft=()=>{ const e=document.activeElement; if(e&&A.contains(e)&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.tagName)) return; draw(); };
-  U.push(DB.collection('teams').onSnapshot(q=>{ RT=q.docs.map(d=>d.data()); if(tab==='rank'||tab==='teams'||tab==='home') soft(); }));
-  U.push(DB.collection('awards').onSnapshot(q=>{ AW=q.docs.map(d=>d.data()); if(tab==='rank'||tab==='teams'||tab==='home') soft(); }));
+  U.push(DB.collection('teams').onSnapshot(q=>{ RT=q.docs.map(d=>d.data()); if(tab==='rank'||tab==='teams'||tab==='home') soft(); drRefresh(); projRefresh(); }));
+  U.push(DB.collection('awards').onSnapshot(q=>{ AW=q.docs.map(d=>({id:d.id,...d.data()})); if(tab==='rank'||tab==='teams'||tab==='home'||tab==='log') soft(); drRefresh(); }));
   U.push(DB.collection('submissions').onSnapshot(q=>{ SUBS=q.docs.map(d=>({id:d.id,...d.data()})); if(tab==='slg'||tab==='home') draw(); }));
   U.push(DB.collection('config').doc('main').onSnapshot(s=>{ if(s.exists) CFG={...CFG,...s.data()}; }));
   U.push(DB.collection('codes').onSnapshot(q=>{ CODES={}; q.forEach(d=>CODES[d.id]=d.data().teamId); if(tab==='teams') soft(); }));
@@ -1263,7 +1410,7 @@ function openAdmin(){
   const BL={days:()=>({label:'',date:'',sessions:[]}),sessions:()=>({time:'10:00 ص',name:'',ico:'📌'}),challenges:()=>({id:'c'+Date.now(),day:0,ico:'⭐',title:'',desc:'',pts:10}),bank:()=>({t:'m',q:'',o:['','','',''],a:0}),quiz:()=>({q:'',opts:['',''],a:1}),qrs:()=>({id:'q'+Date.now().toString(36),name:'',type:'شرح',pts:10,day:'all',code:'C10-Q-'+Math.random().toString(36).slice(2,6).toUpperCase(),on:true})};
   const fixBank=i=>{ const it=D.bank[i]; if(!it) return; if(it.t==='m'){ if(!Array.isArray(it.o)) it.o=['','','','']; it.a=0; } else if(it.t==='t'){ it.a=it.a===true; delete it.o; } else { if(!Array.isArray(it.a)) it.a=[]; delete it.o; } };
   function edHtml(){
-    let h=`<div id="edBox"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">${SECS.map(([k,l])=>`<button type="button" class="chip" data-sec="${k}" style="padding:8px 14px;${k===sec?'background:var(--gold);color:#221900;border-color:transparent':''}">${l}</button>`).join('')}</div>`;
+    let h=`<div id="edBox">`;
     if(sec==='gen') h+=`<div class="card"><div class="step-t">⚙️ إعدادات عامة</div>`
       +ef('gameNames','أسماء الألعاب الأربعة (سطر لكل لعبة)','lines',D.gameNames,{rows:4})
       +ef('sessionPoints','نقط مسح كود الفقرة','number',D.sessionPoints)
@@ -1473,17 +1620,225 @@ function openAdmin(){
   const exportCsv=()=>{ const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"', T=teamsSorted();
     const c='الترتيب,الفريق,النقط\n'+T.map((x,i)=>[i+1,q(x.name),x.points||0].join(',')).join('\n')+'\n\nالفريق,اليوم,النوع,النقط,السبب\n'+AW.slice().sort((a,b)=>(a.ts||0)-(b.ts||0)).map(a=>[q((RT.find(x=>x.id===a.teamId)||{}).name||a.teamId),q((CONF.days[a.day]||{}).label||a.day),q(a.kind),a.pts,q(a.why)].join(',')).join('\n');
     const u=URL.createObjectURL(new Blob(['\ufeff'+c],{type:'text/csv;charset=utf-8'})), l=document.createElement('a'); l.href=u; l.download='نتائج-المؤتمر.csv'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(()=>URL.revokeObjectURL(u),2000); toast('اتصدّرت النتائج ✅'); };
-  function homeHtml(){ const T=teamsSorted(), total=T.reduce((t,x)=>t+(x.points||0),0), mx=Math.max(1,...T.map(x=>x.points||0)),
-      pend=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, ops=AW.filter(a=>a.day===day).length, md=['🥇','🥈','🥉'];
-    return `<div class="adm-stats">
-      <div class="adm-stat"><small>👥 عدد الفرق</small><b>${T.length}</b></div>
-      <div class="adm-stat"><small>⭐ إجمالي النقط</small><b>${total}</b></div>
-      <button class="adm-stat ${pend?'warn':''}" data-go="slg"><small>🎬 شعارات مستنية مراجعة</small><b>${pend}</b></button>
-      <div class="adm-stat"><small>🧾 عمليات نقط اليوم</small><b>${ops}</b></div>
-      <button class="adm-stat ${QS.some(q=>!q.reply)?'warn':''}" data-go="qs"><small>💬 أسئلة مستنية رد</small><b>${QS.filter(q=>!q.reply).length}</b></button>
-      <button class="adm-stat" data-go="fbk"><small>⭐ متوسط التقييم</small><b>${FBK.length?fbAvg(FBK).toFixed(1):'—'}</b></button></div>
-      <div class="card"><div class="step-t">🏆 المتصدرين</div><div style="height:6px"></div>${T.length?T.slice(0,5).map((x,i)=>`<div class="adm-lb"><div class="m">${md[i]||i+1}</div><div class="n"><div>${esc(x.name)}</div><div class="bar"><i style="width:${Math.round((x.points||0)/mx*100)}%"></i></div></div><b>${x.points||0}</b></div>`).join(''):'<div class="hint">مفيش فرق متسجلة لسه</div>'}${T.length>5?'<button class="btn btn-ghost" data-go="rank" style="margin-top:10px">عرض كل الترتيب</button>':''}</div>
-      <div class="card"><div class="step-t">⚡ إجراءات سريعة</div><div class="adm-acts" style="margin-top:10px"><button class="btn btn-primary" data-go="scan">📷 مسح فريق</button><button class="btn btn-ghost" data-go="ann">📢 إعلان جديد</button><button class="btn btn-ghost" data-go="teams">👥 الفرق</button><button class="btn btn-ghost" id="hExport">📥 تصدير النتائج</button></div></div>`; }
+  /* ===== لوحة التحكم v2: مركز القيادة ===== */
+  const A2={lastTab:null,dr:null,reason:'بونص'}, md=['🥇','🥈','🥉'];
+  const dayLbl=()=>(CONF.days[day]||{}).label||'';
+  const ini=n=>{ const w=String(n||'').trim().split(/\s+/).filter(x=>x&&!/^(ال)?فريق$/.test(x)).map(x=>x.replace(/^ال(?=.{2,})/,'')); if(!w.length) return '؟'; return w.length>1?w[0][0]+w[1][0]:w[0].slice(0,2); };
+  const tcol=x=>/^#[0-9a-f]{6}$/i.test((x&&x.color)||'')?x.color:'#F4B740';
+  const nrm=s=>String(s==null?'':s).toLowerCase().replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).trim();
+  const tCode=id=>Object.keys(CODES).find(k=>CODES[k]===id)||'—';
+  const rankOf=id=>teamsSorted().findIndex(x=>x.id===id)+1;
+  const sgn=n=>(n>0?'+':'')+n;
+  const pushAward=async(tm,pts,why,kind,extra)=>{ pts=Math.round(+pts); if(!tm||!pts) return false; const k=kind||(pts>0?'bonus':'adj');
+    try{ await DB.collection('awards').doc(`${tm.id}_${day}_${k}_${Date.now().toString(36)}${Math.random().toString(36).slice(2,5)}`).set({teamId:tm.id,day,kind:k,pts,why:why||(pts>0?'بونص':'خصم'),ts:Date.now(),...(extra||{})}); return true; }
+    catch(e){ toast('فشل — راجع قواعد Firebase',true); return false; } };
+  const closeSheet=()=>{ A2.dr=null; document.getElementById('a2sh')?.remove(); };
+  const sheet=html=>{ closeSheet(); const o=document.createElement('div'); o.id='a2sh'; o.className='a2-ov'; o.innerHTML=`<div class="a2-pn"><i class="a2-grab"></i>${html}</div>`; o.onclick=e=>{ if(e.target===o) closeSheet(); }; document.body.appendChild(o); return o.firstChild; };
+  const delTeam=async id=>{ const tm=RT.find(x=>x.id===id); if(!tm||!confirm('حذف فريق "'+tm.name+'" نهائيًا؟ مش هيقدر يدخل تاني.')) return;
+    try{ const w=DB.batch(); w.delete(DB.collection('teams').doc(id)); w.delete(DB.collection('teamData').doc(id)); const cd=Object.keys(CODES).find(k=>CODES[k]===id); if(cd) w.delete(DB.collection('codes').doc(cd));
+      w.set(DB.collection('deletedTeams').doc(id),{name:tm.name||'',ts:Date.now()}); const aw=await DB.collection('awards').where('teamId','==',id).get(); aw.forEach(d=>w.delete(d.ref)); await w.commit(); closeSheet(); toast('اتحذف ✅'); }
+    catch(e){ toast('فشل — راجع قواعد Firebase',true); } };
+  /* بحث ذكي عن الفرق (يتجاهل التشكيل والهمزات) */
+  function findTeams(text){ const q=nrm(text).replace(/^(الفريق|فريق)\s+/,''), toks=q.split(/\s+/).filter(w=>w.length>=2); if(!q) return [];
+    return RT.map(x=>{ const n=nrm(x.name); let s=0; if(n===q) s=100; else if(n.includes(q)) s=60; else if(n.length>1&&q.includes(n)) s=50; else if(toks.length) s=toks.filter(w=>n.includes(w)).length/toks.length*40; return [x,s]; }).filter(p=>p[1]>0).sort((a,b)=>b[1]-a[1]); }
+  const STOP=new Set('خصم اخصم ناقص سلب عقوبه زود زوّد ضيف اضافه اعط اديه ادي من الي الي ل لفريق فريق الفريق للفريق نقطه نقاط نقط بونص مع في علي للكل الكل'.split(' ').map(nrm));
+  const NAVW=Object.fromEntries(Object.entries({شعارات:'slg',الشعارات:'slg',اسئلة:'qs',الاسئلة:'qs',أسئلة:'qs',مسح:'scan',حضور:'att',الحضور:'att',فرق:'teams',الفرق:'teams',ترتيب:'rank',النقاط:'rank',محتوى:'content:gen',المحتوى:'content:gen',اعدادات:'cfg',الاعدادات:'cfg',ادوات:'tools',الادوات:'tools',تقييمات:'fbk',التقييمات:'fbk',لاسلكي:'muna',اعلانات:'ann',رئيسية:'home',تحليلات:'stats',احصائيات:'stats',سجل:'log',السجل:'log',اليوم:'agenda',البرنامج:'agenda',جماعي:'bulk',مواعيد:'agenda'}).map(([k,v])=>[nrm(k),v]));
+  function smartParse(raw){ const s=String(raw||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).trim(); if(!s) return null; const q=nrm(s);
+    if(/^\d{4}$/.test(s)&&CODES[s]){ const tm=RT.find(x=>x.id===CODES[s]); if(tm) return {t:'find',list:[tm]}; }
+    if(q.includes('شاشه العرض')||q==='عرض') return {t:'proj'};
+    if(q.startsWith('قرعه')) return {t:'draw'};
+    if(q.startsWith('تصدير')) return {t:'export'};
+    const am=s.match(/^(اعلان|إعلان|اعلن|بلغ)\s+([\s\S]+)/); if(am) return {t:'ann',text:am[2].trim()};
+    if(NAVW[q]) return {t:'nav',tab:NAVW[q]};
+    const nm=s.match(/([+\-−–]?)\s*(\d{1,4})(?!\d)/);
+    if(nm){ let n=+nm[2]; const neg=/[-−–]/.test(nm[1])||/(^|\s)(خصم|اخصم|ناقص|سلب|عقوبه)(\s|$)/.test(q); if(neg) n=-n; if(!n) return null;
+      const rest=nrm(s.slice(0,nm.index)+' '+s.slice(nm.index+nm[0].length)), all=/(^|\s)(للكل|الكل|كل الفرق|لجميع الفرق)(\s|$)/.test(rest), toks=rest.split(/\s+/).filter(w=>w&&!STOP.has(w));
+      const found=all?[]:findTeams(toks.join(' ')), hit=found.length?nrm(found[0][0].name):'', why=(s.slice(0,nm.index)+' '+s.slice(nm.index+nm[0].length)).split(/\s+/).filter(w=>w&&!STOP.has(nrm(w))&&!hit.split(/\s+/).includes(nrm(w))).join(' ')||(/(^|\s)بونص(\s|$)/.test(rest)?'بونص':n>0?'بونص':'خصم');
+      return {t:'pts',n,why:(n<0&&!/خصم|عقوب/.test(why)?'خصم: ':'')+why,all,found,hasName:!!toks.length}; }
+    const f=findTeams(s); return f.length?{t:'find',list:f.map(p=>p[0]),sc:f.map(p=>p[1])}:{t:'none'}; }
+  const sugHtml=p=>{ if(!p) return ''; if(p.t==='pts') return `<div class="a2-sg">↵ ${p.all?'هتطبّق على كل الفرق':p.found.length?'لـ <b>'+esc(p.found[0][0].name)+'</b>':'اختار الفريق'} <b dir="ltr" style="color:${p.n>0?'var(--good)':'var(--danger)'}">${sgn(p.n)}</b> نقطة · ${esc(p.why)}</div>`;
+    if(p.t==='find') return `<div class="a2-sg">${p.list.slice(0,6).map(x=>`<span class="chip" data-tm="${x.id}" style="--c:${tcol(x)}">${esc(x.name)}</span>`).join('')}</div>`;
+    if(p.t==='none') return '<div class="a2-sg">مفيش فريق بالاسم ده</div>';
+    return `<div class="a2-sg">↵ ${({proj:'فتح شاشة العرض',draw:'قرعة بين الفرق',export:'تصدير النتايج',ann:'إرسال إعلان: '+esc(p.text||''),nav:'الذهاب للتبويب'})[p.t]||''}</div>`; };
+  function pickTeam(list,cb,title){ const p=sheet(`<div class="a2-sec" style="margin-top:0">${title||'اختار الفريق'}</div><div class="a2-pk">${list.map(x=>`<button data-pk="${x.id}"><span class="av2" style="--c:${tcol(x)}">${esc(ini(x.name))}</span><span style="flex:1">${esc(x.name)}</span><b dir="ltr">${x.points||0}</b></button>`).join('')}</div>`);
+    p.onclick=e=>{ const b=e.target.closest('[data-pk]'); if(b){ const tm=RT.find(x=>x.id===b.dataset.pk); closeSheet(); cb(tm); } }; }
+  function cmdConfirm(list,n,why){ if(!list.length) return toast('مفيش فرق',true);
+    const p=sheet(`<div class="a2-cf"><div class="a2-big ${n>0?'up':'dn'}">${sgn(n)}</div><div style="font:900 18px 'Cairo'">${list.length===1?esc(list[0].name):list.length+' فريق'}</div><div class="hint">${esc(why)} · ${esc(dayLbl())}</div></div><div class="a2-acts"><button class="btn btn-primary" id="cfOk">✅ تأكيد</button><button class="btn btn-ghost" id="cfNo">إلغاء</button></div>`);
+    p.querySelector('#cfNo').onclick=closeSheet;
+    p.querySelector('#cfOk').onclick=async e=>{ e.target.disabled=true; let ok=0; for(const tm of list) if(await pushAward(tm,n,why)) ok++; closeSheet(); if(ok){ toast(`تم ${sgn(n)} ${list.length>1?'لـ '+ok+' فريق':'لـ '+list[0].name} ✅`); if(n>0) confetti(900); } }; }
+  function smartExec(raw){ const p=smartParse(raw); if(!p) return; const inp=A.querySelector('#a2q');
+    if(p.t==='none') return toast('مفيش فريق بالاسم ده',true);
+    if(p.t==='proj') return openProj(); if(p.t==='draw') return drawTeam(); if(p.t==='export') return exportCsv();
+    if(p.t==='nav') return go(p.tab);
+    if(p.t==='ann'){ DB.collection('announcements').add({text:p.text,ts:Date.now()}).then(()=>{ toast('اتبعت لكل الفرق ✅'); if(inp) inp.value=''; }).catch(()=>toast('فشل — راجع قواعد Firebase',true)); return; }
+    if(p.t==='find'){ if(inp) inp.value=''; return p.list.length===1||(p.sc&&p.sc[0]>(p.sc[1]||0))?openTeam(p.list[0].id):pickTeam(p.list.slice(0,8),tm=>openTeam(tm.id),'تقصد أنهي فريق؟'); }
+    if(p.t==='pts'){ if(inp) inp.value=''; if(p.all) return cmdConfirm(teamsSorted(),p.n,p.why);
+      if(!p.found.length){ if(p.hasName) return toast('مفيش فريق بالاسم ده',true); return pickTeam(teamsSorted(),tm=>cmdConfirm([tm],p.n,p.why),`${sgn(p.n)} نقطة — لأنهي فريق؟`); }
+      if(p.found.length>1&&p.found[0][1]===p.found[1][1]) return pickTeam(p.found.map(f=>f[0]).slice(0,8),tm=>cmdConfirm([tm],p.n,p.why),'تقصد أنهي فريق؟');
+      return cmdConfirm([p.found[0][0]],p.n,p.why); } }
+  /* ملف الفريق */
+  function drHead(tm){ return `<div class="a2-dh"><span class="av2" style="--c:${tcol(tm)}">${esc(ini(tm.name))}</span><div class="t"><b>${esc(tm.name)}</b><small>الترتيب #${rankOf(tm.id)} · كود ${esc(tCode(tm.id))}</small></div><div class="dpt">${tm.points||0}</div></div>`; }
+  function drHist(tm){ const mine=AW.filter(a=>a.teamId===tm.id).sort((a,b)=>(b.ts||0)-(a.ts||0)), rv=new Set(AW.filter(a=>a.undo).map(a=>a.undo)), rest=(tm.points||0)-mine.reduce((s,a)=>s+(a.pts||0),0);
+    return (rest?`<div class="a2-hr"><div>📚 شرح وحضور وأكواد وغيره</div><b class="${rest>0?'up':'dn'}">${sgn(rest)}</b></div>`:'')+mine.slice(0,25).map(a=>`<div class="a2-hr ${rv.has(a.id)?'rv':''}"><div>${esc(a.why||a.kind)}<br><small>${esc((CONF.days[a.day]||{}).label||'')} · ${timeAgo(a.ts||0)}</small></div><b class="${a.pts>0?'up':'dn'}">${sgn(a.pts)}</b>${a.undo||rv.has(a.id)||!a.id?'':`<button class="a2-un" data-un="${esc(a.id)}" title="عكس العملية">↩️</button>`}</div>`).join('')||(rest?'':'<div class="hint">لسه مفيش عمليات</div>'); }
+  function drRefresh(){ if(!A2.dr) return; const tm=RT.find(x=>x.id===A2.dr), h=document.getElementById('drHead'); if(!tm||!h){ if(!tm) closeSheet(); return; } h.innerHTML=drHead(tm); document.getElementById('drHist').innerHTML=drHist(tm); }
+  function openTeam(id){ const tm=RT.find(x=>x.id===id); if(!tm) return;
+    const p=sheet(`<div id="drHead"></div><div class="a2-sec">⚡ نقط سريعة (ليوم: ${esc(dayLbl())})</div>
+      <div class="a2-q">${(CFG.quick||[5,10,20,50]).map(n=>`<button class="up" data-q="${n}">+${n}</button>`).join('')}${(CFG.quickNeg||[5,10,20]).map(n=>`<button class="dn" data-q="-${n}">-${n}</button>`).join('')}<button data-qx="1" style="font-size:13px">أي رقم</button></div>
+      <div class="a2-sec">السبب</div><div class="a2-rs">${(CFG.reasons||REASONS).map(r=>`<button class="chip ${r===A2.reason?'on':''}" data-rs="${esc(r)}">${esc(r)}</button>`).join('')}</div>
+      <div class="sc-man"><input class="field" id="drN" type="number" dir="ltr" placeholder="رقم (+ أو -)"><input class="field" id="drW" placeholder="تفاصيل (اختياري)"><button class="btn btn-primary" id="drOk" style="width:auto;padding:0 16px">تطبيق</button></div>
+      <div class="a2-sec">👥 بيانات الفريق</div><div id="drInfo"><button class="btn btn-ghost" data-info="1">عرض الأعضاء والحضور</button></div>
+      <div class="a2-sec">🧾 السجل</div><div id="drHist"></div>
+      <div class="a2-acts"><button class="btn btn-ghost" id="drCp">📋 نسخ الكود</button><button class="btn btn-danger" id="drDel">🗑️ حذف الفريق</button></div>`);
+    A2.dr=id; drRefresh();
+    const apply=async n=>{ const cur=RT.find(x=>x.id===id); if(!cur||!n) return toast('اكتب عدد النقط',true); const w=(p.querySelector('#drW').value||'').trim(), why=(n<0?'خصم · ':'')+A2.reason+(w?': '+w:'');
+      if(await pushAward(cur,n,why)){ toast(`تم ${sgn(n)} لـ ${cur.name} ✅`); if(n>0) confetti(700); p.querySelector('#drW').value=''; p.querySelector('#drN').value=''; } };
+    p.onclick=async e=>{ const b=e.target.closest('button'); if(!b) return; const d=b.dataset;
+      if(d.q) apply(+d.q); else if(d.qx) p.querySelector('#drN').focus(); else if(d.rs){ A2.reason=d.rs; p.querySelectorAll('[data-rs]').forEach(x=>x.classList.toggle('on',x.dataset.rs===d.rs)); }
+      else if(b.id==='drOk') apply(+p.querySelector('#drN').value||0);
+      else if(d.info) drInfo(id,p);
+      else if(d.un){ const a=AW.find(x=>x.id===d.un), cur=RT.find(x=>x.id===id); if(!a||!cur||!confirm(`عكس "${a.why}" (${sgn(a.pts)})؟ هتتسجّل عملية عكسية.`)) return; if(await pushAward(cur,-a.pts,'عكس: '+(a.why||a.kind),'adj',{undo:a.id})) toast('اتعكست ✅'); }
+      else if(b.id==='drCp'){ try{ await navigator.clipboard.writeText(tCode(id)); toast('اتنسخ الكود ✅'); }catch(_){ toast(tCode(id)); } }
+      else if(b.id==='drDel') delTeam(id); }; }
+  /* قرعة */
+  function drawTeam(pool){ const T=(pool||RT).slice(); if(!T.length) return toast('مفيش فرق',true);
+    const p=sheet(`<div class="a2-sec" style="margin-top:0">🎲 قرعة بين ${T.length} فريق</div><div class="a2-wheel" id="whl">…</div><div class="a2-acts"><button class="btn btn-primary" id="whGo">🎲 اسحب</button><button class="btn btn-ghost" id="whX">إغلاق</button></div><div id="whR"></div>`);
+    p.querySelector('#whX').onclick=closeSheet;
+    p.querySelector('#whGo').onclick=e=>{ const w=p.querySelector('#whl'), btn=e.target; btn.disabled=true; w.classList.remove('done'); p.querySelector('#whR').innerHTML=''; let i=0; const win=T[Math.floor(Math.random()*T.length)], t0=Date.now();
+      const iv=setInterval(()=>{ const x=T[i++%T.length]; w.textContent=x.name; w.style.color=tcol(x); if(Date.now()-t0>2200){ clearInterval(iv); w.textContent='🎉 '+win.name; w.style.color=tcol(win); w.classList.add('done'); btn.disabled=false; btn.textContent='🎲 اسحب تاني'; try{ confetti(1800); }catch(_){}
+        p.querySelector('#whR').innerHTML=`<div class="a2-q" style="margin-top:12px">${[5,10,20].map(n=>`<button class="up" data-wq="${n}">+${n}</button>`).join('')}<button data-wo="1" style="font-size:13px">الملف</button></div>`;
+        p.querySelector('#whR').onclick=async ev=>{ const bb=ev.target.closest('button'); if(!bb) return; if(bb.dataset.wo){ openTeam(win.id); return; } if(await pushAward(win,+bb.dataset.wq,'بونص: فاز بالقرعة 🎲')) toast(`+${bb.dataset.wq} لـ ${win.name} ✅`); }; } },70); }; }
+  /* شاشة العرض */
+  function openProj(){ closeProj(); const o=document.createElement('div'); o.id='a2pj'; o.className='a2-pj'; o.innerHTML=`<div class="a2-pj-h"><div><div class="a2-pj-t">🏆 ترتيب الفرق</div><div class="a2-pj-s" id="pjS"></div></div><button id="pjX" class="sheet-x" aria-label="إغلاق">✕</button></div><div class="a2-pj-l" id="pjL"></div>`; document.body.appendChild(o); o.querySelector('#pjX').onclick=closeProj; try{ o.requestFullscreen&&o.requestFullscreen().catch(()=>{}); }catch(_){} projRefresh(); }
+  function closeProj(){ const o=document.getElementById('a2pj'); if(!o) return; try{ document.fullscreenElement&&document.exitFullscreen(); }catch(_){} o.remove(); }
+  function projRefresh(){ const L=document.getElementById('pjL'); if(!L) return; const T=teamsSorted().slice(0,10), mx=Math.max(1,...T.map(x=>x.points||0)), H=Math.max(46,Math.min(84,Math.floor((window.innerHeight-170)/Math.max(1,T.length))));
+    L.style.height=(T.length*H)+'px'; const seen={};
+    T.forEach((x,i)=>{ seen[x.id]=1; let r=[...L.children].find(c=>c.dataset.id===x.id); if(!r){ r=document.createElement('div'); r.className='a2-pj-r'; r.dataset.id=x.id; r.innerHTML='<span class="m"></span><span class="n"></span><div class="b"><i></i></div><b></b>'; r.style.transform=`translateY(${i*H}px)`; L.appendChild(r); }
+      r.style.setProperty('--c',tcol(x)); r.style.height=(H-10)+'px'; requestAnimationFrame(()=>{ r.style.transform=`translateY(${i*H}px)`; });
+      r.querySelector('.m').textContent=md[i]||(i+1); r.querySelector('.n').textContent=x.name; r.querySelector('.b i').style.width=Math.round((x.points||0)/mx*100)+'%'; r.querySelector('b').textContent=x.points||0; });
+    [...L.children].forEach(r=>{ if(!seen[r.dataset.id]) r.remove(); }); const s=document.getElementById('pjS'); if(s) s.textContent=dayLbl(); }
+  /* الصفحة الرئيسية: مركز القيادة */
+  function insights(){ const T=teamsSorted(), out=[], now=Date.now(), today=AW.filter(a=>a.day===day), pend=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unq=QS.filter(q=>!q.reply).length;
+    if(!T.length) return [['👥','لسه مفيش فرق متسجلة — أول ما يسجّلوا هتظهر هنا.','']];
+    if(T.length>1){ const g=(T[0].points||0)-(T[1].points||0); out.push(g<=10?['🔥',`سباق ساخن! ${esc(T[0].name)} متقدم بـ ${g} نقطة بس على ${esc(T[1].name)}`,'warn']:['👑',`${esc(T[0].name)} مسيطر بفارق ${g} نقطة عن ${esc(T[1].name)}`,'good']); }
+    if(pend) out.push(['🎬',`${pend} شعار مستني مراجعتك`,'warn','slg']); if(unq) out.push(['💬',`${unq} سؤال من الفرق مستني رد`,'warn','qs']);
+    const none=T.filter(x=>!today.some(a=>a.teamId===x.id)); if(none.length&&none.length<T.length) out.push(['😴',`${none.length} فريق ما خدوش نقط منك في ${esc(dayLbl())}: ${none.slice(0,3).map(x=>esc(x.name)).join('، ')}${none.length>3?'…':''}`,'','teams']);
+    const hr=now-3600000, by={}; AW.filter(a=>(a.ts||0)>hr&&a.pts>0).forEach(a=>by[a.teamId]=(by[a.teamId]||0)+a.pts); const best=Object.keys(by).sort((a,b)=>by[b]-by[a])[0]; if(best){ const tm=RT.find(x=>x.id===best); if(tm) out.push(['🚀',`أسرع صعود آخر ساعة: ${esc(tm.name)} (+${by[best]})`,'good']); }
+    const last=Math.max(0,...AW.map(a=>a.ts||0)); if(last&&now-last>30*60000) out.push(['⏱️',`آخر توزيع نقط كان ${timeAgo(last)}`,'']); if(!AW.length) out.push(['🎁','لسه ما وزّعتش أي نقط — جرّب شريط الأوامر فوق: "+10 اسم الفريق"','']);
+    return out; }
+  function chartHtml(){ const T=teamsSorted().slice(0,5), ev=AW.filter(a=>a.ts&&a.pts).sort((a,b)=>a.ts-b.ts); if(ev.length<2||!T.length) return '<div class="hint">الرسم بيظهر بعد ما تتوزع شوية نقط</div>';
+    const t0=ev[0].ts, t1=Math.max(Date.now(),ev[ev.length-1].ts), W=320, H=140, P=10, X=t=>P+(t-t0)/Math.max(1,t1-t0)*(W-2*P);
+    const lines=T.map(tm=>{ let c=0; const pts=[[t0,0]]; ev.filter(a=>a.teamId===tm.id).forEach(a=>{ pts.push([a.ts,c]); c+=a.pts; pts.push([a.ts,c]); }); pts.push([t1,c]); return {tm,pts}; });
+    const vs=lines.flatMap(l=>l.pts.map(p=>p[1])), mx=Math.max(1,...vs), mn=Math.min(0,...vs), Y=v=>H-P-(v-mn)/((mx-mn)||1)*(H-2*P);
+    return `<svg viewBox="0 0 ${W} ${H}" class="a2-svg">${[0,1,2,3].map(i=>`<line x1="${P}" x2="${W-P}" y1="${P+i*(H-2*P)/3}" y2="${P+i*(H-2*P)/3}"/>`).join('')}${lines.map(l=>`<polyline fill="none" stroke="${tcol(l.tm)}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" points="${l.pts.map(p=>X(p[0]).toFixed(1)+','+Y(p[1]).toFixed(1)).join(' ')}"/>`).join('')}</svg><div class="a2-lg">${lines.map(l=>`<span style="--c:${tcol(l.tm)}"><i></i>${esc(l.tm.name)}</span>`).join('')}</div>`; }
+  function homeHtml(){ const T=teamsSorted(), total=T.reduce((t,x)=>t+(x.points||0),0), mx=Math.max(1,...T.map(x=>x.points||0)), info=dayInfo(), today=AW.filter(a=>a.day===day), pend=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unq=QS.filter(q=>!q.reply).length;
+    const live=info.state==='live', st=live?'المؤتمر شغّال دلوقتي':info.state==='after'?'المؤتمر خلص 🏁':'المؤتمر لسه ما بدأش';
+    const feed=AW.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,10), rv=new Set(AW.filter(a=>a.undo).map(a=>a.undo));
+    return `<div class="a2-hero"><h2>مركز القيادة</h2><p>${esc(dayLbl())} · ${T.length} فريق مسجّل</p><span class="a2-live ${live?'':'off'}"><i></i>${st}</span></div>${nowCard()}
+      <div class="a2-tiles">
+        <div class="a2-tile" style="--c:#3FDCC9"><small>👥 الفرق</small><b data-count="${T.length}">${T.length}</b></div>
+        <div class="a2-tile" style="--c:#F4B740"><small>⭐ إجمالي النقط</small><b data-count="${total}">${total}</b></div>
+        <button class="a2-tile ${pend?'warn':''}" data-go="slg" style="--c:#FF7A59"><small>🎬 شعارات مستنية</small><b data-count="${pend}">${pend}</b></button>
+        <button class="a2-tile ${unq?'warn':''}" data-go="qs" style="--c:#8B7CFF"><small>💬 أسئلة مستنية</small><b data-count="${unq}">${unq}</b></button></div>
+      <div class="a2-sec">🏁 سباق الفرق</div><div class="a2-race">${T.length?T.slice(0,8).map((x,i)=>{ const gap=i?(T[i-1].points||0)-(x.points||0):0; return `<button class="a2-rc" data-tm="${x.id}" style="--c:${tcol(x)};animation-delay:${i*.05}s"><span class="m">${md[i]||i+1}</span><span class="av2">${esc(ini(x.name))}</span><div class="n"><div>${esc(x.name)}</div><div class="bar"><i style="width:${Math.round((x.points||0)/mx*100)}%"></i></div>${i?`<small>ورا اللي قبله بـ ${gap}</small>`:'<small>👑 في الصدارة</small>'}</div><b>${x.points||0}</b></button>`; }).join(''):'<div class="hint">مفيش فرق لسه</div>'}${T.length>8?'<button class="btn btn-ghost" data-go="teams">عرض كل الفرق</button>':''}</div>
+      <div class="a2-sec">🧠 ملاحظات ذكية</div>${insights().map(([ic,tx,cl,go])=>`<div class="a2-insr ${cl}"><i>${ic}</i><span>${tx}</span>${go?`<button data-go="${go}">←</button>`:''}</div>`).join('')}
+      <div class="a2-sec">📈 تطور النقط (اللي وزّعتها)</div>${chartHtml()}
+      <div class="a2-sec">⚡ إجراءات سريعة</div><div class="a2-qa"><button data-go="scan"><i>📷</i>مسح فريق</button><button data-go="ann"><i>📢</i>إعلان</button><button id="hProj"><i>📺</i>شاشة العرض</button><button id="hDraw"><i>🎲</i>قرعة</button><button data-go="tools"><i>🧰</i>أدوات</button><button id="hExport"><i>📥</i>تصدير</button></div>
+      <div class="a2-sec">🧾 آخر العمليات</div><div class="card a2-feed">${feed.length?feed.map(a=>{ const tm=RT.find(x=>x.id===a.teamId); return `<div class="a2-hr ${rv.has(a.id)?'rv':''}"><div>${esc(tm?tm.name:'؟')} <small>— ${esc(a.why||a.kind)} · ${timeAgo(a.ts||0)}</small></div><b class="${a.pts>0?'up':'dn'}">${sgn(a.pts)}</b>${a.undo||rv.has(a.id)||!tm?'':`<button class="a2-un" data-un2="${esc(a.id)}" title="عكس">↩️</button>`}</div>`; }).join(''):'<div class="hint">لسه مفيش عمليات</div>'}</div>`; }
+  function teamsHtml(){ const T=teamsSorted();
+    return `<input class="field a2-tf" id="a2ts" placeholder="🔍 دوّر على فريق بالاسم أو الكود..."><div class="hint" style="margin:0 0 10px;text-align:start">${T.length} فريق — دوس على أي فريق لفتح ملفه والتحكم الكامل فيه.</div><div class="a2-tg">${T.map((x,i)=>`<button class="a2-tc" data-tm="${x.id}" data-n="${esc(nrm(x.name)+' '+tCode(x.id))}" style="--c:${tcol(x)}"><span class="rk">#${i+1}</span><span class="av2">${esc(ini(x.name))}</span><span class="nm">${esc(x.name)}</span><b>${x.points||0}</b><small>كود ${esc(tCode(x.id))}</small></button>`).join('')||'<div class="hint">لسه مفيش فرق</div>'}</div>`; }
+  const TPL=['الفقرة الجاية هتبدأ بعد 5 دقايق ⏰','استراحة 15 دقيقة ☕','اتجمعوا في القاعة الرئيسية 📍','سجّلوا حضوركم بمسح الـ QR 📷','مبروك للفريق الفايز 🎉','هدوء من فضلكم — الفقرة بدأت 🤫'];
+  function toolsHtml(){ const T=teamsSorted();
+    return `<div class="card"><div class="step-t">📢 رسائل جاهزة (بتتبعت لكل الفرق)</div><div class="a2-tp">${TPL.map(t=>`<button class="chip" data-tpl="${esc(t)}">${esc(t)}</button>`).join('')}</div></div>
+      <div class="card"><div class="step-t">🧰 أدوات</div><div class="a2-acts"><button class="btn btn-primary" id="tlProj">📺 شاشة العرض</button><button class="btn btn-ghost" id="tlDraw">🎲 قرعة</button><button class="btn btn-ghost" id="tlCsv">📥 تصدير CSV</button><button class="btn btn-ghost" id="tlJson">💾 نسخة احتياطية</button></div></div>`; }
+  /* ===== التنظيم الجديد: مراكز + تبويبات فرعية ===== */
+  const REASONS=['بونص','لعبة','شعار','سلوك','أخرى'];
+  const HUBS=[
+    {id:'home',ic:'🏠',l:'القيادة',subs:[['home','نظرة عامة']]},
+    {id:'teams',ic:'👥',l:'الفرق',subs:[['teams','الفرق'],['rank','الترتيب'],['stats','تحليلات'],['log','السجل'],['bulk','نقط جماعية'],['scan','مسح'],['att','حضور بالوش']]},
+    {id:'prog',ic:'🎯',l:'البرنامج',subs:[['agenda','اليوم'],['slg','الشعارات'],['content:qr','أكواد QR']]},
+    {id:'comm',ic:'📣',l:'التواصل',subs:[['ann','إعلانات'],['qs','الأسئلة'],['muna','لاسلكي'],['fbk','التقييمات']]},
+    {id:'cont',ic:'🧩',l:'المحتوى',subs:[['content:gen','عام'],['content:days','الأيام والفقرات'],['content:bank','أسئلة الشرح'],['content:quiz','سؤال اليوم'],['content:ui','شكل الشرح']]},
+    {id:'sys',ic:'⚙️',l:'النظام',subs:[['cfg','النقط والإعدادات'],['tools','الأدوات']]}];
+  A2.hubSub={}; A2.lf={team:'',k:'all',q:''};
+  const gkey=()=>tab==='content'?'content:'+sec:tab;
+  const go=key=>{ const [t,sc]=String(key).split(':'); const k=t==='content'?'content:'+(sc||sec):t; tab=t; if(t==='content') sec=sc||sec; const h=HUBS.find(h=>h.subs.some(s=>s[0]===k)); if(h) A2.hubSub[h.id]=k; draw(); };
+  /* بيانات الفرق الكاملة (حضور، أعضاء، نقط) — بتتحمّل عند الطلب */
+  let TD={}, TDts=0, TDbusy=false;
+  async function loadTD(){ if(TDbusy) return; TDbusy=true; toast('بحمّل بيانات الفرق…');
+    try{ const sn=await DB.collection('teamData').get(); const n={}; sn.forEach(d=>{ try{ n[d.id]=JSON.parse(d.data().json); }catch(e){} }); TD=n; TDts=Date.now(); toast('اتحمّلت بيانات '+Object.keys(TD).length+' فريق ✅'); }
+    catch(e){ toast('تعذر تحميل بيانات الفرق — راجع قواعد Firebase',true); } TDbusy=false; draw(); }
+  const scanCnt=k=>Object.keys(TD).filter(id=>(TD[id].scans||{})[k]).length;
+  const annSend=txt=>{ if(!confirm('إرسال لكل الفرق؟\n'+txt)) return; DB.collection('announcements').add({text:txt,ts:Date.now()}).then(()=>toast('اتبعت لكل الفرق ✅')).catch(()=>toast('فشل — راجع قواعد Firebase',true)); };
+  function showQr(text,title,sub){ const p=sheet(`<div style="text-align:center"><div class="a2-sec" style="margin-top:0">${esc(title)}</div><div id="qrShow" style="background:#fff;border-radius:22px;padding:16px;width:fit-content;margin:0 auto;min-width:120px;min-height:120px"></div><div dir="ltr" style="margin-top:12px;font:800 15px monospace;color:var(--soft)">${esc(text)}</div><div class="hint">${esc(sub||'')}</div><button class="btn btn-ghost" id="qrFs" style="margin-top:10px">⛶ تكبير للعرض على الشاشة</button></div>`);
+    const el=p.querySelector('#qrShow'); try{ new QRCode(el,{text:String(text),width:240,height:240}); }catch(e){ el.textContent=text; }
+    p.querySelector('#qrFs').onclick=()=>{ const o=document.createElement('div'); o.style.cssText='position:fixed;inset:0;z-index:500;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px'; o.innerHTML=`<div id="qrBig"></div><div style="font:900 22px Cairo,sans-serif;color:#111;text-align:center;padding:0 16px">${esc(title)}</div>`; o.onclick=()=>o.remove(); document.body.appendChild(o); const sz=Math.floor(Math.min(innerWidth,innerHeight)*.7); try{ new QRCode(o.querySelector('#qrBig'),{text:String(text),width:sz,height:sz}); }catch(e){} }; }
+  function agendaHtml(){ const dd=CONF.days[day]; if(!dd) return '<div class="hint">مفيش يوم</div>'; const info=dayInfo(), today=info.state==='live'&&info.idx===day, st=today?sessState(info):{nowIdx:-1,nextIdx:-1}, have=!!TDts, N=RT.length;
+    const cur=today&&st.nowIdx>=0?dd.sessions[st.nowIdx]:null, nxt=today&&st.nextIdx>=0?dd.sessions[st.nextIdx]:null;
+    const badge=i=>!today?'':i===st.nowIdx?'<span class="a2-bd on">🟢 جارية</span>':i===st.nextIdx?'<span class="a2-bd nx">⏭️ التالية</span>':i<st.nowIdx?'<span class="a2-bd dn">✓ خلصت</span>':'';
+    return `<div class="a2-hero" style="padding:14px"><h2>${esc(dd.label)}</h2><p>${esc(dd.date)} · ${dd.sessions.length} فقرة</p>${today?`<span class="a2-live"><i></i>${cur?`الآن: ${esc(cur.ico||'')} ${esc(cur.name)}`:'اليوم شغّال'}</span>${nxt?`<p style="margin-top:8px">⏭️ التالية ${esc(nxt.time)}: ${esc(nxt.name)}</p>`:''}`:`<span class="a2-live off"><i></i>${info.state==='before'?'لسه ما بدأش':'مش النهاردة'}</span>`}</div>
+      ${have?`<div class="hint" style="text-align:start;margin:0 0 10px">الحضور محسوب من بيانات ${Object.keys(TD).length} فريق · ${timeAgo(TDts)} <button class="chip" id="tdRef" style="cursor:pointer">🔄 تحديث</button></div>`:`<button class="btn btn-ghost" id="tdLoad" style="margin-bottom:10px">📊 حمّل بيانات الحضور من الفرق</button>`}
+      <div class="a2-sec">🗓️ فقرات اليوم</div><div class="a2-tl">${dd.sessions.map((s,i)=>{ const n=have?scanCnt(day+'-'+i):0; return `<div class="a2-ss ${today&&i===st.nowIdx?'now':''}"><div class="tm">${esc(s.time)}</div><div class="bd"><div class="nm">${esc(s.ico||'📌')} ${esc(s.name)} ${badge(i)}</div>${have?`<div class="a2-pg"><i style="width:${N?Math.round(n/N*100):0}%"></i></div><small>${n} من ${N} فريق مسحوا الكود</small>`:''}<div class="a2-bt"><button data-ag="start:${i}">🔔 أعلن البدء</button><button data-ag="soon:${i}">⏰ بعد 5 د</button><button data-ag="qr:${i}">🔳 الكود</button></div></div></div>`; }).join('')}</div>
+      <div class="a2-sec">🧠 حضور الشرح</div><div class="a2-tg">${[1,2].map(p=>`<div class="a2-tc" style="--c:${(CONF.ui.colors||[])[p-1]||'#3FDCC9'};cursor:default"><span class="nm">${esc(CONF.ui.names[p-1]||('الشرح '+p))}</span><b>${have?scanCnt(exSc(day,p))+'<small>/'+N+'</small>':'—'}</b><button class="chip" data-ag="exqr:${p}" style="cursor:pointer">🔳 الكود</button></div>`).join('')}</div>`; }
+  const BK={explain:['🧠 شرح','#3FDCC9'],slogan:['🎬 شعار','#F4B740'],games:['🎮 ألعاب','#FF7A59'],bonus:['🎁 بونص','#8B7CFF'],other:['⭐ أخرى','#5FE0A4'],adj:['⚖️ تعديل','#FF6B6B']};
+  function statsHtml(){ if(!TDts) return `<div class="card" style="text-align:center"><div style="font-size:42px">📊</div><div class="step-t">تحليلات الفرق</div><div class="hint">هنقرأ بيانات كل فريق (حضور، نقط، أعضاء) ونعرضها في جداول ورسومات.</div><button class="btn btn-primary" id="tdLoad" style="margin-top:10px">📊 حمّل البيانات</button></div>`;
+    const all=teamsSorted(), T=all.filter(x=>TD[x.id]), miss=all.length-T.length, dd=CONF.days[day]||{sessions:[]}, info=dayInfo(), today=info.state==='live'&&info.idx===day, st=today?sessState(info):{nowIdx:-1};
+    const cols=[...dd.sessions.map((s,i)=>({l:s.ico||'📌',t:s.name,k:day+'-'+i})),{l:'ش1',t:'الشرح 1',k:exSc(day,1)},{l:'ش2',t:'الشرح 2',k:exSc(day,2)}], has=(x,k)=>!!((TD[x.id].scans||{})[k]);
+    const tbl=`<div style="overflow-x:auto" class="card"><table class="a2-tbl"><thead><tr><th>الفريق</th>${cols.map(c=>`<th title="${esc(c.t)}">${esc(c.l)}</th>`).join('')}</tr></thead><tbody>${T.map(x=>`<tr><td data-tm="${x.id}">${esc(x.name)}</td>${cols.map(c=>`<td>${has(x,c.k)?'✅':'<span style="opacity:.25">·</span>'}</td>`).join('')}</tr>`).join('')}</tbody><tfoot><tr><td>نسبة الحضور</td>${cols.map(c=>`<td>${T.length?Math.round(T.filter(x=>has(x,c.k)).length/T.length*100):0}%</td>`).join('')}</tr></tfoot></table></div>`;
+    const mxT=Math.max(1,...T.map(x=>Object.values(TD[x.id].brk||{}).filter(v=>v>0).reduce((a,b)=>a+b,0)));
+    const brk=T.map(x=>{ const b=TD[x.id].brk||{}, ks=Object.keys(b).filter(k=>b[k]>0); return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-weight:800;font-size:13.5px"><span>${esc(x.name)}</span><b dir="ltr">${x.points||0}</b></div><div class="a2-sk">${ks.map(k=>`<i style="width:${b[k]/mxT*100}%;background:${(BK[k]||[0,'#999'])[1]}" title="${esc((BK[k]||[k])[0])} ${b[k]}"></i>`).join('')}</div><div class="a2-lg" style="margin:0">${ks.map(k=>`<span style="--c:${(BK[k]||[0,'#999'])[1]}"><i></i>${esc((BK[k]||[k])[0])} ${b[k]}</span>`).join('')||'<small style="color:var(--muted)">لسه مفيش تفاصيل</small>'}</div></div>`; }).join('');
+    const eng=T.map(x=>{ const t=TD[x.id], sc=Object.keys(t.scans||{}).length, ex=Object.values(t.ex||{}).filter(exFin).length; return {x,sc,ex,m:(t.members||[]).length+1,score:sc+ex*2}; }).sort((a,b)=>b.score-a.score);
+    const curK=today&&st.nowIdx>=0?day+'-'+st.nowIdx:'', late=curK?T.filter(x=>!has(x,curK)):[];
+    return `<div class="hint" style="text-align:start;margin:0 0 10px">${T.length} فريق · ${timeAgo(TDts)} <button class="chip" id="tdRef" style="cursor:pointer">🔄 تحديث</button>${miss?` · ${miss} فريق لسه ما رفعش بياناته`:''}</div>
+      ${late.length?`<div class="a2-insr warn"><i>📷</i><span>${late.length} فريق لسه ما مسحش كود "${esc(dd.sessions[st.nowIdx].name)}": ${late.slice(0,4).map(x=>esc(x.name)).join('، ')}${late.length>4?'…':''}</span><button data-nudge="${esc(dd.sessions[st.nowIdx].name)}" title="نبّههم">📢</button></div>`:''}
+      <div class="a2-sec">✅ جدول الحضور — ${esc(dd.label||'')}</div>${tbl}
+      <div class="a2-sec">🧮 مصدر نقط كل فريق</div><div class="card">${brk||'<div class="hint">لسه</div>'}</div>
+      <div class="a2-sec">🔥 ترتيب النشاط</div><div class="card">${eng.map((e,i)=>`<div class="a2-hr"><span class="m" style="width:26px;font-weight:900;color:var(--muted)">${md[i]||i+1}</span><div>${esc(e.x.name)}<br><small>${e.sc} كود · ${e.ex} شرح · ${e.m} فرد</small></div><b class="up">${e.score}</b></div>`).join('')}</div>`; }
+  const lgMatch=a=>{ const f=A2.lf; if(f.team&&a.teamId!==f.team) return false; if(f.k==='pos'&&!(a.pts>0)) return false; if(f.k==='neg'&&!(a.pts<0)) return false; if(f.k==='slogan'&&a.kind!=='slogan') return false; if(f.k==='games'&&!/^g\d/.test(a.kind)) return false; if(f.k==='undo'&&!a.undo) return false;
+    if(f.q){ const t=RT.find(x=>x.id===a.teamId); if(!nrm((a.why||'')+' '+(t?t.name:'')).includes(nrm(f.q))) return false; } return true; };
+  function lgList(){ const L=AW.filter(lgMatch).sort((a,b)=>(b.ts||0)-(a.ts||0)), rv=new Set(AW.filter(a=>a.undo).map(a=>a.undo)), sum=L.reduce((s,a)=>s+(a.pts||0),0);
+    return `<div class="hint" style="text-align:start">${L.length} عملية · المجموع <b dir="ltr">${sgn(sum)}</b></div><div class="card">${L.slice(0,150).map(a=>{ const t=RT.find(x=>x.id===a.teamId); return `<div class="a2-hr ${rv.has(a.id)?'rv':''}"><div>${esc(t?t.name:'؟')} <small>— ${esc(a.why||a.kind)}<br>${esc((CONF.days[a.day]||{}).label||'')} · ${timeAgo(a.ts||0)}</small></div><b class="${a.pts>0?'up':'dn'}">${sgn(a.pts)}</b>${a.undo||rv.has(a.id)||!t?'':`<button class="a2-un" data-un2="${esc(a.id)}">↩️</button>`}</div>`; }).join('')||'<div class="hint">مفيش عمليات بالفلتر ده</div>'}</div>`; }
+  function logHtml(){ return `<input class="field a2-tf" id="lgQ" placeholder="🔍 دوّر في السبب أو اسم الفريق..." value="${esc(A2.lf.q)}"><select class="field a2-tf" id="lgT"><option value="">كل الفرق</option>${teamsSorted().map(x=>`<option value="${x.id}" ${x.id===A2.lf.team?'selected':''}>${esc(x.name)}</option>`).join('')}</select><div class="a2-rs">${[['all','الكل'],['pos','➕ إضافة'],['neg','➖ خصم'],['slogan','🎬 شعار'],['games','🎮 ألعاب'],['undo','↩️ عكس']].map(([k,l])=>`<button class="chip ${A2.lf.k===k?'on':''}" data-lk="${k}">${l}</button>`).join('')}</div><div id="lgList">${lgList()}</div><button class="btn btn-ghost" id="lgCsv" style="margin-top:10px">📥 تصدير النتيجة CSV</button>`; }
+  function bulkHtml(){ const T=teamsSorted();
+    return `<div class="card"><div class="step-t">👥 نقط جماعية</div><div class="hint" style="text-align:start">اختار الفرق واكتب النقط (سالب = خصم) وطبّق مرة واحدة.</div><div>${T.map(x=>`<label class="chip a2-ck" style="--c:${tcol(x)}"><input type="checkbox" data-bk="${x.id}" checked> ${esc(x.name)}</label>`).join('')||'<div class="hint">مفيش فرق</div>'}</div>
+      <div class="sc-man" style="margin-top:10px"><input class="field" type="number" id="bkN" dir="ltr" placeholder="النقط"><input class="field" id="bkW" placeholder="السبب"></div>
+      <div class="a2-acts"><button class="btn btn-ghost" id="bkAll">تحديد الكل / إلغاء</button><button class="btn btn-primary" id="bkGo">تطبيق</button></div></div>`; }
+  const cfgQuick=()=>`<div class="card"><div class="step-t">⚡ أزرار النقط السريعة</div><div class="hint" style="margin-top:10px;text-align:start">أرقام الإضافة (مفصولة بفاصلة)</div><input class="field" id="qkP" dir="ltr" value="${esc((CFG.quick||[5,10,20,50]).join(','))}"><div class="hint" style="margin-top:10px;text-align:start">أرقام الخصم</div><input class="field" id="qkN" dir="ltr" value="${esc((CFG.quickNeg||[5,10,20]).join(','))}"><div class="hint" style="margin-top:10px;text-align:start">الأسباب الجاهزة (سطر لكل سبب)</div><textarea class="field" id="qkR" rows="4">${esc((CFG.reasons||REASONS).join('\n'))}</textarea><button class="btn btn-primary" id="qkSave" style="margin-top:12px">حفظ</button></div>`;
+  const nowCard=()=>{ const info=dayInfo(); if(info.state!=='live') return ''; const dd=CONF.days[info.idx], st=sessState(info), cur=st.nowIdx>=0?dd.sessions[st.nowIdx]:null, nx=st.nextIdx>=0?dd.sessions[st.nextIdx]:null; if(!cur&&!nx) return '';
+    return `<button class="a2-insr good" data-go="agenda" style="width:100%;text-align:start;color:inherit;font-family:inherit;height:auto;border-radius:16px"><i>🎬</i><span>${cur?`الجاري الآن: <b>${esc(cur.ico||'')} ${esc(cur.name)}</b>`:''}${cur&&nx?'<br>':''}${nx?`التالي ${esc(nx.time)}: ${esc(nx.name)}`:''}</span><b>←</b></button>`; };
+  async function drInfo(id,p){ const box=p.querySelector('#drInfo'); box.innerHTML='<div class="hint">⏳ بجيب البيانات…</div>'; let t=TD[id];
+    if(!t){ try{ const sn=await DB.collection('teamData').doc(id).get(); if(!sn.exists) throw 0; t=TD[id]=JSON.parse(sn.data().json); }catch(e){ box.innerHTML='<div class="hint" style="color:var(--danger)">مقدرتش أجيب بيانات الفريق (راجع قواعد Firebase لـ teamData)</div>'; return; } }
+    const P=[{n:(t.leader&&t.leader.name)||'الليدر',ph:t.leader&&t.leader.photo,r:'👑 ليدر'},...(t.members||[]).map(m=>({n:m.name,ph:m.photo,r:''}))], sc=Object.keys(t.scans||{}).length, exd=Object.values(t.ex||{}).filter(exFin).length, bk=t.brk||{};
+    box.innerHTML=`<div class="a2-mem">${P.map(m=>`<div><i style="background:${m.ph?`url('${String(m.ph).replace(/'/g,'')}') center/cover`:'var(--glass)'}"></i><span>${esc(m.n)}</span><small>${m.r}</small></div>`).join('')}</div><div class="a2-rs" style="margin-top:10px"><span class="chip">🔳 ${sc} كود مسجّل</span><span class="chip">🧠 ${exd} شرح خلص</span>${Object.keys(bk).map(k=>`<span class="chip">${esc((BK[k]||[k])[0])} ${bk[k]}</span>`).join('')}</div>`; }
+  function bindUn(root){ root.querySelectorAll('[data-un2]').forEach(b=>b.onclick=async()=>{ const a=AW.find(x=>x.id===b.dataset.un2), tm=a&&RT.find(x=>x.id===a.teamId); if(!a||!tm||!confirm(`عكس "${a.why}" (${sgn(a.pts)}) لـ ${tm.name}؟`)) return; if(await pushAward(tm,-a.pts,'عكس: '+(a.why||a.kind),'adj',{undo:a.id})) toast('اتعكست ✅'); }); }
+  const countUp=root=>root.querySelectorAll('[data-count]').forEach(el=>{ const to=+el.dataset.count||0; if(!to) return; const t0=performance.now(), f=t=>{ const p=Math.min(1,(t-t0)/800); el.textContent=Math.round(to*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(f); }; requestAnimationFrame(f); });
+  A.addEventListener('click',e=>{ const t=e.target.closest('[data-tm]'); if(t&&A.contains(t)){ const x=A.querySelector('#a2q'); if(x) x.value=''; openTeam(t.dataset.tm); } });
+  function bindV2(fresh){
+    const q=A.querySelector('#a2q'), sg=A.querySelector('#a2sug');
+    if(q){ q.oninput=()=>{ sg.innerHTML=sugHtml(smartParse(q.value)); }; q.onkeydown=e=>{ if(e.key==='Enter') smartExec(q.value); }; A.querySelector('#a2go').onclick=()=>smartExec(q.value); }
+    A.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{ day=+b.dataset.day; draw(); });
+    ['#aProj','#hProj','#tlProj'].forEach(s=>{ const b=A.querySelector(s); if(b) b.onclick=openProj; }); ['#hDraw','#tlDraw'].forEach(s=>{ const b=A.querySelector(s); if(b) b.onclick=()=>drawTeam(); });
+    bindUn(A);
+    A.querySelectorAll('[data-ag]').forEach(b=>b.onclick=()=>{ const [k,v]=b.dataset.ag.split(':'), i=+v, dd=CONF.days[day], s=dd.sessions[i];
+      if(k==='start') annSend(`🔔 بدأت الآن: ${s.ico||''} ${s.name}`); else if(k==='soon') annSend(`⏰ بعد 5 دقايق: ${s.ico||''} ${s.name}`);
+      else if(k==='qr') showQr(sessCode(day,i),`${s.ico||''} ${s.name}`,`${sessPts(s)} نقطة · الفرق بتمسحه من خانة الأيام`); else if(k==='exqr') showQr(exCode(day,i),CONF.ui.names[i-1]||('حضور الشرح '+i),`${exPts(day)} نقطة`); });
+    ['#tdLoad','#tdRef'].forEach(x=>{ const b=A.querySelector(x); if(b) b.onclick=loadTD; });
+    A.querySelectorAll('[data-nudge]').forEach(b=>b.onclick=()=>annSend('📷 لو لسه ما مسحتوش كود فقرة "'+b.dataset.nudge+'" امسحوه دلوقتي'));
+    const lq=A.querySelector('#lgQ'); if(lq){ const ref=()=>{ const l=A.querySelector('#lgList'); l.innerHTML=lgList(); bindUn(l); };
+      lq.oninput=()=>{ A2.lf.q=lq.value; ref(); }; A.querySelector('#lgT').onchange=e=>{ A2.lf.team=e.target.value; ref(); };
+      A.querySelectorAll('[data-lk]').forEach(b=>b.onclick=()=>{ A2.lf.k=b.dataset.lk; A.querySelectorAll('[data-lk]').forEach(x=>x.classList.toggle('on',x===b)); ref(); });
+      A.querySelector('#lgCsv').onclick=()=>{ const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"', L=AW.filter(lgMatch).sort((a,b)=>(b.ts||0)-(a.ts||0)); downloadFile(new Blob(['\ufeff'+'الفريق,اليوم,النقط,السبب,الوقت\n'+L.map(a=>[q((RT.find(x=>x.id===a.teamId)||{}).name||a.teamId),q((CONF.days[a.day]||{}).label||a.day),a.pts,q(a.why),q(new Date(a.ts||0).toLocaleString('ar-EG'))].join(',')).join('\n')],{type:'text/csv;charset=utf-8'}),'سجل-العمليات.csv'); toast('اتصدّر ✅'); }; ref(); }
+    const qk=A.querySelector('#qkSave'); if(qk) qk.onclick=()=>{ const nums=v=>v.split(/[,،\s]+/).map(Number).filter(n=>n>0&&n<=9999).slice(0,6), quick=nums(A.querySelector('#qkP').value), quickNeg=nums(A.querySelector('#qkN').value), reasons=A.querySelector('#qkR').value.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,8);
+      if(!quick.length||!reasons.length) return toast('لازم رقم إضافة وسبب واحد على الأقل',true); DB.collection('config').doc('main').set({quick,quickNeg,reasons},{merge:true}).then(()=>{ CFG={...CFG,quick,quickNeg,reasons}; toast('اتحفظت ✅'); }).catch(()=>toast('فشل — راجع قواعد Firebase',true)); };
+    const ts=A.querySelector('#a2ts'); if(ts) ts.oninput=()=>{ const v=nrm(ts.value); A.querySelectorAll('.a2-tc').forEach(c=>c.classList.toggle('h',!!v&&!c.dataset.n.includes(v))); };
+    A.querySelectorAll('[data-fill]').forEach(b=>b.onclick=()=>{ const t=A.querySelector('#aAnn'); t.value=b.dataset.fill; t.focus(); });
+    A.querySelectorAll('[data-tpl]').forEach(b=>b.onclick=()=>{ if(!confirm('إرسال لكل الفرق؟\n'+b.dataset.tpl)) return; DB.collection('announcements').add({text:b.dataset.tpl,ts:Date.now()}).then(()=>toast('اتبعت لكل الفرق ✅')).catch(()=>toast('فشل — راجع قواعد Firebase',true)); });
+    const ba=A.querySelector('#bkAll'); if(ba) ba.onclick=()=>{ const cs=[...A.querySelectorAll('[data-bk]')], on=cs.some(c=>!c.checked); cs.forEach(c=>c.checked=on); };
+    const bg=A.querySelector('#bkGo'); if(bg) bg.onclick=()=>{ const n=Math.round(+A.querySelector('#bkN').value||0), w=(A.querySelector('#bkW').value||'').trim(), L=[...A.querySelectorAll('[data-bk]:checked')].map(c=>RT.find(x=>x.id===c.dataset.bk)).filter(Boolean);
+      if(!n) return toast('اكتب عدد النقط',true); if(!L.length) return toast('اختار فريق واحد على الأقل',true); cmdConfirm(L,n,w||(n>0?'بونص جماعي':'خصم جماعي')); };
+    const cv=A.querySelector('#tlCsv'); if(cv) cv.onclick=exportCsv;
+    const js=A.querySelector('#tlJson'); if(js) js.onclick=()=>{ downloadFile(new Blob([JSON.stringify({ts:Date.now(),teams:RT,awards:AW,announcements:ANN},null,1)],{type:'application/json'}),'admin-backup-'+new Date().toISOString().slice(0,10)+'.json'); toast('اتحمّلت النسخة ✅'); };
+    if(fresh) countUp(A);
+  }
   function draw(){
     stopScan(); let body='';
     if(tab==='scan') body=`<div class="card"><button class="btn btn-primary" id="aScan">📷 افتح الكاميرا</button><div class="scan-box hidden" id="scBox"><video id="scVid" playsinline muted></video><canvas id="scCv" class="hidden"></canvas><i class="scan-line"></i></div><div class="sc-man" style="margin-top:10px"><input class="field" id="aCode" placeholder="أو كود الفريق (4 أرقام)" inputmode="numeric" dir="ltr"><button class="btn btn-ghost" id="aOk" style="width:auto;padding:0 20px">بحث</button></div></div><div id="aTeam"></div>`;
@@ -1502,21 +1857,28 @@ function openAdmin(){
         return `<div class="card"><div class="step-t">${i+1}. ${esc(x.name)} <small style="float:left;color:var(--gold2)">${x.points||0} نقطة</small></div><div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0">${chips||'<small style="color:var(--muted)">لسه مفيش نقاط</small>'}</div><div class="sc-man"><input class="field" type="number" id="d-${x.id}" placeholder="نقط (+ أو -)" dir="ltr"><input class="field" id="r-${x.id}" placeholder="السبب"><button class="btn btn-ghost" data-dd="${x.id}" style="width:auto;padding:0 14px">± تعديل</button></div></div>`; }).join('');
       body=gl+(tl||'<div class="hint">لسه مفيش فرق</div>')+`<div class="hint">النقط بتتحدّث لما موبايل الفريق يفتح التطبيق</div>`;
     }
-    else if(tab==='teams'){ const L=RT.slice().sort((a,b)=>(b.points||0)-(a.points||0)); const cd=id=>Object.keys(CODES).find(k=>CODES[k]===id)||'—';
-      body=`<button class="btn btn-ghost" id="aExp">⬇️ تصدير النتايج (CSV)</button><div class="hint">${L.length} فريق</div>`+(L.map(x=>`<div class="card"><div class="step-t">${esc(x.name)} <small style="float:left;color:var(--gold2)">${x.points||0} نقطة</small></div><div class="hint" style="text-align:start">الكود: <b dir="ltr">${esc(cd(x.id))}</b></div><button class="btn btn-danger" data-del="${x.id}" style="margin-top:10px;padding:10px;font-size:13.5px">🗑️ حذف الفريق</button></div>`).join('')||'<div class="hint">لسه مفيش فرق</div>'); }
+    else if(tab==='teams') body=teamsHtml();
+    else if(tab==='tools') body=toolsHtml();
+    else if(tab==='agenda') body=agendaHtml();
+    else if(tab==='stats') body=statsHtml();
+    else if(tab==='log') body=logHtml();
+    else if(tab==='bulk') body=bulkHtml();
     else if(tab==='att') body=attHtml();
     else if(tab==='muna') body=munaHtml();
     else if(tab==='home') body=homeHtml();
     else if(tab==='fbk') body=fbkHtml();
     else if(tab==='qs') body=qsHtml();
     else if(tab==='content'){ if(!D) edInit(); body=edHtml(); }
-    else if(tab==='ann') body=`<div class="card"><div class="step-t">📢 إعلان لكل الفرق</div><textarea class="field" id="aAnn" placeholder="اكتب الإعلان..." maxlength="200" style="margin-top:10px"></textarea><button class="btn btn-primary" id="aSend" style="margin-top:10px">إرسال</button></div><div class="card"><div class="step-t">الإعلانات السابقة</div>${ANN.length?ANN.map(a=>`<div class="lg"><span>${esc(a.text)} <small style="color:var(--muted)">· ${timeAgo(a.ts||0)}</small></span><button class="rm" data-ad="${a.id}" aria-label="حذف">✕</button></div>`).join(''):'<div class="hint">مفيش إعلانات</div>'}</div>`;
-    else body=`<div class="card"><div class="step-t">النقط (الأدمن بيتحكم)</div>${[['sloganPts','نقط الشعار (افتراضي)'],['bonusPts','نقط البونص'],['gamePts','نقط كل لعبة']].map(([k,l])=>`<div class="hint" style="margin-top:10px">${l}</div><input class="field" type="number" id="c-${k}" value="${CFG[k]}" dir="ltr">`).join('')}<button class="btn btn-primary" id="cSave" style="margin-top:12px">حفظ</button></div>`;
-    A.innerHTML=`<div style="max-width:520px;margin:0 auto"><div style="display:flex;justify-content:space-between;align-items:center"><div><div class="adm-title">🛠️ لوحة الأدمن</div><div class="adm-sub">${esc((CONF.days[day]||{}).label||'')} · ${RT.length} فريق</div></div><div style="display:flex;gap:8px;align-items:center"><button id="aOut" class="btn btn-ghost" style="width:auto;padding:6px 12px;font-size:12px;margin:0">🚪 خروج</button><button id="aX" class="sheet-x">✕</button></div></div>
-      <select id="aD" class="field" style="margin:10px 0">${CONF.days.map((x,i)=>`<option value="${i}" ${i===day?'selected':''}>${x.label}</option>`).join('')}</select>
-      <div class="adm-tabs">${[['home','🏠','نظرة عامة'],['scan','📷','مسح'],['att','🙋','الحضور'],['muna','📻','لاسلكي'],['teams','👥','الفرق'],['content','📝','المحتوى'],['ann','📢','إعلان'],['slg','🎬','الشعارات'],['rank','📊','النقاط'],['fbk','⭐','التقييمات'],['qs','💬','الأسئلة'],['cfg','⚙️','الإعدادات']].map(([k,ic,l])=>`<button class="adm-tab ${k===tab?'active':''}" data-t="${k}"><i>${ic}</i>${l}</button>`).join('')}</div>${body}</div>`;
-    A.querySelector('#aX').onclick=()=>close(); A.querySelector('#aOut').onclick=()=>{ if(confirm('تسجيل الخروج من لوحة الأدمن؟')) close(true); }; A.querySelector('#aD').onchange=e=>{ day=+e.target.value; draw(); };
-    A.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{ tab=b.dataset.t; draw(); });
+    else if(tab==='ann') body=`<div class="card"><div class="step-t">📢 إعلان لكل الفرق</div><div class="a2-tp" style="margin:6px 0 0">${TPL.map(t=>`<button class="chip" data-fill="${esc(t)}">${esc(t)}</button>`).join('')}</div><textarea class="field" id="aAnn" placeholder="اكتب الإعلان..." maxlength="200" style="margin-top:10px"></textarea><button class="btn btn-primary" id="aSend" style="margin-top:10px">إرسال</button></div><div class="card"><div class="step-t">الإعلانات السابقة</div>${ANN.length?ANN.map(a=>`<div class="lg"><span>${esc(a.text)} <small style="color:var(--muted)">· ${timeAgo(a.ts||0)}</small></span><button class="rm" data-ad="${a.id}" aria-label="حذف">✕</button></div>`).join(''):'<div class="hint">مفيش إعلانات</div>'}</div>`;
+    else body=`<div class="card"><div class="step-t">النقط (الأدمن بيتحكم)</div>${[['sloganPts','نقط الشعار (افتراضي)'],['bonusPts','نقط البونص'],['gamePts','نقط كل لعبة']].map(([k,l])=>`<div class="hint" style="margin-top:10px">${l}</div><input class="field" type="number" id="c-${k}" value="${CFG[k]}" dir="ltr">`).join('')}<button class="btn btn-primary" id="cSave" style="margin-top:12px">حفظ</button></div>`+cfgQuick();
+    const fresh=A2.lastTab!==tab+'|'+day; A2.lastTab=tab+'|'+day; const pendS=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unqN=QS.filter(q=>!q.reply).length, bdg={slg:pendS,qs:unqN}, gk=gkey(), hub=HUBS.find(h=>h.subs.some(x=>x[0]===gk))||HUBS[0];
+    A.innerHTML=`<div class="a2"><div class="a2-head"><div><div class="adm-title">🛠️ لوحة التحكم</div><div class="adm-sub">${esc((CONF.days[day]||{}).label||'')} · ${RT.length} فريق</div></div><div class="a2-hb"><button id="aProj" class="a2-ib" aria-label="شاشة العرض">📺</button><button id="aOut" class="a2-ib" aria-label="خروج">🚪</button><button id="aX" class="a2-ib" aria-label="إغلاق">✕</button></div></div>
+      <div class="a2-cmd"><span>⚡</span><input id="a2q" placeholder='اكتب أمر… مثال: +20 الأزرق' autocomplete="off" enterkeyhint="go"><button id="a2go" aria-label="تنفيذ">↵</button></div><div id="a2sug"></div>
+      <div class="a2-days">${CONF.days.map((x,i)=>`<button class="a2-dc ${i===day?'on':''}" data-day="${i}">${esc(x.label)}</button>`).join('')}</div>
+      <div class="a2-nav"><div class="a2-hubs">${HUBS.map(h=>{ const n=h.subs.reduce((t,x)=>t+(bdg[x[0]]||0),0); return `<button class="a2-hub ${h===hub?'on':''}" data-hub="${h.id}"><i>${h.ic}</i>${h.l}${n?`<em>${n}</em>`:''}</button>`; }).join('')}</div>${hub.subs.length>1?`<div class="a2-subs">${hub.subs.map(([k,l])=>`<button class="a2-sb ${k===gk?'on':''}" data-sub="${k}">${l}${bdg[k]?` <em>${bdg[k]}</em>`:''}</button>`).join('')}</div>`:''}</div>
+      <div class="${fresh?'a2-in':''}">${body}</div></div>`;
+    A.querySelector('#aX').onclick=()=>close(); A.querySelector('#aOut').onclick=()=>{ if(confirm('تسجيل الخروج من لوحة الأدمن؟')) close(true); }; bindV2(fresh);
+    A.querySelectorAll('[data-hub]').forEach(b=>b.onclick=()=>{ const h=HUBS.find(x=>x.id===b.dataset.hub); go(A2.hubSub[h.id]||h.subs[0][0]); }); A.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>go(b.dataset.sub));
     const sc=A.querySelector('#aScan'); if(sc){
       const go=v=>{ const tm=lookup(v); if(tm){ showTeam(tm); stopScan(); A.querySelector('#scBox').classList.add('hidden'); return true; } return false; };
       sc.onclick=()=>{ A.querySelector('#scBox').classList.remove('hidden'); startScan(A,go); };
@@ -1537,7 +1899,7 @@ function openAdmin(){
     A.querySelectorAll('[data-rp]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.rp, v=(A.querySelector('[id="qr-'+id+'"]').value||'').trim(); if(!v) return toast('اكتب الرد',true);
       try{ await DB.collection('questions').doc(id).update({reply:v,rts:Date.now()}); toast('اتبعت الرد ✅'); }catch(e){ toast('فشل — راجع قواعد Firebase',true); } });
     A.querySelectorAll('[data-qd]').forEach(b=>b.onclick=async()=>{ if(!confirm('حذف السؤال؟')) return; try{ await DB.collection('questions').doc(b.dataset.qd).delete(); }catch(e){ toast('فشل الحذف',true); } });
-    A.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{ tab=b.dataset.go; draw(); }); const hEx=A.querySelector('#hExport'); if(hEx) hEx.onclick=exportCsv;
+    A.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go)); const hEx=A.querySelector('#hExport'); if(hEx) hEx.onclick=exportCsv;
     pttBind(A);
     const mn=A.querySelector('#mnSave'); if(mn) mn.onclick=()=>{ const v=[...A.querySelectorAll('[data-mn]')].map((x,i)=>x.value.trim()||MUNA_TEAMS[i][1]); DB.collection('config').doc('main').set({munaNames:v},{merge:true}).then(()=>toast('اتحفظت الأسماء ✅')).catch(()=>toast('فشل — راجع قواعد Firebase',true)); };
     const ex=A.querySelector('#aExp'); if(ex) ex.onclick=()=>{ const cd=id=>Object.keys(CODES).find(k=>CODES[k]===id)||''; const rows=['الفريق,النقاط,الكود',...RT.slice().sort((a,b)=>(b.points||0)-(a.points||0)).map(x=>'"'+String(x.name).replace(/"/g,'""')+'",'+(x.points||0)+','+cd(x.id))]; downloadFile(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv;charset=utf-8'}),'results.csv'); };

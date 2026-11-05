@@ -746,6 +746,27 @@ input,select,textarea{font-size:max(16px,1em)}
 .a2-mem div{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:12px;font-weight:800}
 .a2-mem i{width:54px;height:54px;border-radius:50%;border:2px solid var(--border)}.a2-mem small{color:var(--gold2);font-size:10.5px}
 .a2-q{grid-template-columns:repeat(auto-fit,minmax(68px,1fr)) !important}
+.a2-bar{display:flex;align-items:center;gap:10px}
+.a2-menu{flex:none;display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:15px;border:0;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#221900;font:900 13px 'Cairo',sans-serif;box-shadow:0 6px 16px rgba(244,183,64,.3)}
+.a2-loc{flex:1;min-width:0;font:900 14px 'Cairo',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.a2-loc small{color:var(--muted);font-weight:700}
+.a2-sq{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.a2-sqt{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:1/1;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;text-align:start;padding:16px;border-radius:28px;border:1px solid rgba(255,255,255,.18);background:linear-gradient(145deg,var(--c1),var(--c2));color:#fff;font-family:'Cairo',sans-serif;box-shadow:0 12px 28px rgba(0,0,0,.28);transition:transform .2s;animation:rise .45s backwards}
+.a2-sqt:active{transform:scale(.95)}
+.a2-sqt::before{content:'';position:absolute;z-index:-1;width:130%;aspect-ratio:1;inset-inline-end:-55%;top:-55%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.34),transparent 65%)}
+.a2-sqt::after{content:'';position:absolute;z-index:-1;width:90px;height:90px;inset-inline-start:-30px;bottom:-30px;border-radius:50%;border:12px solid rgba(255,255,255,.14)}
+.a2-sqt .ic{font-size:clamp(34px,11vw,52px);line-height:1;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3))}
+.a2-sqt .tt{font-weight:900;font-size:clamp(15px,4.6vw,19px);line-height:1.25;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.a2-sqt .ds{font-weight:700;font-size:11.5px;opacity:.92;line-height:1.5;margin-top:2px}
+.a2-sqt em{position:absolute;top:12px;inset-inline-end:12px;font-style:normal;min-width:24px;height:24px;padding:0 7px;border-radius:99px;background:#fff;color:#c0202e;font-size:12px;font-weight:900;display:grid;place-items:center;box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.a2-sqt.prj{--c1:#2b2f6b;--c2:#101030}
+.a2-page{position:fixed;inset:0;z-index:310;overflow:auto;padding:16px;padding-top:calc(14px + env(safe-area-inset-top,0px));background:radial-gradient(800px 460px at 90% -8%,rgba(244,183,64,.16),transparent 60%),radial-gradient(640px 460px at -10% 18%,rgba(63,220,201,.13),transparent 60%),var(--bg);animation:pgIn .3s cubic-bezier(.2,.85,.25,1) both}
+.a2-page.out{animation:pgOut .22s ease forwards}
+@keyframes pgIn{from{opacity:0;transform:translateX(-36px)}}
+@keyframes pgOut{to{opacity:0;transform:translateX(-36px)}}
+.a2-ph{position:sticky;top:-14px;z-index:7;display:flex;align-items:center;gap:10px;margin:0 -16px 14px;padding:14px 16px 10px;background:linear-gradient(180deg,var(--bg) 82%,transparent);backdrop-filter:blur(10px)}
+.a2-bk{flex:none;width:44px;height:44px;border-radius:15px;border:0;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#221900;font-size:22px;font-weight:900;box-shadow:0 6px 16px rgba(244,183,64,.3)}
+.a2-pt{flex:1;min-width:0;font:900 18px 'Cairo',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .a2-pj-r>b{min-width:70px;text-align:end;font:900 clamp(22px,4vw,40px) 'Cairo',sans-serif;direction:ltr}
 
 /* ===== أجندة النهاردة (الرئيسية) ===== */
@@ -1376,8 +1397,8 @@ if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigato
 function openAdmin(){
   if(!fbOn()) return toast('اظبط إعدادات Firebase الأول',true);
   document.getElementById('adm')?.remove(); const info=dayInfo(); let day=info.state==='live'?info.idx:0, tab='home'; const U=[];
-  const A=document.createElement('div'); A.id='adm'; A.style.cssText='position:fixed;inset:0;z-index:300;overflow:auto;background:var(--bg);padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px))'; document.body.appendChild(A);
-  const close=(out)=>{ stopScan(); U.forEach(f=>f()); closeSheet(); closeProj(); A.remove(); if(out===true){ try{ AUTH&&AUTH.signOut(); }catch(e){} } };
+  let A=document.createElement('div'); const BASE=A; A.id='adm'; A.style.cssText='position:fixed;inset:0;z-index:300;overflow:auto;background:var(--bg);padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px))'; document.body.appendChild(A);
+  const close=(out)=>{ stopScan(); U.forEach(f=>f()); closeSheet(); closeProj(); PG.forEach(e=>e.el.remove()); BASE.remove(); if(out===true){ try{ AUTH&&AUTH.signOut(); }catch(e){} } };
   const soft=()=>{ const e=document.activeElement; if(e&&A.contains(e)&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.tagName)) return; draw(); };
   U.push(DB.collection('teams').onSnapshot(q=>{ RT=q.docs.map(d=>d.data()); if(tab==='rank'||tab==='teams'||tab==='home') soft(); drRefresh(); projRefresh(); }));
   U.push(DB.collection('awards').onSnapshot(q=>{ AW=q.docs.map(d=>({id:d.id,...d.data()})); if(tab==='rank'||tab==='teams'||tab==='home'||tab==='log') soft(); drRefresh(); }));
@@ -1638,7 +1659,7 @@ function openAdmin(){
   const sheet=html=>{ closeSheet(); const o=document.createElement('div'); o.id='a2sh'; o.className='a2-ov'; o.innerHTML=`<div class="a2-pn"><i class="a2-grab"></i>${html}</div>`; o.onclick=e=>{ if(e.target===o) closeSheet(); }; document.body.appendChild(o); return o.firstChild; };
   const delTeam=async id=>{ const tm=RT.find(x=>x.id===id); if(!tm||!confirm('حذف فريق "'+tm.name+'" نهائيًا؟ مش هيقدر يدخل تاني.')) return;
     try{ const w=DB.batch(); w.delete(DB.collection('teams').doc(id)); w.delete(DB.collection('teamData').doc(id)); const cd=Object.keys(CODES).find(k=>CODES[k]===id); if(cd) w.delete(DB.collection('codes').doc(cd));
-      w.set(DB.collection('deletedTeams').doc(id),{name:tm.name||'',ts:Date.now()}); const aw=await DB.collection('awards').where('teamId','==',id).get(); aw.forEach(d=>w.delete(d.ref)); await w.commit(); closeSheet(); toast('اتحذف ✅'); }
+      w.set(DB.collection('deletedTeams').doc(id),{name:tm.name||'',ts:Date.now()}); const aw=await DB.collection('awards').where('teamId','==',id).get(); aw.forEach(d=>w.delete(d.ref)); await w.commit(); closeSheet(); if(TOP().custom) popPage(); toast('اتحذف ✅'); }
     catch(e){ toast('فشل — راجع قواعد Firebase',true); } };
   /* بحث ذكي عن الفرق (يتجاهل التشكيل والهمزات) */
   function findTeams(text){ const q=nrm(text).replace(/^(الفريق|فريق)\s+/,''), toks=q.split(/\s+/).filter(w=>w.length>=2); if(!q) return [];
@@ -1684,13 +1705,13 @@ function openAdmin(){
     return (rest?`<div class="a2-hr"><div>📚 شرح وحضور وأكواد وغيره</div><b class="${rest>0?'up':'dn'}">${sgn(rest)}</b></div>`:'')+mine.slice(0,25).map(a=>`<div class="a2-hr ${rv.has(a.id)?'rv':''}"><div>${esc(a.why||a.kind)}<br><small>${timeAgo(a.ts||0)}</small></div><b class="${a.pts>0?'up':'dn'}">${sgn(a.pts)}</b>${a.undo||rv.has(a.id)||!a.id?'':`<button class="a2-un" data-un="${esc(a.id)}" title="عكس العملية">↩️</button>`}</div>`).join('')||(rest?'':'<div class="hint">لسه مفيش عمليات</div>'); }
   function drRefresh(){ if(!A2.dr) return; const tm=RT.find(x=>x.id===A2.dr), h=document.getElementById('drHead'); if(!tm||!h){ if(!tm) closeSheet(); return; } h.innerHTML=drHead(tm); document.getElementById('drHist').innerHTML=drHist(tm); }
   function openTeam(id){ const tm=RT.find(x=>x.id===id); if(!tm) return;
-    const p=sheet(`<div id="drHead"></div><div class="a2-sec">⚡ نقط سريعة</div>
+    const p=pushPage({custom:true,title:tm.name,onClose:()=>{ A2.dr=null; },html:`<div id="drHead"></div><div class="a2-sec">⚡ نقط سريعة</div>
       <div class="a2-q">${(CFG.quick||[5,10,20,50]).map(n=>`<button class="up" data-q="${n}">+${n}</button>`).join('')}${(CFG.quickNeg||[5,10,20]).map(n=>`<button class="dn" data-q="-${n}">-${n}</button>`).join('')}<button data-qx="1" style="font-size:13px">أي رقم</button></div>
       <div class="a2-sec">السبب</div><div class="a2-rs">${(CFG.reasons||REASONS).map(r=>`<button class="chip ${r===A2.reason?'on':''}" data-rs="${esc(r)}">${esc(r)}</button>`).join('')}</div>
       <div class="sc-man"><input class="field" id="drN" type="number" dir="ltr" placeholder="رقم (+ أو -)"><input class="field" id="drW" placeholder="تفاصيل (اختياري)"><button class="btn btn-primary" id="drOk" style="width:auto;padding:0 16px">تطبيق</button></div>
       <div class="a2-sec">👥 بيانات الفريق</div><div id="drInfo"><button class="btn btn-ghost" data-info="1">عرض الأعضاء والحضور</button></div>
       <div class="a2-sec">🧾 السجل</div><div id="drHist"></div>
-      <div class="a2-acts"><button class="btn btn-ghost" id="drCp">📋 نسخ الكود</button><button class="btn btn-danger" id="drDel">🗑️ حذف الفريق</button></div>`);
+      <div class="a2-acts"><button class="btn btn-ghost" id="drCp">📋 نسخ الكود</button><button class="btn btn-danger" id="drDel">🗑️ حذف الفريق</button></div>`});
     A2.dr=id; drRefresh();
     const apply=async n=>{ const cur=RT.find(x=>x.id===id); if(!cur||!n) return toast('اكتب عدد النقط',true); const w=(p.querySelector('#drW').value||'').trim(), why=(n<0?'خصم · ':'')+A2.reason+(w?': '+w:'');
       if(await pushAward(cur,n,why)){ toast(`تم ${sgn(n)} لـ ${cur.name} ✅`); if(n>0) confetti(700); p.querySelector('#drW').value=''; p.querySelector('#drN').value=''; } };
@@ -1703,8 +1724,8 @@ function openAdmin(){
       else if(b.id==='drDel') delTeam(id); }; }
   /* قرعة */
   function drawTeam(pool){ const T=(pool||RT).slice(); if(!T.length) return toast('مفيش فرق',true);
-    const p=sheet(`<div class="a2-sec" style="margin-top:0">🎲 قرعة بين ${T.length} فريق</div><div class="a2-wheel" id="whl">…</div><div class="a2-acts"><button class="btn btn-primary" id="whGo">🎲 اسحب</button><button class="btn btn-ghost" id="whX">إغلاق</button></div><div id="whR"></div>`);
-    p.querySelector('#whX').onclick=closeSheet;
+    const p=pushPage({custom:true,title:'🎲 قرعة',html:`<div class="a2-sec" style="margin-top:0">🎲 قرعة بين ${T.length} فريق</div><div class="a2-wheel" id="whl">…</div><div class="a2-acts"><button class="btn btn-primary" id="whGo">🎲 اسحب</button><button class="btn btn-ghost" id="whX">إغلاق</button></div><div id="whR"></div>`});
+    p.querySelector('#whX').onclick=popPage;
     p.querySelector('#whGo').onclick=e=>{ const w=p.querySelector('#whl'), btn=e.target; btn.disabled=true; w.classList.remove('done'); p.querySelector('#whR').innerHTML=''; let i=0; const win=T[Math.floor(Math.random()*T.length)], t0=Date.now();
       const iv=setInterval(()=>{ const x=T[i++%T.length]; w.textContent=x.name; w.style.color=tcol(x); if(Date.now()-t0>2200){ clearInterval(iv); w.textContent='🎉 '+win.name; w.style.color=tcol(win); w.classList.add('done'); btn.disabled=false; btn.textContent='🎲 اسحب تاني'; try{ confetti(1800); }catch(_){}
         p.querySelector('#whR').innerHTML=`<div class="a2-q" style="margin-top:12px">${[5,10,20].map(n=>`<button class="up" data-wq="${n}">+${n}</button>`).join('')}<button data-wo="1" style="font-size:13px">الملف</button></div>`;
@@ -1735,7 +1756,7 @@ function openAdmin(){
   function homeHtml(){ const T=teamsSorted(), total=T.reduce((t,x)=>t+(x.points||0),0), mx=Math.max(1,...T.map(x=>x.points||0)), info=dayInfo(), today=AW.filter(a=>a.day===day), pend=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unq=QS.filter(q=>!q.reply).length;
     const live=info.state==='live', st=live?'المؤتمر شغّال دلوقتي':info.state==='after'?'المؤتمر خلص 🏁':'المؤتمر لسه ما بدأش';
     const feed=AW.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,10), rv=new Set(AW.filter(a=>a.undo).map(a=>a.undo));
-    return `<div class="a2-hero"><h2>مركز القيادة</h2><p>${T.length} فريق مسجّل</p><span class="a2-live ${live?'':'off'}"><i></i>${st}</span></div>${nowCard()}
+    return `<div class="a2-hero"><h2>مركز القيادة</h2><p>${T.length} فريق مسجّل</p><span class="a2-live ${live?'':'off'}"><i></i>${st}</span></div>${nowCard()}${homeGrid()}
       <div class="a2-tiles">
         <div class="a2-tile" style="--c:#3FDCC9"><small>👥 الفرق</small><b data-count="${T.length}">${T.length}</b></div>
         <div class="a2-tile" style="--c:#F4B740"><small>⭐ إجمالي النقط</small><b data-count="${total}">${total}</b></div>
@@ -1763,7 +1784,23 @@ function openAdmin(){
     {id:'sys',ic:'⚙️',l:'النظام',subs:[['cfg','النقط والإعدادات'],['tools','الأدوات']]}];
   A2.hubSub={}; A2.lf={team:'',k:'all',q:''};
   const gkey=()=>tab==='content'?'content:'+sec:tab;
-  const go=key=>{ const [t,sc]=String(key).split(':'); const k=t==='content'?'content:'+(sc||sec):t; tab=t; if(t==='content') sec=sc||sec; const h=HUBS.find(h=>h.subs.some(s=>s[0]===k)); if(h) A2.hubSub[h.id]=k; draw(); };
+  /* ===== صفحات جديدة بدل المصغّر: كل خانة بتفتح صفحة كاملة بزر رجوع ===== */
+  const PG=[{el:A,tab:'home',sec:'gen',hubId:null,drawn:false}], TOP=()=>PG[PG.length-1];
+  const saveSt=()=>{ const e=TOP(); e.tab=tab; e.sec=sec; e.hubId=A2.hubId; };
+  const loadSt=e=>{ tab=e.tab; sec=e.sec; A2.hubId=e.hubId; A=(e.custom?([...PG].reverse().find(x=>!x.custom)||PG[0]):e).el; };
+  const wire=el=>el.addEventListener('click',e=>{ const t=e.target.closest('[data-tm]'); if(t&&el.contains(t)){ const x=el.querySelector('#a2q'); if(x) x.value=''; openTeam(t.dataset.tm); } });
+  wire(A);
+  function pushPage(o){ saveSt(); const el=document.createElement('div'); el.className='a2-page'; document.body.appendChild(el); wire(el);
+    const e={el,tab:o.tab||'x',sec:o.sec||sec,hubId:o.hubId||null,drawn:false,custom:!!o.custom,onClose:o.onClose}; PG.push(e); loadSt(e);
+    if(e.custom){ el.innerHTML=`<div class="a2"><div class="a2-ph"><button class="a2-bk" data-back aria-label="رجوع">→</button><div class="a2-pt">${esc(o.title||'')}</div><button class="a2-ib" data-base aria-label="الرئيسية">🏠</button></div><div class="a2-pb">${o.html||''}</div></div>`;
+      el.querySelector('[data-back]').onclick=popPage; el.querySelector('[data-base]').onclick=popAll; return el.querySelector('.a2-pb'); }
+    draw(); }
+  function unwind(){ while(PG.length>1){ const e=PG.pop(); try{ e.onClose&&e.onClose(); }catch(_){} e.el.remove(); } stopScan(); loadSt(PG[0]); }
+  function popPage(){ if(PG.length<2) return; const e=PG.pop(); try{ e.onClose&&e.onClose(); }catch(_){} stopScan(); e.el.classList.add('out'); setTimeout(()=>e.el.remove(),220); loadSt(TOP()); if(!TOP().custom) draw(); }
+  function popAll(){ unwind(); draw(); }
+  const pushKey=key=>{ const [t,sc]=String(key).split(':'); pushPage({tab:t,sec:t==='content'?(sc||sec):sec}); };
+  const openHub=id=>{ const h=HUBS.find(x=>x.id===id); if(!h) return; if(h.subs.length===1) return go(h.subs[0][0]); pushPage({tab:'hub',hubId:id}); };
+  const go=key=>{ key=String(key); if(key==='home'||key==='menu') return popAll(); unwind(); if(key.startsWith('hub:')) return openHub(key.slice(4)); pushKey(key); };
   /* بيانات الفرق الكاملة (حضور، أعضاء، نقط) — بتتحمّل عند الطلب */
   let TD={}, TDts=0, TDbusy=false;
   async function loadTD(){ if(TDbusy) return; TDbusy=true; toast('بحمّل بيانات الفرق…');
@@ -1771,7 +1808,7 @@ function openAdmin(){
     catch(e){ toast('تعذر تحميل بيانات الفرق — راجع قواعد Firebase',true); } TDbusy=false; draw(); }
   const scanCnt=k=>Object.keys(TD).filter(id=>(TD[id].scans||{})[k]).length;
   const annSend=txt=>{ if(!confirm('إرسال لكل الفرق؟\n'+txt)) return; DB.collection('announcements').add({text:txt,ts:Date.now()}).then(()=>toast('اتبعت لكل الفرق ✅')).catch(()=>toast('فشل — راجع قواعد Firebase',true)); };
-  function showQr(text,title,sub){ const p=sheet(`<div style="text-align:center"><div class="a2-sec" style="margin-top:0">${esc(title)}</div><div id="qrShow" style="background:#fff;border-radius:22px;padding:16px;width:fit-content;margin:0 auto;min-width:120px;min-height:120px"></div><div dir="ltr" style="margin-top:12px;font:800 15px monospace;color:var(--soft)">${esc(text)}</div><div class="hint">${esc(sub||'')}</div><button class="btn btn-ghost" id="qrFs" style="margin-top:10px">⛶ تكبير للعرض على الشاشة</button></div>`);
+  function showQr(text,title,sub){ const p=pushPage({custom:true,title:'🔳 '+title,html:`<div style="text-align:center"><div class="a2-sec" style="margin-top:0">${esc(title)}</div><div id="qrShow" style="background:#fff;border-radius:22px;padding:16px;width:fit-content;margin:0 auto;min-width:120px;min-height:120px"></div><div dir="ltr" style="margin-top:12px;font:800 15px monospace;color:var(--soft)">${esc(text)}</div><div class="hint">${esc(sub||'')}</div><button class="btn btn-ghost" id="qrFs" style="margin-top:10px">⛶ تكبير للعرض على الشاشة</button></div>`});
     const el=p.querySelector('#qrShow'); try{ new QRCode(el,{text:String(text),width:240,height:240}); }catch(e){ el.textContent=text; }
     p.querySelector('#qrFs').onclick=()=>{ const o=document.createElement('div'); o.style.cssText='position:fixed;inset:0;z-index:500;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px'; o.innerHTML=`<div id="qrBig"></div><div style="font:900 22px Cairo,sans-serif;color:#111;text-align:center;padding:0 16px">${esc(title)}</div>`; o.onclick=()=>o.remove(); document.body.appendChild(o); const sz=Math.floor(Math.min(innerWidth,innerHeight)*.7); try{ new QRCode(o.querySelector('#qrBig'),{text:String(text),width:sz,height:sz}); }catch(e){} }; }
   function agendaHtml(){ const dd=CONF.days[day]; if(!dd) return '<div class="hint">مفيش يوم</div>'; const info=dayInfo(), today=info.state==='live'&&info.idx===day, st=today?sessState(info):{nowIdx:-1,nextIdx:-1}, have=!!TDts, N=RT.length;
@@ -1812,8 +1849,18 @@ function openAdmin(){
     const P=[{n:(t.leader&&t.leader.name)||'الليدر',ph:t.leader&&t.leader.photo,r:'👑 ليدر'},...(t.members||[]).map(m=>({n:m.name,ph:m.photo,r:''}))], sc=Object.keys(t.scans||{}).length, exd=Object.values(t.ex||{}).filter(exFin).length, bk=t.brk||{};
     box.innerHTML=`<div class="a2-mem">${P.map(m=>`<div><i style="background:${m.ph?`url('${String(m.ph).replace(/'/g,'')}') center/cover`:'var(--glass)'}"></i><span>${esc(m.n)}</span><small>${m.r}</small></div>`).join('')}</div><div class="a2-rs" style="margin-top:10px"><span class="chip">🔳 ${sc} كود مسجّل</span><span class="chip">🧠 ${exd} شرح خلص</span>${Object.keys(bk).map(k=>`<span class="chip">${esc((BK[k]||[k])[0])} ${bk[k]}</span>`).join('')}</div>`; }
   function bindUn(root){ root.querySelectorAll('[data-un2]').forEach(b=>b.onclick=async()=>{ const a=AW.find(x=>x.id===b.dataset.un2), tm=a&&RT.find(x=>x.id===a.teamId); if(!a||!tm||!confirm(`عكس "${a.why}" (${sgn(a.pts)}) لـ ${tm.name}؟`)) return; if(await pushAward(tm,-a.pts,'عكس: '+(a.why||a.kind),'adj',{undo:a.id})) toast('اتعكست ✅'); }); }
+  /* ===== خانات مربعة: قائمة الأقسام + صفحات الأقسام ===== */
+  const HUBC={home:['#F4B740','#FF8A3D'],teams:['#3FDCC9','#2F7BFF'],prog:['#FF7A59','#FF3B7A'],comm:['#9B8CFF','#6A4CFF'],cont:['#5FE0A4','#1E9E6B'],sys:['#8FA3C9','#4C5B86']};
+  const HUBD={home:'لوحة المتابعة الحية',teams:'الفرق والنقط والتحليلات',prog:'فقرات اليوم والشعارات',comm:'إعلانات وأسئلة ولاسلكي',cont:'الفقرات والأسئلة والشكل',sys:'النقط والأدوات'};
+  const SUBM={home:['🏠','نظرة عامة'],teams:['👥','ملف كل فريق'],rank:['📊','ترتيب ومصادر النقط'],stats:['📈','حضور ونشاط الفرق'],log:['🧾','كل العمليات مع فلتر'],bulk:['🎁','نقط لأكتر من فريق'],scan:['📷','مسح كود فريق'],att:['🙋','حضور بالتعرف على الوش'],agenda:['🗓️','فقرات اليوم والتحكم'],slg:['🎬','مراجعة الشعارات'],'content:qr':['🔳','أكواد QR بنقط'],ann:['📢','رسائل لكل الفرق'],qs:['💬','أسئلة الفرق وردودك'],muna:['📻','جهاز اللاسلكي'],fbk:['⭐','تقييمات الحضور'],'content:gen':['⚙️','إعدادات المؤتمر العامة'],'content:days':['📋','فقرات اليوم'],'content:bank':['🧠','بنك أسئلة الشرح'],'content:quiz':['❓','سؤال اليوم'],'content:ui':['🎛️','شكل شاشة الشرح'],cfg:['🎯','نقط وأزرار سريعة'],tools:['🧰','قرعة وتصدير ونسخ احتياطي']};
+  const hubBdg=(h,b)=>h.subs.reduce((t,x)=>t+(b[x[0]]||0),0);
+  const bdgNow=()=>({slg:SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length,qs:QS.filter(q=>!q.reply).length});
+  const hubTile=(h,i)=>{ const n=hubBdg(h,bdgNow()), c=HUBC[h.id]; return `<button class="a2-sqt" data-hubgo="${h.id}" style="--c1:${c[0]};--c2:${c[1]};animation-delay:${i*.06}s"><span class="ic">${h.ic}</span><span><span class="tt">${h.l}</span><div class="ds">${HUBD[h.id]}</div></span>${n?`<em>${n}</em>`:''}</button>`; };
+  const menuHtml=()=>`<div class="a2-sec" style="margin-top:0">كل الأقسام</div><div class="a2-sq">${HUBS.map(hubTile).join('')}</div>`;
+  const homeGrid=()=>`<div class="a2-sec">الأقسام</div><div class="a2-sq">${HUBS.filter(h=>h.id!=='home').map(hubTile).join('')}<button class="a2-sqt prj" data-proj="1"><span class="ic">📺</span><span><span class="tt">شاشة العرض</span><div class="ds">ترتيب حي للشاشة الكبيرة</div></span></button></div>`;
+  function hubHtml(id){ const h=HUBS.find(x=>x.id===id)||HUBS[0], c=HUBC[h.id], b=bdgNow();
+    return `<div class="a2-sec" style="margin-top:0">${h.ic} ${h.l}</div><div class="a2-sq">${h.subs.map(([k,l],i)=>{ const m=SUBM[k]||['•','']; return `<button class="a2-sqt" data-sub="${k}" style="--c1:${c[0]};--c2:${c[1]};animation-delay:${i*.05}s"><span class="ic">${m[0]}</span><span><span class="tt">${l}</span><div class="ds">${m[1]}</div></span>${b[k]?`<em>${b[k]}</em>`:''}</button>`; }).join('')}</div>`; }
   const countUp=root=>root.querySelectorAll('[data-count]').forEach(el=>{ const to=+el.dataset.count||0; if(!to) return; const t0=performance.now(), f=t=>{ const p=Math.min(1,(t-t0)/800); el.textContent=Math.round(to*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(f); }; requestAnimationFrame(f); });
-  A.addEventListener('click',e=>{ const t=e.target.closest('[data-tm]'); if(t&&A.contains(t)){ const x=A.querySelector('#a2q'); if(x) x.value=''; openTeam(t.dataset.tm); } });
   function bindV2(fresh){
     const q=A.querySelector('#a2q'), sg=A.querySelector('#a2sug');
     if(q){ q.oninput=()=>{ sg.innerHTML=sugHtml(smartParse(q.value)); }; q.onkeydown=e=>{ if(e.key==='Enter') smartExec(q.value); }; A.querySelector('#a2go').onclick=()=>smartExec(q.value); }
@@ -1861,6 +1908,8 @@ function openAdmin(){
     }
     else if(tab==='teams') body=teamsHtml();
     else if(tab==='tools') body=toolsHtml();
+    else if(tab==='menu') body=menuHtml();
+    else if(tab==='hub') body=hubHtml(A2.hubId);
     else if(tab==='agenda') body=agendaHtml();
     else if(tab==='stats') body=statsHtml();
     else if(tab==='log') body=logHtml();
@@ -1873,13 +1922,16 @@ function openAdmin(){
     else if(tab==='content'){ if(!D) edInit(); body=edHtml(); }
     else if(tab==='ann') body=`<div class="card"><div class="step-t">📢 إعلان لكل الفرق</div><div class="a2-tp" style="margin:6px 0 0">${TPL.map(t=>`<button class="chip" data-fill="${esc(t)}">${esc(t)}</button>`).join('')}</div><textarea class="field" id="aAnn" placeholder="اكتب الإعلان..." maxlength="200" style="margin-top:10px"></textarea><button class="btn btn-primary" id="aSend" style="margin-top:10px">إرسال</button></div><div class="card"><div class="step-t">الإعلانات السابقة</div>${ANN.length?ANN.map(a=>`<div class="lg"><span>${esc(a.text)} <small style="color:var(--muted)">· ${timeAgo(a.ts||0)}</small></span><button class="rm" data-ad="${a.id}" aria-label="حذف">✕</button></div>`).join(''):'<div class="hint">مفيش إعلانات</div>'}</div>`;
     else body=`<div class="card"><div class="step-t">النقط (الأدمن بيتحكم)</div>${[['sloganPts','نقط الشعار (افتراضي)'],['bonusPts','نقط البونص'],['gamePts','نقط كل لعبة']].map(([k,l])=>`<div class="hint" style="margin-top:10px">${l}</div><input class="field" type="number" id="c-${k}" value="${CFG[k]}" dir="ltr">`).join('')}<button class="btn btn-primary" id="cSave" style="margin-top:12px">حفظ</button></div>`+cfgQuick();
-    const fresh=A2.lastTab!==tab+'|'+day; A2.lastTab=tab+'|'+day; const pendS=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unqN=QS.filter(q=>!q.reply).length, bdg={slg:pendS,qs:unqN}, gk=gkey(), hub=HUBS.find(h=>h.subs.some(x=>x[0]===gk))||HUBS[0];
-    A.innerHTML=`<div class="a2"><div class="a2-head"><div><div class="adm-title">🛠️ لوحة التحكم</div><div class="adm-sub">${RT.length} فريق مسجّل</div></div><div class="a2-hb"><button id="aProj" class="a2-ib" aria-label="شاشة العرض">📺</button><button id="aOut" class="a2-ib" aria-label="خروج">🚪</button><button id="aX" class="a2-ib" aria-label="إغلاق">✕</button></div></div>
+    const E=TOP(); if(E.custom) return; const fresh=!E.drawn; E.drawn=true; const pendS=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unqN=QS.filter(q=>!q.reply).length, bdg={slg:pendS,qs:unqN}, gk=gkey(), hub=tab==='hub'?(HUBS.find(h=>h.id===A2.hubId)||HUBS[0]):(HUBS.find(h=>h.subs.some(x=>x[0]===gk))||HUBS[0]), inPage=tab!=='menu'&&tab!=='hub', showSubs=inPage&&hub.subs.length>1, subL=(hub.subs.find(x=>x[0]===gk)||[])[1], locHtml=tab==='menu'?'كل الأقسام':tab==='hub'?`${hub.ic} ${esc(hub.l)}`:`${hub.ic} ${esc(hub.l)}${subL&&hub.subs.length>1?` <small>› ${esc(subL)}</small>`:''}`;
+    const isBase=A===BASE, hubT=tab==='hub'?`${hub.ic} ${esc(hub.l)}`:`${(SUBM[gk]||[hub.ic])[0]} ${esc(subL||hub.l)}`;
+    A.innerHTML=isBase?`<div class="a2"><div class="a2-head"><div><div class="adm-title">🛠️ لوحة التحكم</div><div class="adm-sub">${RT.length} فريق مسجّل</div></div><div class="a2-hb"><button id="aProj" class="a2-ib" aria-label="شاشة العرض">📺</button><button id="aOut" class="a2-ib" aria-label="خروج">🚪</button><button id="aX" class="a2-ib" aria-label="إغلاق">✕</button></div></div>
       <div class="a2-cmd"><span>⚡</span><input id="a2q" placeholder='اكتب أمر… مثال: +20 الأزرق' autocomplete="off" enterkeyhint="go"><button id="a2go" aria-label="تنفيذ">↵</button></div><div id="a2sug"></div>
-      <div class="a2-nav"><div class="a2-hubs">${HUBS.map(h=>{ const n=h.subs.reduce((t,x)=>t+(bdg[x[0]]||0),0); return `<button class="a2-hub ${h===hub?'on':''}" data-hub="${h.id}"><i>${h.ic}</i>${h.l}${n?`<em>${n}</em>`:''}</button>`; }).join('')}</div>${hub.subs.length>1?`<div class="a2-subs">${hub.subs.map(([k,l])=>`<button class="a2-sb ${k===gk?'on':''}" data-sub="${k}">${l}${bdg[k]?` <em>${bdg[k]}</em>`:''}</button>`).join('')}</div>`:''}</div>
-      <div class="${fresh?'a2-in':''}">${body}</div></div>`;
-    A.querySelector('#aX').onclick=()=>close(); A.querySelector('#aOut').onclick=()=>{ if(confirm('تسجيل الخروج من لوحة الأدمن؟')) close(true); }; bindV2(fresh);
-    A.querySelectorAll('[data-hub]').forEach(b=>b.onclick=()=>{ const h=HUBS.find(x=>x.id===b.dataset.hub); go(A2.hubSub[h.id]||h.subs[0][0]); }); A.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>go(b.dataset.sub));
+      <div class="${fresh?'a2-in':''}">${body}</div></div>`
+      :`<div class="a2"><div class="a2-ph"><button class="a2-bk" data-back aria-label="رجوع">→</button><div class="a2-pt">${hubT}</div><button class="a2-ib" data-base aria-label="الرئيسية">🏠</button></div><div class="${fresh?'a2-in':''}">${body}</div></div>`;
+    const ax=A.querySelector('#aX'); if(ax){ ax.onclick=()=>close(); A.querySelector('#aOut').onclick=()=>{ if(confirm('تسجيل الخروج من لوحة الأدمن؟')) close(true); }; }
+    const bk=A.querySelector('[data-back]'); if(bk) bk.onclick=popPage; const bs=A.querySelector('[data-base]'); if(bs) bs.onclick=popAll;
+    bindV2(fresh);
+    A.querySelectorAll('[data-hubgo]').forEach(b=>b.onclick=()=>openHub(b.dataset.hubgo)); A.querySelectorAll('[data-proj]').forEach(b=>b.onclick=openProj); A.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>pushKey(b.dataset.sub));
     const sc=A.querySelector('#aScan'); if(sc){
       const go=v=>{ const tm=lookup(v); if(tm){ showTeam(tm); stopScan(); A.querySelector('#scBox').classList.add('hidden'); return true; } return false; };
       sc.onclick=()=>{ A.querySelector('#scBox').classList.remove('hidden'); startScan(A,go); };

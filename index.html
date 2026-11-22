@@ -81,6 +81,18 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:150}
 .ptt img{height:100%;max-width:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))}
 .ptt.rec{transform:scale(.95);animation:pttp 1s ease-in-out infinite}
 @keyframes pttp{0%,100%{filter:drop-shadow(0 0 4px var(--pc))}50%{filter:drop-shadow(0 0 24px var(--pc))}}
+.btn{transition:transform .12s,filter .15s}.btn:active{transform:scale(.97)}
+:focus-visible{outline:2px solid var(--gold,#F4B740);outline-offset:2px}
+.card{transition:box-shadow .25s,border-color .25s}
+.ptt:not(.rec):hover img{filter:drop-shadow(0 10px 22px var(--pc,#000))}
+.ptt-b{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:pointer}
+.ptt-b.rec{background:#D6473A!important;color:#fff!important;animation:pttp 1s ease-in-out infinite}
+.ptt-hud{display:flex;flex-direction:column;align-items:center;gap:6px}
+.ptt-hud.cx{background:rgba(90,90,110,.95)}
+.ptt-lv{display:block;width:150px;height:6px;border-radius:6px;background:rgba(255,255,255,.28);overflow:hidden}
+.ptt-lv b{display:block;height:100%;width:0;background:#fff;border-radius:6px;transition:width .08s}
+.wk-new{display:inline-block;background:#D6473A;color:#fff;border-radius:10px;font-size:10px;font-weight:900;padding:1px 7px;margin-inline-start:4px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 .ptt-hud{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:99998;background:rgba(214,71,58,.95);color:#fff;font-weight:900;font-size:15px;padding:12px 20px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,.4);white-space:nowrap}
 .top-title{font-family:'Cairo',sans-serif;font-weight:900;font-size:14.5px;line-height:1.3}
 .top-sub{font-size:11px;color:var(--muted)}
@@ -1280,16 +1292,17 @@ function walkieKey(hex){ const m=/^#?([0-9a-f]{6})$/i.exec(hex||''); if(!m) retu
 /* ===== لاسلكي: إرسال صوت (الأدمن) واستقبال (الفرق) ===== */
 const WK_MAX=30000, WK={q:[],cur:null,aud:null,team:null}, PTT={};
 function wkBeep(f1,f2){ try{ const C=window.AudioContext||window.webkitAudioContext; if(!C) return; const c=wkBeep.c||(wkBeep.c=new C()); if(c.state==='suspended') c.resume(); const o=c.createOscillator(), g=c.createGain(), n=c.currentTime; o.type='square'; o.frequency.setValueAtTime(f1,n); if(f2) o.frequency.setValueAtTime(f2,n+.08); g.gain.setValueAtTime(.0001,n); g.gain.exponentialRampToValueAtTime(.1,n+.01); g.gain.exponentialRampToValueAtTime(.0001,n+.18); o.connect(g); g.connect(c.destination); o.start(n); o.stop(n+.19); }catch(e){} }
-function wkName(k){ if(k==='all') return 'كل الفرق'; const i=MUNA_TEAMS.findIndex(x=>x[0]===k); return (CFG.munaNames&&CFG.munaNames.length===4&&i>=0)?CFG.munaNames[i]:(MUNA_TEAMS[i]||[0,k])[1]; }
+function wkName(k){ if(k==='all') return 'كل الفرق'; if(k==='admin') return 'المنظمين'; const i=MUNA_TEAMS.findIndex(x=>x[0]===k); return (CFG.munaNames&&CFG.munaNames.length===4&&i>=0)?CFG.munaNames[i]:(MUNA_TEAMS[i]||[0,k])[1]; }
 function pttBind(root){
   root.querySelectorAll('[data-ptt]').forEach(el=>{
     el.oncontextmenu=e=>e.preventDefault();
-    el.onpointerdown=e=>{ e.preventDefault(); try{ el.setPointerCapture(e.pointerId); }catch(_){} pttStart(el,el.dataset.ptt); };
+    el.onpointerdown=e=>{ e.preventDefault(); try{ el.setPointerCapture(e.pointerId); }catch(_){} PTT.y0=e.clientY; PTT.cancel=false; pttStart(el,el.dataset.ptt); };
+    el.onpointermove=e=>{ if(PTT.rec&&PTT.el===el){ PTT.cancel=(PTT.y0-e.clientY)>90; const h=document.getElementById('pttHud'); if(h) h.classList.toggle('cx',PTT.cancel); } };
     el.onpointerup=el.onpointercancel=()=>pttStop();
   });
 }
 async function pttStart(el,k){
-  if(PTT.rec||PTT.busy) return; PTT.busy=true; PTT.down=true;
+  if(PTT.rec||PTT.busy) return; if(Date.now()-(PTT.last||0)<2500) return toast('استنى ثانيتين وابعت تاني ⏳',true); PTT.busy=true; PTT.down=true;
   if(!navigator.mediaDevices||!window.MediaRecorder){ PTT.busy=false; return toast('المتصفح ده مش بيدعم تسجيل الصوت',true); }
   try{ if(!PTT.stream||!PTT.stream.active) PTT.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}); }
   catch(e){ PTT.busy=false; PTT.down=false; return toast('لازم تسمح باستخدام الميكروفون',true); }
@@ -1300,21 +1313,24 @@ async function pttStart(el,k){
   PTT.chunks=[]; rec.ondataavailable=e=>{ if(e.data&&e.data.size) PTT.chunks.push(e.data); };
   PTT.rec=rec; PTT.k=k; PTT.el=el; PTT.mime=rec.mimeType||mt||'audio/webm'; PTT.t0=Date.now(); PTT.busy=false;
   rec.start(); el.classList.add('rec'); try{ navigator.vibrate&&navigator.vibrate(30); }catch(e){}
-  const hud=document.createElement('div'); hud.className='ptt-hud'; hud.id='pttHud'; document.body.appendChild(hud);
-  PTT.iv=setInterval(()=>{ const ms=Date.now()-PTT.t0; hud.textContent='🔴 بتتكلم… '+(ms/1000).toFixed(1)+' ث — لـ '+wkName(k);
+  const hud=document.createElement('div'); hud.className='ptt-hud'; hud.id='pttHud'; hud.innerHTML='<span id="pttTx"></span><i class="ptt-lv"><b id="pttLv"></b></i>'; document.body.appendChild(hud);
+  PTT.an=null; try{ const C=window.AudioContext||window.webkitAudioContext; if(C){ const c=PTT.ac||(PTT.ac=new C()); if(c.state==='suspended') c.resume(); PTT.src=c.createMediaStreamSource(PTT.stream); PTT.an=c.createAnalyser(); PTT.an.fftSize=256; PTT.src.connect(PTT.an); PTT.buf=new Uint8Array(PTT.an.fftSize); } }catch(e){ PTT.an=null; }
+  PTT.iv=setInterval(()=>{ const ms=Date.now()-PTT.t0, tx=document.getElementById('pttTx'), lv=document.getElementById('pttLv');
+    if(tx) tx.textContent=PTT.cancel?'⛔ سيب للإلغاء':'🔴 بتتكلم… '+(ms/1000).toFixed(1)+' ث — لـ '+wkName(k)+' · اسحب لفوق للإلغاء';
+    if(lv&&PTT.an){ PTT.an.getByteTimeDomainData(PTT.buf); let m=0; for(let i=0;i<PTT.buf.length;i++){ m=Math.max(m,Math.abs(PTT.buf[i]-128)); } lv.style.width=Math.min(100,m/64*100)+'%'; }
     if(!document.body.contains(el)||ms>=WK_MAX) pttStop(); },100);
-  hud.textContent='🔴 بتتكلم… — لـ '+wkName(k);
 }
 function pttStop(){
   PTT.down=false; const rec=PTT.rec; if(!rec) return; PTT.rec=null; clearInterval(PTT.iv);
   const h=document.getElementById('pttHud'); if(h) h.remove(); if(PTT.el) PTT.el.classList.remove('rec');
-  const k=PTT.k, ms=Date.now()-PTT.t0, mime=PTT.mime;
+  const k=PTT.k, ms=Date.now()-PTT.t0, mime=PTT.mime, cancel=PTT.cancel; PTT.cancel=false; try{ PTT.src&&PTT.src.disconnect(); }catch(e){} PTT.src=null; PTT.an=null;
   rec.onstop=()=>{
     const chunks=PTT.chunks||[]; PTT.chunks=[];
+    if(cancel) return toast('اتلغى التسجيل ✖️');
     if(ms<600) return toast('دوس مطوّلًا وإنت بتتكلم 🎙️',true);
     const fr=new FileReader(); fr.onload=async()=>{ const audio=fr.result;
       if(audio.length>900000) return toast('التسجيل طويل — قصّره شوية',true);
-      try{ await DB.collection('walkie').add({to:k,audio,mime,ms,ts:Date.now()}); wkBeep(1320,880); toast('📻 اتبعتت لـ '+wkName(k)+' ✅');
+      try{ PTT.last=Date.now(); await DB.collection('walkie').add({to:k,audio,mime,ms,ts:Date.now(),...(k==='admin'&&WK.team?{fromId:WK.team.id,from:WK.team.name||''}:{})}); wkBeep(1320,880); toast('📻 اتبعتت لـ '+wkName(k)+' ✅');
         DB.collection('walkie').where('to','==',k).get().then(q=>q.forEach(d=>{ if((d.data().ts||0)<Date.now()-36*3600000) d.ref.delete(); })).catch(()=>{});
       }catch(e){ toast('فشل الإرسال — راجع قواعد Firebase (walkie)',true); } };
     fr.readAsDataURL(new Blob(chunks,{type:mime})); };
@@ -1358,7 +1374,7 @@ function wkDone(){
   wkSt('✓ انتهت الرسالة'); setTimeout(()=>{ if(!WK.cur) wkClose(); },1200);
 }
 function munaCard(t){ const k=walkieKey(t.color), i=MUNA_TEAMS.findIndex(x=>x[0]===k), img=MUNA_IMG[k]||MUNA_IMG.all, nm=(CFG.munaNames&&CFG.munaNames.length===4&&i>=0)?CFG.munaNames[i]:(t.name||'');
-  return `<div class="card" style="text-align:center;border-color:${t.color}"><div class="step-t">📻 لاسلكي — جهاز فريقك</div><img src="${img}" alt="" style="height:170px;max-width:100%;object-fit:contain;margin-top:8px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))"><div style="font-weight:900;margin-top:6px;color:${t.color}">${esc(nm)}</div><div class="hint" style="margin-top:4px">لون جهاز اللاسلكي بتاع فريقك</div></div>`; }
+  return `<div class="card" style="text-align:center;border-color:${t.color}"><div class="step-t">📻 لاسلكي — جهاز فريقك</div><div class="ptt" data-ptt="admin" style="--pc:${t.color};height:170px"><img src="${img}" alt="" draggable="false"></div><div style="font-weight:900;margin-top:6px;color:${t.color}">${esc(nm)}</div><div class="hint" style="margin-top:4px">🎙️ دوس مطوّلًا على الجهاز وإنت بتتكلم، وسيب لما تخلّص — الرسالة هتوصل للمنظمين</div></div>`; }
 function finalHtml(t){ const L=lbRows(t), top=L.slice(0,3), r=teamRank(t), md=['🥇','🥈','🥉'];
   return `<div class="card" style="text-align:center;border-color:var(--gold)"><div class="step-t">🏁 ختام المؤتمر العاشر</div><div style="font-size:44px;margin:8px 0">${r>=1&&r<=3?md[r-1]:'🎖️'}</div><div style="font-weight:900;font-size:18px">${r===1?'مبروك! فريقكم في المركز الأول':'فريقكم في المركز #'+r}</div><div class="hint" style="margin-bottom:10px">${t.points||0} نقطة</div>${top.map((x,i)=>`<div class="rank-row ${x.id===t.id?'me':''}"><span class="rk">${md[i]}</span><i class="dot" style="background:${x.color}"></i><span class="nm">${esc(x.name)}</span><span class="pt">${x.points||0}</span></div>`).join('')}<button class="btn btn-primary" id="certBtn" style="margin-top:12px">🎓 حمّل شهادة فريقك</button></div>`; }
 async function downloadCert(t){ try{ try{ await document.fonts.load('900 60px Cairo'); }catch(e){}
@@ -1471,7 +1487,7 @@ function openAdmin(){
       +ef('ui.train','كلمة وضع التدريب','text',D.ui.train)+ef('ui.go','كلمة البدء','text',D.ui.go)
       +ef('ui.numStyle','شكل الأرقام','select',D.ui.numStyle,{opts:[['ring','دايرة متوهجة (الجديد)'],['emoji','إيموجي (القديم)']]})+`</div>`;
     else if(sec==='qr') h+=`<div class="hint" style="text-align:start">اعمل كود QR لأي فقرة (شرح / ألعاب / شعار / غيره) وحدد نقطه بنفسك. كل فريق يسجّل الكود مرة واحدة. الكود بيشتغل من زر "امسح كود نقط" عند الفرق، ومن مسح الفقرة والشرح كمان. لازم تدوس 💾 حفظ ونشر عشان الكود يشتغل.</div>`
-      +D.qrs.map((q,i)=>`<details class="card" data-qrd="${i}"><summary ${SUM}>${q.on===false?'⏸️':'🔳'} ${esc(q.name||'كود جديد')} <small style="color:var(--muted)">${q.pts>0?'+':''}${esc(q.pts)} نقطة</small></summary>`
+      +qrGenHtml()+D.qrs.map((q,i)=>`<details class="card" data-qrd="${i}"><summary ${SUM}>${q.on===false?'⏸️':'🔳'} ${esc(q.name||'كود جديد')} <small style="color:var(--muted)">${q.pts>0?'+':''}${esc(q.pts)} نقطة</small></summary>`
         +ef(`qrs.${i}.name`,'اسم الكود (بيظهر للفريق)','text',q.name)
         +ef(`qrs.${i}.type`,'النوع','select',q.type,{opts:QR_TYPES})
         +ef(`qrs.${i}.pts`,'النقط (أي رقم، والسالب = خصم)','number',q.pts)
@@ -1505,11 +1521,34 @@ function openAdmin(){
       else if(b.dataset.add){ const p=b.dataset.add; getP(D,p).push(BL[p.split('.').pop()]()); draw(); }
       else if(b.dataset.rm){ const k=b.dataset.rm.split('.'), i=+k.pop(); if(!confirm('متأكد من الحذف؟')) return; getP(D,k.join('.')).splice(i,1); draw(); }
       else if(b.dataset.mv){ const [p,dir]=b.dataset.mv.split(':'), k=p.split('.'), i=+k.pop(), arr=getP(D,k.join('.')), j=i+(+dir); if(j>=0&&j<arr.length){ [arr[i],arr[j]]=[arr[j],arr[i]]; draw(); } }
+      else if(b.id==='qgGo') qrGenerate(); else if(b.id==='qgSheet') qrSheet();
       else if(b.dataset.qrdl) qrDownload(+b.dataset.qrdl);
       else if(b.dataset.qrcp){ const q=D.qrs[+b.dataset.qrcp]; try{ navigator.clipboard.writeText(q.code); toast('اتنسخ ✅'); }catch(e){ toast(q.code); } }
       else if(b.id==='edSave') edSave();
       else if(b.id==='edReset'){ edInit(); draw(); } });
   }
+  function qrGenHtml(){ return `<div class="card" style="border-color:var(--gold)"><div class="step-t">⚡ إنشاء أكواد بالجملة</div>
+      <div class="hint" style="text-align:start;margin-top:4px">اكتب الاسم والنقط والعدد اللي عايزه، ودوس إنشاء — كل كود بيتسجّل مرة واحدة لكل فريق.</div>
+      <input class="field" id="qgName" placeholder="اسم الكود (مثال: لعبة الكراسي)" maxlength="40" style="margin-top:8px">
+      <select class="field" id="qgType" style="margin-top:8px">${QR_TYPES.map(t=>`<option value="${t[0]}">${t[1]}</option>`).join('')}</select>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><input class="field" id="qgPts" type="number" inputmode="numeric" placeholder="النقط لكل كود" dir="ltr" value="10"><input class="field" id="qgN" type="number" inputmode="numeric" min="1" max="100" placeholder="العدد" dir="ltr" value="1"></div>
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;justify-content:center">${ebtn('id="qgGo"','⚡ إنشاء','btn-primary')}${ebtn('id="qgSheet"','🖼️ تحميل كل الأكواد (صور مجمّعة)')}</div>
+      <div class="hint" style="margin-top:8px">بعد الإنشاء دوس 💾 حفظ ونشر تحت عشان الأكواد تشتغل عند الفرق.</div></div>`; }
+  function qrGenerate(){ const q=x=>A.querySelector(x), name=(q('#qgName').value||'').trim(), type=q('#qgType').value, pts=Math.round(+q('#qgPts').value||0), n=Math.floor(+q('#qgN').value||0);
+    if(!name) return toast('اكتب اسم الكود',true); if(!pts) return toast('اكتب عدد النقط (مش صفر)',true); if(n<1||n>100) return toast('العدد لازم من 1 لـ 100',true);
+    const used=new Set(D.qrs.map(x=>String(x.code||'').toUpperCase())), stamp=Date.now().toString(36);
+    for(let i=1;i<=n;i++){ let c; do{ c='C10-Q-'+Math.random().toString(36).slice(2,6).toUpperCase(); }while(used.has(c)||c.length<10); used.add(c);
+      D.qrs.push({id:'q'+stamp+i,name:n>1?name+' '+i:name,type,pts,day:'all',code:c,on:true}); }
+    toast(`اتعمل ${n} كود (${pts>0?'+':''}${pts} نقطة) — دوس 💾 حفظ ونشر ✅`); draw(); }
+  function qrSheet(){ const L=D.qrs.filter(q=>q.on!==false&&q.code); if(!L.length) return toast('مفيش أكواد',true); if(!window.QRCode) return toast('مكتبة الـQR مش محملة',true);
+    const per=12, cols=3, cw=420, ch=520, pages=Math.ceil(L.length/per), tmp=document.createElement('div'); tmp.style.cssText='position:fixed;left:-9999px;top:0'; document.body.appendChild(tmp);
+    for(let p=0;p<pages;p++) setTimeout(()=>{ try{ const part=L.slice(p*per,(p+1)*per), rows=Math.ceil(part.length/cols), cv=document.createElement('canvas'); cv.width=cols*cw; cv.height=rows*ch; const c=cv.getContext('2d'); c.fillStyle='#fff'; c.fillRect(0,0,cv.width,cv.height);
+      part.forEach((q,k)=>{ const x=(k%cols)*cw, y=Math.floor(k/cols)*ch; tmp.innerHTML=''; new QRCode(tmp,{text:String(q.code),width:340,height:340}); const src=tmp.querySelector('canvas'); c.strokeStyle='#ccc'; c.strokeRect(x+4,y+4,cw-8,ch-8); c.drawImage(src,x+40,y+30,340,340);
+        c.fillStyle='#111'; c.textAlign='center'; c.direction='rtl'; c.font='bold 28px Cairo,Tajawal,sans-serif'; c.fillText(q.name||'',x+cw/2,y+420,cw-40);
+        c.font='bold 26px Cairo,Tajawal,sans-serif'; c.fillStyle='#8a5a00'; c.fillText((q.pts>0?'+':'')+q.pts+' نقطة',x+cw/2,y+458);
+        c.font='16px monospace'; c.direction='ltr'; c.fillStyle='#666'; c.fillText(q.code,x+cw/2,y+495); });
+      const a=document.createElement('a'); a.download='qr-sheet-'+(p+1)+'.png'; a.href=cv.toDataURL('image/png'); document.body.appendChild(a); a.click(); a.remove(); }catch(err){ toast('تعذر إنشاء الصورة',true); } },p*700);
+    setTimeout(()=>tmp.remove(),pages*700+800); toast(pages>1?`هيتحمّل ${pages} صور`:'جاري التحميل…'); }
   function qrDownload(i){ const q=D.qrs[i]; if(!q||!window.QRCode) return toast('مكتبة الـQR مش محملة',true);
     const tmp=document.createElement('div'); tmp.style.cssText='position:fixed;left:-9999px;top:0'; document.body.appendChild(tmp);
     try{ new QRCode(tmp,{text:String(q.code||''),width:512,height:512});
@@ -1624,13 +1663,19 @@ function openAdmin(){
     attBindRes(); }
   function munaHtml(){ const nm=(CFG.munaNames&&CFG.munaNames.length===4)?CFG.munaNames:MUNA_TEAMS.map(t=>t[1]);
     const dev=(k,img,h,c)=>`<div class="ptt" data-ptt="${k}" style="--pc:${c};height:${h}px"><img src="${img}" alt="" draggable="false"></div>`;
-    return `<div class="card" style="text-align:center"><div class="step-t">📻 لاسلكي</div><div class="hint">🎙️ دوس مطوّلًا على الجهاز وإنت بتتكلم، وسيب لما تخلّص — الجهاز اللي فوق للكل، وكل لون للفريق بتاعه بس</div>
+    const rd=wkRead(), unr=wkUnread(), inbox=`<div class="card"><div class="step-t">📥 رسائل الفرق (${WKIN.length})${unr?`<span class="wk-new">${unr} جديدة</span>`:''}</div>${unr?'<button class="btn btn-ghost" id="wkAllRd" style="margin:6px 0">✓ تعليم الكل كمقروء</button>':''}${WKIN.length?WKIN.map(m=>{ const tm=RT.find(x=>x.id===m.fromId), rk=tm?walkieKey(tm.color):'', isN=!rd.has(m.id); return `<div class="lg" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:space-between"><span>${isN?'<span class="wk-new">جديد</span> ':''}<b>${esc(m.from||'فريق')}</b> <small style="color:var(--muted)">${timeAgo(m.ts||0)} · ${((m.ms||0)/1000).toFixed(0)} ث</small></span><span style="display:flex;gap:6px"><button class="btn btn-primary" data-wkplay="${m.id}" style="width:auto;padding:0 14px">▶</button>${rk&&rk!=='all'?`<button class="btn btn-ghost ptt-b" data-ptt="${rk}" style="width:auto;padding:0 12px">🎙️ رد</button>`:''}<button class="btn btn-ghost" data-wkdel="${m.id}" style="width:auto;padding:0 12px">🗑️</button></span></div>`; }).join(''):'<div class="hint">مفيش رسائل لسه</div>'}${WKIN.some(m=>RT.find(x=>x.id===m.fromId))?'<div class="hint">🎙️ زر "رد": دوس مطوّلًا وإنت بتتكلم، والرد بيوصل لفريق صاحب الرسالة</div>':''}</div>`;
+    return inbox+`<div class="card" style="text-align:center"><div class="step-t">📻 لاسلكي</div><div class="hint">🎙️ دوس مطوّلًا على الجهاز وإنت بتتكلم، وسيب لما تخلّص — الجهاز اللي فوق للكل، وكل لون للفريق بتاعه بس</div>
       ${dev('all',MUNA_IMG.all,230,'#F4B740')}</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${MUNA_TEAMS.map((t,i)=>`<div class="card" style="text-align:center;margin:0;padding:12px 8px;border:1.5px solid ${t[2]};box-shadow:0 0 16px ${t[2]}33">
         ${dev(t[0],MUNA_IMG[t[0]],150,t[2])}
         <input class="field" data-mn="${i}" value="${esc(nm[i])}" maxlength="25" style="margin-top:8px;text-align:center;font-weight:800;border-color:${t[2]}"></div>`).join('')}</div>
       <button class="btn btn-primary" id="mnSave" style="margin-top:12px">💾 حفظ أسماء الفرق</button>`; }
   let FBK=[], QS=[];
+  let WKIN=[], wkInit=false; const WKRD='c10_wk_admin_read', wkRead=()=>new Set(ls.get(WKRD,[])), wkMarkRead=ids=>{ const r=wkRead(); ids.forEach(i=>r.add(i)); ls.set(WKRD,[...r].slice(-200)); }, wkUnread=()=>{ const r=wkRead(); return WKIN.filter(m=>!r.has(m.id)).length; };
+  U.push(DB.collection('walkie').where('to','==','admin').onSnapshot(q=>{ const fresh=wkInit?q.docChanges().filter(c=>c.type==='added').map(c=>c.doc.data()).filter(m=>(m.ts||0)>Date.now()-60000):[]; wkInit=true;
+    WKIN=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,30);
+    if(fresh.length){ wkBeep(1320,880); toast('📻 رسالة لاسلكية من '+(fresh[fresh.length-1].from||'فريق')); try{ navigator.vibrate&&navigator.vibrate([60,40,60]); }catch(e){} }
+    if(tab==='muna'||tab==='home') soft(); },()=>{}));
   U.push(DB.collection('feedback').onSnapshot(q=>{ FBK=q.docs.map(d=>d.data()); if(tab==='fbk'||tab==='home') soft(); },()=>{}));
   U.push(DB.collection('questions').onSnapshot(q=>{ QS=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.ts||0)-(a.ts||0)); if(tab==='qs'||tab==='home') soft(); },()=>{}));
   const fbAvg=L=>L.length?L.reduce((t,f)=>t+(f.stars||0),0)/L.length:0;
@@ -1854,7 +1899,7 @@ function openAdmin(){
   const HUBD={home:'لوحة المتابعة الحية',teams:'الفرق والنقط والتحليلات',prog:'فقرات اليوم والشعارات',comm:'إعلانات وأسئلة ولاسلكي',cont:'الفقرات والأسئلة والشكل',sys:'النقط والأدوات'};
   const SUBM={home:['🏠','نظرة عامة'],teams:['👥','ملف كل فريق'],rank:['📊','ترتيب ومصادر النقط'],stats:['📈','حضور ونشاط الفرق'],log:['🧾','كل العمليات مع فلتر'],bulk:['🎁','نقط لأكتر من فريق'],scan:['📷','مسح كود فريق'],att:['🙋','حضور بالتعرف على الوش'],agenda:['🗓️','فقرات اليوم والتحكم'],slg:['🎬','مراجعة الشعارات'],'content:qr':['🔳','أكواد QR بنقط'],ann:['📢','رسائل لكل الفرق'],qs:['💬','أسئلة الفرق وردودك'],muna:['📻','جهاز اللاسلكي'],fbk:['⭐','تقييمات الحضور'],'content:gen':['⚙️','إعدادات المؤتمر العامة'],'content:days':['📋','فقرات اليوم'],'content:bank':['🧠','بنك أسئلة الشرح'],'content:quiz':['❓','سؤال اليوم'],'content:ui':['🎛️','شكل شاشة الشرح'],cfg:['🎯','نقط وأزرار سريعة'],tools:['🧰','قرعة وتصدير ونسخ احتياطي']};
   const hubBdg=(h,b)=>h.subs.reduce((t,x)=>t+(b[x[0]]||0),0);
-  const bdgNow=()=>({slg:SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length,qs:QS.filter(q=>!q.reply).length});
+  const bdgNow=()=>({slg:SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length,qs:QS.filter(q=>!q.reply).length,muna:wkUnread()});
   const hubTile=(h,i)=>{ const n=hubBdg(h,bdgNow()), c=HUBC[h.id]; return `<button class="a2-sqt" data-hubgo="${h.id}" style="--c1:${c[0]};--c2:${c[1]};animation-delay:${i*.06}s"><span class="ic">${h.ic}</span><span><span class="tt">${h.l}</span><div class="ds">${HUBD[h.id]}</div></span>${n?`<em>${n}</em>`:''}</button>`; };
   const menuHtml=()=>`<div class="a2-sec" style="margin-top:0">كل الأقسام</div><div class="a2-sq">${HUBS.map(hubTile).join('')}</div>`;
   const homeGrid=()=>`<div class="a2-sec">الأقسام</div><div class="a2-sq">${HUBS.filter(h=>h.id!=='home').map(hubTile).join('')}<button class="a2-sqt prj" data-proj="1"><span class="ic">📺</span><span><span class="tt">شاشة العرض</span><div class="ds">ترتيب حي للشاشة الكبيرة</div></span></button></div>`;
@@ -1922,7 +1967,7 @@ function openAdmin(){
     else if(tab==='content'){ if(!D) edInit(); body=edHtml(); }
     else if(tab==='ann') body=`<div class="card"><div class="step-t">📢 إعلان لكل الفرق</div><div class="a2-tp" style="margin:6px 0 0">${TPL.map(t=>`<button class="chip" data-fill="${esc(t)}">${esc(t)}</button>`).join('')}</div><textarea class="field" id="aAnn" placeholder="اكتب الإعلان..." maxlength="200" style="margin-top:10px"></textarea><button class="btn btn-primary" id="aSend" style="margin-top:10px">إرسال</button></div><div class="card"><div class="step-t">الإعلانات السابقة</div>${ANN.length?ANN.map(a=>`<div class="lg"><span>${esc(a.text)} <small style="color:var(--muted)">· ${timeAgo(a.ts||0)}</small></span><button class="rm" data-ad="${a.id}" aria-label="حذف">✕</button></div>`).join(''):'<div class="hint">مفيش إعلانات</div>'}</div>`;
     else body=`<div class="card"><div class="step-t">النقط (الأدمن بيتحكم)</div>${[['sloganPts','نقط الشعار (افتراضي)'],['bonusPts','نقط البونص'],['gamePts','نقط كل لعبة']].map(([k,l])=>`<div class="hint" style="margin-top:10px">${l}</div><input class="field" type="number" id="c-${k}" value="${CFG[k]}" dir="ltr">`).join('')}<button class="btn btn-primary" id="cSave" style="margin-top:12px">حفظ</button></div>`+cfgQuick();
-    const E=TOP(); if(E.custom) return; const fresh=!E.drawn; E.drawn=true; const pendS=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unqN=QS.filter(q=>!q.reply).length, bdg={slg:pendS,qs:unqN}, gk=gkey(), hub=tab==='hub'?(HUBS.find(h=>h.id===A2.hubId)||HUBS[0]):(HUBS.find(h=>h.subs.some(x=>x[0]===gk))||HUBS[0]), inPage=tab!=='menu'&&tab!=='hub', showSubs=inPage&&hub.subs.length>1, subL=(hub.subs.find(x=>x[0]===gk)||[])[1], locHtml=tab==='menu'?'كل الأقسام':tab==='hub'?`${hub.ic} ${esc(hub.l)}`:`${hub.ic} ${esc(hub.l)}${subL&&hub.subs.length>1?` <small>› ${esc(subL)}</small>`:''}`;
+    const E=TOP(); if(E.custom) return; const fresh=!E.drawn; E.drawn=true; const pendS=SUBS.filter(x=>x.day===day&&x.status!=='ok'&&x.status!=='wrong').length, unqN=QS.filter(q=>!q.reply).length, bdg={slg:pendS,qs:unqN,muna:wkUnread()}, gk=gkey(), hub=tab==='hub'?(HUBS.find(h=>h.id===A2.hubId)||HUBS[0]):(HUBS.find(h=>h.subs.some(x=>x[0]===gk))||HUBS[0]), inPage=tab!=='menu'&&tab!=='hub', showSubs=inPage&&hub.subs.length>1, subL=(hub.subs.find(x=>x[0]===gk)||[])[1], locHtml=tab==='menu'?'كل الأقسام':tab==='hub'?`${hub.ic} ${esc(hub.l)}`:`${hub.ic} ${esc(hub.l)}${subL&&hub.subs.length>1?` <small>› ${esc(subL)}</small>`:''}`;
     const isBase=A===BASE, hubT=tab==='hub'?`${hub.ic} ${esc(hub.l)}`:`${(SUBM[gk]||[hub.ic])[0]} ${esc(subL||hub.l)}`;
     A.innerHTML=isBase?`<div class="a2"><div class="a2-head"><div><div class="adm-title">🛠️ لوحة التحكم</div><div class="adm-sub">${RT.length} فريق مسجّل</div></div><div class="a2-hb"><button id="aProj" class="a2-ib" aria-label="شاشة العرض">📺</button><button id="aOut" class="a2-ib" aria-label="خروج">🚪</button><button id="aX" class="a2-ib" aria-label="إغلاق">✕</button></div></div>
       <div class="a2-cmd"><span>⚡</span><input id="a2q" placeholder='اكتب أمر… مثال: +20 الأزرق' autocomplete="off" enterkeyhint="go"><button id="a2go" aria-label="تنفيذ">↵</button></div><div id="a2sug"></div>
@@ -1954,6 +1999,9 @@ function openAdmin(){
     A.querySelectorAll('[data-qd]').forEach(b=>b.onclick=async()=>{ if(!confirm('حذف السؤال؟')) return; try{ await DB.collection('questions').doc(b.dataset.qd).delete(); }catch(e){ toast('فشل الحذف',true); } });
     A.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go)); const hEx=A.querySelector('#hExport'); if(hEx) hEx.onclick=exportCsv;
     pttBind(A);
+    const ar=A.querySelector('#wkAllRd'); if(ar) ar.onclick=()=>{ wkMarkRead(WKIN.map(m=>m.id)); draw(); };
+    A.querySelectorAll('[data-wkplay]').forEach(b=>b.onclick=()=>{ const m=WKIN.find(x=>x.id===b.dataset.wkplay); if(!m) return; if(!wkRead().has(m.id)){ wkMarkRead([m.id]); setTimeout(soft,50); } try{ window._wkA&&window._wkA.pause(); const a=window._wkA=new Audio(m.audio); a.play().catch(()=>toast('تعذر تشغيل الرسالة',true)); }catch(e){ toast('تعذر تشغيل الرسالة',true); } });
+    A.querySelectorAll('[data-wkdel]').forEach(b=>b.onclick=()=>DB.collection('walkie').doc(b.dataset.wkdel).delete().then(()=>toast('اتحذفت')).catch(()=>toast('فشل الحذف',true)));
     const mn=A.querySelector('#mnSave'); if(mn) mn.onclick=()=>{ const v=[...A.querySelectorAll('[data-mn]')].map((x,i)=>x.value.trim()||MUNA_TEAMS[i][1]); DB.collection('config').doc('main').set({munaNames:v},{merge:true}).then(()=>toast('اتحفظت الأسماء ✅')).catch(()=>toast('فشل — راجع قواعد Firebase',true)); };
     const ex=A.querySelector('#aExp'); if(ex) ex.onclick=()=>{ const cd=id=>Object.keys(CODES).find(k=>CODES[k]===id)||''; const rows=['الفريق,النقاط,الكود',...RT.slice().sort((a,b)=>(b.points||0)-(a.points||0)).map(x=>'"'+String(x.name).replace(/"/g,'""')+'",'+(x.points||0)+','+cd(x.id))]; downloadFile(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv;charset=utf-8'}),'results.csv'); };
     const sn=A.querySelector('#aSend'); if(sn) sn.onclick=async()=>{ const v=A.querySelector('#aAnn').value.trim(); if(!v) return toast('اكتب الإعلان',true); try{ await DB.collection('announcements').add({text:v,ts:Date.now()}); A.querySelector('#aAnn').value=''; toast('اتبعت لكل الفرق ✅'); }catch(e){ toast('فشل — راجع قواعد Firebase',true); } };
@@ -2664,7 +2712,7 @@ const PAGES={
 const BIND={
   home:t=>{
     bindAgenda(dayInfo().idx,'home');
-    const ak=$('#askBtn'); if(ak) ak.onclick=()=>openAsk(t); const rt=$('#rateBtn'); if(rt) rt.onclick=()=>openRate(t);
+    try{ pttBind(document); }catch(e){} const ak=$('#askBtn'); if(ak) ak.onclick=()=>openAsk(t); const rt=$('#rateBtn'); if(rt) rt.onclick=()=>openRate(t);
     const ce=$('#certBtn'); if(ce){ ce.onclick=()=>downloadCert(t); if(!window._finConf){ window._finConf=1; try{ confetti(3500); }catch(e){} } }
   },
   days:t=>{
